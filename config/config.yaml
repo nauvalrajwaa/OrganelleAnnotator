@@ -1,0 +1,212 @@
+# =============================================================================
+# Organelle Annotation Pipeline - Configuration
+# =============================================================================
+# Supported tools:
+#   Plastid/Chloroplast: chloe, pga
+#   Mitochondrial:       mfannot, fpma, mitos, mitoz
+#   Both/QC:             trnascan, aragorn
+# =============================================================================
+
+# -- Sample sheet (TSV) -------------------------------------------------------
+samples: "config/samples.tsv"
+
+# -- Output directory ----------------------------------------------------------
+outdir: "results"
+
+# -- Run mode ------------------------------------------------------------------
+#   "all"           : run all compatible tools per sample (based on organelle type)
+#   "plastid"       : run only plastid tools (chloe, pga)
+#   "mito"          : run only mitochondrial tools (mfannot, fpma, mitos, mitoz)
+#   "select"        : run only tools listed in 'tools_select'
+mode: "all"
+
+# When mode is "select", specify which tools to run:
+tools_select:
+  - chloe
+  - pga
+  - mfannot
+  - fpma
+  - mitos
+  - mitoz
+  - trnascan
+  - aragorn
+
+# -- Quality control -----------------------------------------------------------
+qc:
+  enabled: true
+  # BUSCO lineage dataset for chloroplast / mitochondrial gene completeness
+  # Use "chloroplyta_odb10" for green-algae plastids, "embryophyta_odb10" for
+  # land-plant nuclear, "eukaryota_odb10" as a general fallback, etc.
+  # For organelle QC, we mainly check gene counts & completeness via custom summary.
+  busco_lineage: "eukaryota_odb10"
+  busco_mode: "genome"   # genome | proteins | transcriptome
+  # OGDraw-style circular map (requires OGDRAW or similar; disabled by default)
+  ogdraw: false
+
+# -- Tool-specific settings ----------------------------------------------------
+
+# Chloe.jl – chloroplast genome annotator (Julia)
+chloe:
+  # Path to the Chloe.jl directory
+  path: "Chloe.jl"
+  # Reference set: "cp" (chloroplast) or "nr" (nuclear rDNA)
+  reference: "cp"
+  # Reference DB dir (clone from https://github.com/ian-small/chloe_references)
+  references_dir: ""  # leave empty to use default bundled references
+  # Output formats (at least one must be true)
+  gff: true
+  sff: false
+  gbk: true
+  embl: false
+  # Sensitivity threshold (0.0 - 1.0; default 0.5)
+  sensitivity: 0.5
+  # Additional flags
+  no_filter: false
+  no_transform: false
+  # Threads per job (Julia)
+  threads: 4
+
+# PGA – Plastid Genome Annotator (Perl + BLAST)
+pga:
+  # Path to PGA.pl
+  path: "PGA"
+  # Reference GenBank directory (shipped with PGA)
+  reference_dir: "PGA/plastomes"
+  # Genome topology: "circular" or "linear"
+  form: "circular"
+  # Minimum inverted repeat length (bp)
+  ir_min: 1000
+  # Min TBLASTN percent identity
+  pidentity: 40
+  # Query coverage range (min,max)
+  qcoverage: "0.5,2"
+
+# MFannot – mitochondrial / plastid genome annotator (Docker)
+mfannot:
+  # Docker image
+  docker_image: "nbeck/mfannot"
+  # Genetic code
+  #   1  = Standard
+  #   2  = Vertebrate Mitochondrial
+  #   3  = Yeast Mitochondrial
+  #   4  = Mold, Protozoan, Coelenterate Mitochondrial
+  #   5  = Invertebrate Mitochondrial
+  #   11 = Bacterial/Plant Plastid
+  genetic_code: 4
+  # BLAST e-value cutoff
+  blast_evalue: "1e-10"
+  # Minimum ORF length (amino acids)
+  min_orf_len: 40
+  # Maximum intron size (nt)
+  max_intron_size: 3000
+  # Extra flags (appended as-is)
+  extra: ""
+  # Output Sequin format additionally
+  sqn_format: false
+
+# MITOS2 – Mitochondrial genome annotator (Docker)
+mitos:
+  # Docker image (from quay.io/biocontainers)
+  docker_image: "quay.io/biocontainers/mitos:2.1.10--pyhdfd78af_0"
+  # Reference database version used by MITOS
+  #   "refseq63m" = MITOS1 RefSeq63 Metazoa (built-in)
+  #   "refseq63f" = MITOS1 RefSeq63 Fungi
+  #   "refseq63o" = MITOS1 RefSeq63 Opisthokonta
+  #   "refseq89m" = MITOS2 RefSeq89 Metazoa
+  #   "refseq89f" = MITOS2 RefSeq89 Fungi
+  ref_db: "refseq63m"
+  # Path to local reference DB directory (leave empty to use container built-in)
+  ref_dir: ""
+  # Use Singularity/Apptainer instead of Docker
+  use_singularity: false
+  # Extra flags (appended as-is to runmitos.py)
+  extra: ""
+
+# MitoZ – Animal Mitochondrial Genome Annotator (Docker)
+mitoz:
+  # Docker image (https://github.com/linzhi2013/MitoZ)
+  docker_image: "guanliangmeng/mitoz:3.6"
+  # Clade for annotation model:
+  #   Chordata, Arthropoda, Echinodermata, Annelida-segmented-worms,
+  #   Bryozoa, Mollusca, Nematoda, Nemertea-ribbon-worms, Porifera-sponges
+  clade: "Chordata"
+  # Use Singularity/Apptainer instead of Docker
+  use_singularity: false
+  # Extra flags (appended as-is)
+  extra: ""
+
+# tRNAscan-SE – tRNA gene detection (conda)
+trnascan:
+  # Search mode: "organelle" (= -O flag), "mammalian_mito", or "general"
+  search_mode: "organelle"
+  # Minimum bit score cutoff (default 20)
+  score_cutoff: 20
+  # Extra flags
+  extra: ""
+
+# Aragorn – tRNA / tmRNA detection (conda)
+aragorn:
+  # Genome topology: "circular" or "linear"
+  topology: "circular"
+  # Search both strands
+  search_both_strands: true
+  # Extra flags
+  extra: ""
+
+# fpma – Fast Plant Mitochondria Annotator (Rust + HMMER)
+fpma:
+  # Path to the fpma directory (contains compiled binary and hmms/)
+  path: "fpma"
+  # Path to nhmmer executable (from HMMER3)
+  nhmmer_path: "nhmmer"
+  # HMM profile directory
+  #   angiosperm_hmms, fern_hmms, gymnosperm_hmms,
+  #   hornwort_hmms, liverwort_hmms, lycopod_hmms, moss_hmms
+  hmms_subdir: "angiosperm_hmms"
+  # E-value threshold
+  e_value: 0.001
+  # Generate HTML SVG plot
+  plot: true
+
+# -- Cluster / resource defaults -----------------------------------------------
+resources:
+  default:
+    threads: 4
+    mem_mb: 8000
+    runtime: 120   # minutes
+  chloe:
+    threads: 4
+    mem_mb: 8000
+    runtime: 60
+  pga:
+    threads: 2
+    mem_mb: 4000
+    runtime: 60
+  mfannot:
+    threads: 4
+    mem_mb: 8000
+    runtime: 180
+  fpma:
+    threads: 2
+    mem_mb: 4000
+    runtime: 30
+  mitos:
+    threads: 4
+    mem_mb: 8000
+    runtime: 120
+  mitoz:
+    threads: 4
+    mem_mb: 8000
+    runtime: 180
+  trnascan:
+    threads: 4
+    mem_mb: 4000
+    runtime: 30
+  aragorn:
+    threads: 1
+    mem_mb: 2000
+    runtime: 15
+  busco:
+    threads: 8
+    mem_mb: 16000
+    runtime: 120

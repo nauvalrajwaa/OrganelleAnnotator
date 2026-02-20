@@ -1,0 +1,5 @@
+sample	fasta	organelle	genetic_code
+sample1	/path/to/chloroplast_genome.fasta	plastid	11
+sample2	/path/to/mitochondrial_genome.fasta	mito	4
+sample3	/path/to/another_plastid.fa	plastid	11
+sample4	/path/to/another_mito.fa	mito	1
