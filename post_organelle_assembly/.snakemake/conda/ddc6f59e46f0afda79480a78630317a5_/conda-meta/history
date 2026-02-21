@@ -1,7 +1,0 @@
-==> 2026-02-06 17:35:12 <==
-# cmd: /Users/user/miniforge3/condabin/conda env create --quiet --no-default-packages --file /Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/ddc6f59e46f0afda79480a78630317a5_.yaml --prefix /Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/ddc6f59e46f0afda79480a78630317a5_
-# conda version: 25.7.0
-+bioconda/osx-arm64::iqtree-3.0.1-h39b84e0_0
-+conda-forge/osx-arm64::libcxx-21.1.8-h55c6f16_2
-+conda-forge/osx-arm64::llvm-openmp-21.1.8-h4a912ad_0
-# update specs: ['iqtree']

@@ -1,6 +1,0 @@
-/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/8e67edf03e0a0a42cfe71e54d083ab05_/lib/perl5/site_perl/GD/Text.pm relocate_as=../../../../../site_perl/GD/Text.pm
-/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/8e67edf03e0a0a42cfe71e54d083ab05_/lib/perl5/site_perl/GD/Text/Align.pm relocate_as=../../../../../site_perl/GD/Text/Align.pm
-/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/8e67edf03e0a0a42cfe71e54d083ab05_/lib/perl5/site_perl/GD/Text/Wrap.pm relocate_as=../../../../../site_perl/GD/Text/Wrap.pm
-/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/8e67edf03e0a0a42cfe71e54d083ab05_/man/man3/GD::Text.3 relocate_as=../../../../../../../man/man3/GD::Text.3
-/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/8e67edf03e0a0a42cfe71e54d083ab05_/man/man3/GD::Text::Align.3 relocate_as=../../../../../../../man/man3/GD::Text::Align.3
-/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/8e67edf03e0a0a42cfe71e54d083ab05_/man/man3/GD::Text::Wrap.3 relocate_as=../../../../../../../man/man3/GD::Text::Wrap.3

@@ -2,3 +2,4 @@ repo/
 cache/
 *.log
 .DS_Store
+post_organelle_assembly/

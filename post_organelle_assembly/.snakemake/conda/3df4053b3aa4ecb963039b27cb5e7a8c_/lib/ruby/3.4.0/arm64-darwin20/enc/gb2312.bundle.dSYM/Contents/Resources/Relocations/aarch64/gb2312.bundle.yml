@@ -1,7 +1,0 @@
----
-triple:          'arm64-apple-darwin'
-binary-path:     '.ext/arm64-darwin20/enc/gb2312.bundle'
-relocations:
-  - { offset: 0x1E, size: 0x8, addend: 0x0, symName: _Init_gb2312, symObjAddr: 0x0, symBinAddr: 0x3FB4, symSize: 0x4 }
-  - { offset: 0x2B, size: 0x8, addend: 0x0, symName: _Init_gb2312, symObjAddr: 0x0, symBinAddr: 0x3FB4, symSize: 0x4 }
-...

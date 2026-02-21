@@ -1,9 +1,0 @@
-prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/b895232803ef6ffdba8c600b1ed85dc6_
-exec_prefix=${prefix}
-libdir=${exec_prefix}/lib
-
-Name: pthread stubs
-Description: Meta package for pthread symbols - defaults to heavyweight ones if the C runtime does not provide lightweight ones.
-Version: 0.4
-Cflags: 
-Libs: 

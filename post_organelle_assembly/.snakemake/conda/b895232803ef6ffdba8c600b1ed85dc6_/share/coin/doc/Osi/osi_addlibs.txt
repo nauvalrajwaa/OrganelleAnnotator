@@ -1,1 +1,0 @@
--L/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/b895232803ef6ffdba8c600b1ed85dc6_/lib -lOsi
