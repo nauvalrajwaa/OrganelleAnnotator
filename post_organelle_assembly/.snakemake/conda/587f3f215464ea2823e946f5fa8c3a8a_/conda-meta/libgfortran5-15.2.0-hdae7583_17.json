@@ -1,0 +1,58 @@
+{
+  "name": "libgfortran5",
+  "version": "15.2.0",
+  "build": "hdae7583_17",
+  "build_number": 17,
+  "channel": "https://conda.anaconda.org/conda-forge/noarch",
+  "subdir": "osx-arm64",
+  "fn": "libgfortran5-15.2.0-hdae7583_17.conda",
+  "md5": "c6329d871fb3207e9657c384128f5488",
+  "url": "https://conda.anaconda.org/conda-forge/osx-arm64/libgfortran5-15.2.0-hdae7583_17.conda",
+  "sha256": "9c41ff08f61c953cee13fc3df3c6245741e5a71e453b2c094a6d55b0eeda3669",
+  "depends": [
+    "libgcc >=15.2.0"
+  ],
+  "constrains": [
+    "libgfortran 15.2.0"
+  ],
+  "license": "GPL-3.0-only WITH GCC-exception-3.1",
+  "timestamp": 1770254196000,
+  "size": 599374,
+  "requested_spec": "None",
+  "package_tarball_full_path": "/Users/user/miniforge3/pkgs/libgfortran5-15.2.0-hdae7583_17",
+  "extracted_package_dir": "/Users/user/miniforge3/pkgs/libgfortran5-15.2.0-hdae7583_17",
+  "files": [
+    "lib/libgfortran.5.dylib",
+    "lib/libgfortran.dylib",
+    "share/licenses/libgfortran/RUNTIME.LIBRARY.EXCEPTION"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "lib/libgfortran.5.dylib",
+        "path_type": "hardlink",
+        "sha256": "32069d8bc6daf7be8380af99d86a3d19c2ba5cbabdca894de235cdee2ed5a49f",
+        "size_in_bytes": 2184496,
+        "sha256_in_prefix": "32069d8bc6daf7be8380af99d86a3d19c2ba5cbabdca894de235cdee2ed5a49f"
+      },
+      {
+        "_path": "lib/libgfortran.dylib",
+        "path_type": "softlink",
+        "sha256": "32069d8bc6daf7be8380af99d86a3d19c2ba5cbabdca894de235cdee2ed5a49f",
+        "size_in_bytes": 2184496
+      },
+      {
+        "_path": "share/licenses/libgfortran/RUNTIME.LIBRARY.EXCEPTION",
+        "path_type": "hardlink",
+        "sha256": "9d6b43ce4d8de0c878bf16b54d8e7a10d9bd42b75178153e3af6a815bdc90f74",
+        "size_in_bytes": 3324,
+        "sha256_in_prefix": "9d6b43ce4d8de0c878bf16b54d8e7a10d9bd42b75178153e3af6a815bdc90f74"
+      }
+    ]
+  },
+  "link": {
+    "source": "/Users/user/miniforge3/pkgs/libgfortran5-15.2.0-hdae7583_17",
+    "type": 1
+  }
+}

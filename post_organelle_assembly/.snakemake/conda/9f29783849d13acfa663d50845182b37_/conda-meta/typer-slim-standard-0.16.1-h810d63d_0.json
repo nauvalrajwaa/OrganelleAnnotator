@@ -1,0 +1,35 @@
+{
+  "name": "typer-slim-standard",
+  "version": "0.16.1",
+  "build": "h810d63d_0",
+  "build_number": 0,
+  "channel": "https://conda.anaconda.org/conda-forge/osx-64",
+  "subdir": "noarch",
+  "fn": "typer-slim-standard-0.16.1-h810d63d_0.conda",
+  "md5": "a17c34ff6b5095b9366270064be17102",
+  "url": "https://conda.anaconda.org/conda-forge/noarch/typer-slim-standard-0.16.1-h810d63d_0.conda",
+  "sha256": "3ffef676f99f9943f5a8c045c7ba9260966321cd6c9a7aba0114ca33c5995747",
+  "depends": [
+    "rich",
+    "shellingham",
+    "typer-slim ==0.16.1 pyhe01879c_0"
+  ],
+  "constrains": [],
+  "noarch": "generic",
+  "license": "MIT",
+  "package_type": "noarch_generic",
+  "timestamp": 1755547637000,
+  "size": 5291,
+  "requested_spec": "None",
+  "package_tarball_full_path": "/Users/user/miniforge3/pkgs/typer-slim-standard-0.16.1-h810d63d_0",
+  "extracted_package_dir": "/Users/user/miniforge3/pkgs/typer-slim-standard-0.16.1-h810d63d_0",
+  "files": [],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": []
+  },
+  "link": {
+    "source": "/Users/user/miniforge3/pkgs/typer-slim-standard-0.16.1-h810d63d_0",
+    "type": 1
+  }
+}

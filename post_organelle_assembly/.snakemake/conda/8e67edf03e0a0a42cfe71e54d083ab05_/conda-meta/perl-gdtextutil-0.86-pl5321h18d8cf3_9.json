@@ -1,0 +1,92 @@
+{
+  "name": "perl-gdtextutil",
+  "version": "0.86",
+  "build": "pl5321h18d8cf3_9",
+  "build_number": 9,
+  "channel": "https://conda.anaconda.org/bioconda/noarch",
+  "subdir": "osx-64",
+  "fn": "perl-gdtextutil-0.86-pl5321h18d8cf3_9.tar.bz2",
+  "md5": "60aee69d1a7fe6fc37810f9a3675ee3a",
+  "url": "https://conda.anaconda.org/bioconda/osx-64/perl-gdtextutil-0.86-pl5321h18d8cf3_9.tar.bz2",
+  "sha256": "1dc42ec45222ea0546f2b4df81dfacb1a642e298d6da174836423cca2d49dd8d",
+  "depends": [
+    "perl-gd",
+    "perl >=5.32.1,<5.33.0a0 *_perl5"
+  ],
+  "constrains": [],
+  "license": "unknown",
+  "timestamp": 1733854532000,
+  "size": 24721,
+  "requested_spec": "None",
+  "package_tarball_full_path": "/Users/user/miniforge3/pkgs/perl-gdtextutil-0.86-pl5321h18d8cf3_9",
+  "extracted_package_dir": "/Users/user/miniforge3/pkgs/perl-gdtextutil-0.86-pl5321h18d8cf3_9",
+  "files": [
+    "lib/perl5/5.32/site_perl/auto/GD/Text/.packlist",
+    "lib/perl5/site_perl/GD/Text.pm",
+    "lib/perl5/site_perl/GD/Text/Align.pm",
+    "lib/perl5/site_perl/GD/Text/Wrap.pm",
+    "man/man3/GD::Text.3",
+    "man/man3/GD::Text::Align.3",
+    "man/man3/GD::Text::Wrap.3"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "lib/perl5/5.32/site_perl/auto/GD/Text/.packlist",
+        "prefix_placeholder": "/opt/mambaforge/envs/bioconda/conda-bld/perl-gdtextutil_1733854343879/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehol",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "sha256": "f15c03f70377007f481da366c30bfce004553d4f621d18c7c5a7962340ac9b6c",
+        "size_in_bytes": 2040,
+        "sha256_in_prefix": "e1231006b0c43a102df2469ccad49e3be433fd08a1580bacc98e2c99c8e0fa03"
+      },
+      {
+        "_path": "lib/perl5/site_perl/GD/Text.pm",
+        "path_type": "hardlink",
+        "sha256": "13e10734d21184eec88cc0d8cf23161eebda1a0e2eaa7b6101030c4f7c020f9e",
+        "size_in_bytes": 16996,
+        "sha256_in_prefix": "13e10734d21184eec88cc0d8cf23161eebda1a0e2eaa7b6101030c4f7c020f9e"
+      },
+      {
+        "_path": "lib/perl5/site_perl/GD/Text/Align.pm",
+        "path_type": "hardlink",
+        "sha256": "100eccb079990918756ec0a012ddebecd4101bbc7ace6ec562c61c2efc2a6c0f",
+        "size_in_bytes": 11673,
+        "sha256_in_prefix": "100eccb079990918756ec0a012ddebecd4101bbc7ace6ec562c61c2efc2a6c0f"
+      },
+      {
+        "_path": "lib/perl5/site_perl/GD/Text/Wrap.pm",
+        "path_type": "hardlink",
+        "sha256": "dfa4b02e3eb80e371f8ac4be904e4514fb9812575ef7d0052f7f3ce745dd6439",
+        "size_in_bytes": 12157,
+        "sha256_in_prefix": "dfa4b02e3eb80e371f8ac4be904e4514fb9812575ef7d0052f7f3ce745dd6439"
+      },
+      {
+        "_path": "man/man3/GD::Text.3",
+        "path_type": "hardlink",
+        "sha256": "eff8794c194887b3933265895e994a4626e6f45baa418c5c3ff931214b88cb98",
+        "size_in_bytes": 11795,
+        "sha256_in_prefix": "eff8794c194887b3933265895e994a4626e6f45baa418c5c3ff931214b88cb98"
+      },
+      {
+        "_path": "man/man3/GD::Text::Align.3",
+        "path_type": "hardlink",
+        "sha256": "7fee3cb29b0095c42c77aab990e0d389c0463e3624b200f3843c23200158afb2",
+        "size_in_bytes": 7901,
+        "sha256_in_prefix": "7fee3cb29b0095c42c77aab990e0d389c0463e3624b200f3843c23200158afb2"
+      },
+      {
+        "_path": "man/man3/GD::Text::Wrap.3",
+        "path_type": "hardlink",
+        "sha256": "59156c37295dd2159974cb4e6437281084b956cde111ad3d1e55cf055118e134",
+        "size_in_bytes": 8115,
+        "sha256_in_prefix": "59156c37295dd2159974cb4e6437281084b956cde111ad3d1e55cf055118e134"
+      }
+    ]
+  },
+  "link": {
+    "source": "/Users/user/miniforge3/pkgs/perl-gdtextutil-0.86-pl5321h18d8cf3_9",
+    "type": 1
+  }
+}

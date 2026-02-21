@@ -1,0 +1,51 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '../../.ext/arm64-darwin20/coverage.bundle'
+relocations:
+  - { offset: 0x1E, size: 0x8, addend: 0x0, symName: _rb_coverage_resume, symObjAddr: 0x0, symBinAddr: 0x29A0, symSize: 0x6C }
+  - { offset: 0x4A, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xB8D8, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0x75, size: 0x8, addend: 0x0, symName: _rb_coverage_supported, symObjAddr: 0x1E4, symBinAddr: 0x2B84, symSize: 0x170 }
+  - { offset: 0x9A, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xB8D8, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0xB1, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xB8D8, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0xC8, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xB8D8, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0xDF, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xB8D8, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0xF6, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xB8D8, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0x2E7, size: 0x8, addend: 0x0, symName: _rb_coverage_setup, symObjAddr: 0x354, symBinAddr: 0x2CF4, symSize: 0x2E0 }
+  - { offset: 0x30C, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xB8D8, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0x323, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xB8D8, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0x33A, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xB8D8, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0x351, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xB8D8, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0x368, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xB8D8, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0x37F, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xB8D8, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0x7FE, size: 0x8, addend: 0x0, symName: _rb_coverage_start, symObjAddr: 0x634, symBinAddr: 0x2FD4, symSize: 0x70 }
+  - { offset: 0x814, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xB8D8, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0x826, size: 0x8, addend: 0x0, symName: _rb_coverage_result, symObjAddr: 0x6A4, symBinAddr: 0x3044, symSize: 0x1A8 }
+  - { offset: 0x84D, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xB8D8, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0x865, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xB8D8, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0xB47, size: 0x8, addend: 0x0, symName: _rb_coverage_peek_result, symObjAddr: 0x84C, symBinAddr: 0x31EC, symSize: 0xC8 }
+  - { offset: 0xB51, size: 0x8, addend: 0x0, symName: _coverage_peek_result_i, symObjAddr: 0xA04, symBinAddr: 0x33A4, symSize: 0x250 }
+  - { offset: 0xB85, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xB8D8, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0xB9D, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xB8D8, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0xF6C, size: 0x8, addend: 0x0, symName: _method_coverage_i, symObjAddr: 0xC54, symBinAddr: 0x35F4, symSize: 0x238 }
+  - { offset: 0xF91, size: 0x8, addend: 0x0, symName: _method_coverage_i.rbimpl_id, symObjAddr: 0xB8D0, symBinAddr: 0x8138, symSize: 0x0 }
+  - { offset: 0x1312, size: 0x8, addend: 0x0, symName: _branch_coverage_i, symObjAddr: 0xE8C, symBinAddr: 0x382C, symSize: 0xF0 }
+  - { offset: 0x131C, size: 0x8, addend: 0x0, symName: _rb_coverage_state, symObjAddr: 0x914, symBinAddr: 0x32B4, symSize: 0xB0 }
+  - { offset: 0x1343, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xB8D8, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0x135C, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xB8D8, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0x1375, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xB8D8, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0x1487, size: 0x8, addend: 0x0, symName: _rb_coverage_running, symObjAddr: 0x9C4, symBinAddr: 0x3364, symSize: 0x18 }
+  - { offset: 0x149D, size: 0x8, addend: 0x0, symName: _me2counter, symObjAddr: 0x1250, symBinAddr: 0x8130, symSize: 0x0 }
+  - { offset: 0x335E, size: 0x8, addend: 0x0, symName: _rb_coverage_resume, symObjAddr: 0x0, symBinAddr: 0x29A0, symSize: 0x6C }
+  - { offset: 0x3394, size: 0x8, addend: 0x0, symName: _rb_coverage_suspend, symObjAddr: 0x6C, symBinAddr: 0x2A0C, symSize: 0x50 }
+  - { offset: 0x33BE, size: 0x8, addend: 0x0, symName: _rb_coverage_suspend, symObjAddr: 0x6C, symBinAddr: 0x2A0C, symSize: 0x50 }
+  - { offset: 0x33E7, size: 0x8, addend: 0x0, symName: _Init_coverage, symObjAddr: 0xBC, symBinAddr: 0x2A5C, symSize: 0x128 }
+  - { offset: 0x33F9, size: 0x8, addend: 0x0, symName: _Init_coverage, symObjAddr: 0xBC, symBinAddr: 0x2A5C, symSize: 0x128 }
+  - { offset: 0x3430, size: 0x8, addend: 0x0, symName: _rb_coverage_supported, symObjAddr: 0x1E4, symBinAddr: 0x2B84, symSize: 0x170 }
+  - { offset: 0x36BE, size: 0x8, addend: 0x0, symName: _rb_coverage_start, symObjAddr: 0x634, symBinAddr: 0x2FD4, symSize: 0x70 }
+  - { offset: 0x3746, size: 0x8, addend: 0x0, symName: _rb_coverage_result, symObjAddr: 0x6A4, symBinAddr: 0x3044, symSize: 0x1A8 }
+  - { offset: 0x376A, size: 0x8, addend: 0x0, symName: _rb_coverage_peek_result, symObjAddr: 0x84C, symBinAddr: 0x31EC, symSize: 0xC8 }
+  - { offset: 0x3940, size: 0x8, addend: 0x0, symName: _rb_coverage_running, symObjAddr: 0x9C4, symBinAddr: 0x3364, symSize: 0x18 }
+  - { offset: 0x3967, size: 0x8, addend: 0x0, symName: _clear_me2counter_i, symObjAddr: 0x9DC, symBinAddr: 0x337C, symSize: 0x28 }
+  - { offset: 0x3C01, size: 0x8, addend: 0x0, symName: _branch_coverage_i, symObjAddr: 0xE8C, symBinAddr: 0x382C, symSize: 0xF0 }
+  - { offset: 0x3DE2, size: 0x8, addend: 0x0, symName: _branch_coverage_ii, symObjAddr: 0xF7C, symBinAddr: 0x391C, symSize: 0xD8 }
+...

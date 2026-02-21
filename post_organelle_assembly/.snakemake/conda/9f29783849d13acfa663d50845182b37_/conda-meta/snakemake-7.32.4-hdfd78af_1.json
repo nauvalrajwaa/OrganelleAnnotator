@@ -1,0 +1,49 @@
+{
+  "name": "snakemake",
+  "version": "7.32.4",
+  "build": "hdfd78af_1",
+  "build_number": 1,
+  "channel": "https://conda.anaconda.org/bioconda/osx-64",
+  "subdir": "noarch",
+  "fn": "snakemake-7.32.4-hdfd78af_1.tar.bz2",
+  "md5": "c258081e11b1009312b8ab18cb1efc4a",
+  "url": "https://conda.anaconda.org/bioconda/noarch/snakemake-7.32.4-hdfd78af_1.tar.bz2",
+  "sha256": "8dc8f431daec891d6778316327349b753716b86326247e35f3e9e2c0f62d3e24",
+  "depends": [
+    "pandas",
+    "pygments",
+    "boto3",
+    "peppy",
+    "google-cloud-storage",
+    "python-irodsclient",
+    "aioeasywebdav",
+    "google-api-python-client",
+    "eido",
+    "oauth2client",
+    "slacker",
+    "google-crc32c",
+    "pysftp >=0.2.8",
+    "dropbox >=7.2.1",
+    "filechunkio >=1.6",
+    "ftputil >=3.2",
+    "snakemake-minimal 7.32.4.*"
+  ],
+  "constrains": [],
+  "noarch": "generic",
+  "license": "MIT",
+  "package_type": "noarch_generic",
+  "timestamp": 1697534640000,
+  "size": 8949,
+  "requested_spec": "snakemake",
+  "package_tarball_full_path": "/Users/user/miniforge3/pkgs/snakemake-7.32.4-hdfd78af_1",
+  "extracted_package_dir": "/Users/user/miniforge3/pkgs/snakemake-7.32.4-hdfd78af_1",
+  "files": [],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": []
+  },
+  "link": {
+    "source": "/Users/user/miniforge3/pkgs/snakemake-7.32.4-hdfd78af_1",
+    "type": 1
+  }
+}

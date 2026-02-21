@@ -1,0 +1,22 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '.ext/arm64-darwin20/enc/euc_tw.bundle'
+relocations:
+  - { offset: 0x1E, size: 0x8, addend: 0x0, symName: _Init_euc_tw, symObjAddr: 0x0, symBinAddr: 0x34D4, symSize: 0x14 }
+  - { offset: 0x4A, size: 0x8, addend: 0x0, symName: _encoding_EUC_TW, symObjAddr: 0x228, symBinAddr: 0x4008, symSize: 0x0 }
+  - { offset: 0x3AE, size: 0x8, addend: 0x0, symName: _trans, symObjAddr: 0x2B8, symBinAddr: 0x37AC, symSize: 0x0 }
+  - { offset: 0x3E2, size: 0x8, addend: 0x0, symName: _EncLen_EUCTW, symObjAddr: 0x6B8, symBinAddr: 0x3BAC, symSize: 0x0 }
+  - { offset: 0x42A, size: 0x8, addend: 0x0, symName: _Init_euc_tw, symObjAddr: 0x0, symBinAddr: 0x34D4, symSize: 0x14 }
+  - { offset: 0x443, size: 0x8, addend: 0x0, symName: _euctw_mbc_enc_len, symObjAddr: 0x14, symBinAddr: 0x34E8, symSize: 0xC8 }
+  - { offset: 0x473, size: 0x8, addend: 0x0, symName: _euctw_mbc_enc_len, symObjAddr: 0x14, symBinAddr: 0x34E8, symSize: 0xC8 }
+  - { offset: 0x4D2, size: 0x8, addend: 0x0, symName: _euctw_mbc_to_code, symObjAddr: 0xDC, symBinAddr: 0x35B0, symSize: 0x14 }
+  - { offset: 0x51C, size: 0x8, addend: 0x0, symName: _euctw_code_to_mbc, symObjAddr: 0xF0, symBinAddr: 0x35C4, symSize: 0x14 }
+  - { offset: 0x557, size: 0x8, addend: 0x0, symName: _euctw_code_to_mbc, symObjAddr: 0xF0, symBinAddr: 0x35C4, symSize: 0x14 }
+  - { offset: 0x5A1, size: 0x8, addend: 0x0, symName: _euctw_mbc_case_fold, symObjAddr: 0x104, symBinAddr: 0x35D8, symSize: 0x1C }
+  - { offset: 0x5DC, size: 0x8, addend: 0x0, symName: _euctw_mbc_case_fold, symObjAddr: 0x104, symBinAddr: 0x35D8, symSize: 0x1C }
+  - { offset: 0x644, size: 0x8, addend: 0x0, symName: _euctw_is_code_ctype, symObjAddr: 0x120, symBinAddr: 0x35F4, symSize: 0x14 }
+  - { offset: 0x697, size: 0x8, addend: 0x0, symName: _euctw_is_code_ctype, symObjAddr: 0x120, symBinAddr: 0x35F4, symSize: 0x14 }
+  - { offset: 0x6E1, size: 0x8, addend: 0x0, symName: _euctw_left_adjust_char_head, symObjAddr: 0x134, symBinAddr: 0x3608, symSize: 0xE4 }
+  - { offset: 0x71C, size: 0x8, addend: 0x0, symName: _euctw_left_adjust_char_head, symObjAddr: 0x134, symBinAddr: 0x3608, symSize: 0xE4 }
+  - { offset: 0x7B9, size: 0x8, addend: 0x0, symName: _euctw_is_allowed_reverse_match, symObjAddr: 0x218, symBinAddr: 0x36EC, symSize: 0x10 }
+...

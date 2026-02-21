@@ -1,0 +1,68 @@
+# cmsearch :: search CM(s) against a sequence database
+# INFERNAL 1.1.5 (Sep 2023)
+# Copyright (C) 2023 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query CM file:                         /cvmfs/data.galaxyproject.org/byhand/mitos/refseq89m/ncRNA/trnM.cm
+# target sequence database:              outdir//sequence.fas-8438
+# max ASCII text line length:            unlimited
+# sequence reporting threshold:          E-value <= 0.01
+# maximum DP search matrix size:         80000.0 Mb
+# HMM gFwd biased comp filter:           off
+# number of worker threads:              1 [--cpu]
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       trnM  [CLEN=70]
+Hit scores:
+ rank     E-value  score  bias  sequence                             start    end   mdl trunc   gc  description
+ ----   --------- ------ -----  ----------------------------------- ------ ------   --- ----- ----  -----------
+  (1) !   5.1e-15   80.9   0.0  Consensus_BEL1_to_NC_002811_Bowtie2  12295  12363 +  cm    no 0.43  -
+  (2) !    0.0023   25.8   0.0  Consensus_BEL1_to_NC_002811_Bowtie2  13790  13725 -  cm    no 0.39  -
+
+
+Hit alignments:
+>> Consensus_BEL1_to_NC_002811_Bowtie2  
+ rank     E-value  score  bias mdl mdl from   mdl to       seq from      seq to       acc trunc   gc
+ ----   --------- ------ ----- --- -------- --------    ----------- -----------      ---- ----- ----
+  (1) !   5.1e-15   80.9   0.0  cm        1       70 []       12295       12363 + .. 1.00    no 0.43
+
+                                                v                                                           v      NC
+                                            (((((((,,<<<<______>>>>,<<<<<_______>>>>>,,,,<<<<<_______>>>>>))))))): CS
+                                 trnM     1 aguaagGUAAGCUAAaUaaAGCUaucGGGCUCAUACCCCgaAaAUGgaggUUAAAuUccucCCcuuacuA 70   
+                                            AGUA GGU AGCUAAAUA AGCUAUCGGGC CAUACCCCGAAAAUG::GGUU AA+UCC::CCC UACUA
+  Consensus_BEL1_to_NC_002811_Bowtie2 12295 AGUAAGGUCAGCUAAAUA-AGCUAUCGGGCCCAUACCCCGAAAAUGUUGGUUUAAAUCCUUCCCGUACUA 12363
+                                            ******************.*************************************************** PP
+
+>> Consensus_BEL1_to_NC_002811_Bowtie2  
+ rank     E-value  score  bias mdl mdl from   mdl to       seq from      seq to       acc trunc   gc
+ ----   --------- ------ ----- --- -------- --------    ----------- -----------      ---- ----- ----
+  (2) !    0.0023   25.8   0.0  cm        1       70 []       13790       13725 - .. 0.90    no 0.39
+
+                                                        v      v                                                   NC
+                                            (((((((,,<<<<______>>>>,<<<<<__~~~~~>>>>>,,,,<<<<<_______>>>>>))))))): CS
+                                 trnM     1 aguaagGUAAGCUAAaUaaAGCUaucGGGCU*[5]*CCCgaAaAUGgaggUUAAAuUccucCCcuuacuA 70   
+                                            :GUAA::U : : AAA    : :AU::G:CU     :C::AAAAU:G:GGU  +A UCC:C:::UUAC:A
+  Consensus_BEL1_to_NC_002811_Bowtie2 13790 GGUAAAAUGGCUGAAA---GAGCAUUAGGCU*[5]*UCUAAAAAUAGGGGU-GUAGUCCCCUUUUUACCA 13725
+                                            *********9876666...4579*****996..*..9*************7.66777************* PP
+
+
+
+Internal CM pipeline statistics summary:
+----------------------------------------
+Query model(s):                                                  1  (70 consensus positions)
+Target sequences:                                                1  (33754 residues searched)
+Target sequences re-searched for truncated hits:                 1  (1012 residues re-searched)
+Windows   passing  local HMM SSV           filter:              90  (0.7675); expected (0.35)
+Windows   passing  local HMM Viterbi       filter:                  (off)
+Windows   passing  local HMM Viterbi  bias filter:                  (off)
+Windows   passing  local HMM Forward       filter:              32  (0.3041); expected (0.02)
+Windows   passing  local HMM Forward  bias filter:              13  (0.1279); expected (0.02)
+Windows   passing glocal HMM Forward       filter:               7  (0.1145); expected (0.02)
+Windows   passing glocal HMM Forward  bias filter:                  (off)
+Envelopes passing glocal HMM envelope defn filter:               7  (0.02065); expected (0.02)
+Envelopes passing  local CM  CYK           filter:               2  (0.004084); expected (0.0001)
+Total CM hits reported:                                          2  (0.003883); includes 0 truncated hit(s)
+
+# CPU time: 0.12u 0.00s 00:00:00.12 Elapsed: 00:00:00.12
+//
+[ok]

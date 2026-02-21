@@ -1,0 +1,37 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '.ext/arm64-darwin20/enc/trans/utf_16_32.bundle'
+relocations:
+  - { offset: 0x1E, size: 0x8, addend: 0x0, symName: _Init_utf_16_32, symObjAddr: 0x0, symBinAddr: 0x2A80, symSize: 0x9C }
+  - { offset: 0x4B, size: 0x8, addend: 0x0, symName: _rb_from_UTF_16BE, symObjAddr: 0xE10, symBinAddr: 0x4008, symSize: 0x0 }
+  - { offset: 0x301, size: 0x8, addend: 0x0, symName: _utf_16_32_byte_array, symObjAddr: 0x15C8, symBinAddr: 0x38F8, symSize: 0x0 }
+  - { offset: 0x323, size: 0x8, addend: 0x0, symName: _utf_16_32_word_array, symObjAddr: 0x1AD0, symBinAddr: 0x3E00, symSize: 0x0 }
+  - { offset: 0x345, size: 0x8, addend: 0x0, symName: _rb_to_UTF_16BE, symObjAddr: 0xEB0, symBinAddr: 0x40A8, symSize: 0x0 }
+  - { offset: 0x35B, size: 0x8, addend: 0x0, symName: _rb_from_UTF_16LE, symObjAddr: 0xF50, symBinAddr: 0x4148, symSize: 0x0 }
+  - { offset: 0x371, size: 0x8, addend: 0x0, symName: _rb_to_UTF_16LE, symObjAddr: 0xFF0, symBinAddr: 0x41E8, symSize: 0x0 }
+  - { offset: 0x387, size: 0x8, addend: 0x0, symName: _rb_from_UTF_32BE, symObjAddr: 0x1090, symBinAddr: 0x4288, symSize: 0x0 }
+  - { offset: 0x39D, size: 0x8, addend: 0x0, symName: _rb_to_UTF_32BE, symObjAddr: 0x1130, symBinAddr: 0x4328, symSize: 0x0 }
+  - { offset: 0x3B3, size: 0x8, addend: 0x0, symName: _rb_from_UTF_32LE, symObjAddr: 0x11D0, symBinAddr: 0x43C8, symSize: 0x0 }
+  - { offset: 0x3C9, size: 0x8, addend: 0x0, symName: _rb_to_UTF_32LE, symObjAddr: 0x1270, symBinAddr: 0x4468, symSize: 0x0 }
+  - { offset: 0x3DF, size: 0x8, addend: 0x0, symName: _rb_from_UTF_16, symObjAddr: 0x1310, symBinAddr: 0x4508, symSize: 0x0 }
+  - { offset: 0x3F5, size: 0x8, addend: 0x0, symName: _rb_to_UTF_16, symObjAddr: 0x13B0, symBinAddr: 0x45A8, symSize: 0x0 }
+  - { offset: 0x40B, size: 0x8, addend: 0x0, symName: _rb_from_UTF_32, symObjAddr: 0x1450, symBinAddr: 0x4648, symSize: 0x0 }
+  - { offset: 0x421, size: 0x8, addend: 0x0, symName: _rb_to_UTF_32, symObjAddr: 0x14F0, symBinAddr: 0x46E8, symSize: 0x0 }
+  - { offset: 0x42A, size: 0x8, addend: 0x0, symName: _Init_utf_16_32, symObjAddr: 0x0, symBinAddr: 0x2A80, symSize: 0x9C }
+  - { offset: 0x4D3, size: 0x8, addend: 0x0, symName: _fun_so_from_utf_16be, symObjAddr: 0x9C, symBinAddr: 0x2B1C, symSize: 0x104 }
+  - { offset: 0x4EF, size: 0x8, addend: 0x0, symName: _fun_so_from_utf_16be, symObjAddr: 0x9C, symBinAddr: 0x2B1C, symSize: 0x104 }
+  - { offset: 0x564, size: 0x8, addend: 0x0, symName: _fun_so_to_utf_16be, symObjAddr: 0x1A0, symBinAddr: 0x2C20, symSize: 0x100 }
+  - { offset: 0x5DD, size: 0x8, addend: 0x0, symName: _fun_so_from_utf_16le, symObjAddr: 0x2A0, symBinAddr: 0x2D20, symSize: 0x104 }
+  - { offset: 0x652, size: 0x8, addend: 0x0, symName: _fun_so_to_utf_16le, symObjAddr: 0x3A4, symBinAddr: 0x2E24, symSize: 0xF0 }
+  - { offset: 0x6CB, size: 0x8, addend: 0x0, symName: _fun_so_from_utf_32be, symObjAddr: 0x494, symBinAddr: 0x2F14, symSize: 0xEC }
+  - { offset: 0x6FC, size: 0x8, addend: 0x0, symName: _fun_so_to_utf_32be, symObjAddr: 0x580, symBinAddr: 0x3000, symSize: 0xD8 }
+  - { offset: 0x72D, size: 0x8, addend: 0x0, symName: _fun_so_from_utf_32le, symObjAddr: 0x658, symBinAddr: 0x30D8, symSize: 0xEC }
+  - { offset: 0x75E, size: 0x8, addend: 0x0, symName: _fun_so_to_utf_32le, symObjAddr: 0x744, symBinAddr: 0x31C4, symSize: 0xD8 }
+  - { offset: 0x7B9, size: 0x8, addend: 0x0, symName: _state_init, symObjAddr: 0x81C, symBinAddr: 0x329C, symSize: 0xC }
+  - { offset: 0x7F4, size: 0x8, addend: 0x0, symName: _fun_si_from_utf_16, symObjAddr: 0x828, symBinAddr: 0x32A8, symSize: 0xBC }
+  - { offset: 0x849, size: 0x8, addend: 0x0, symName: _fun_so_from_utf_16, symObjAddr: 0x8E4, symBinAddr: 0x3364, symSize: 0x24 }
+  - { offset: 0x8D2, size: 0x8, addend: 0x0, symName: _fun_so_to_utf_16, symObjAddr: 0x908, symBinAddr: 0x3388, symSize: 0x34 }
+  - { offset: 0x95F, size: 0x8, addend: 0x0, symName: _fun_si_from_utf_32, symObjAddr: 0x93C, symBinAddr: 0x33BC, symSize: 0x104 }
+  - { offset: 0xA48, size: 0x8, addend: 0x0, symName: _fun_so_from_utf_32, symObjAddr: 0xA40, symBinAddr: 0x34C0, symSize: 0x1E8 }
+  - { offset: 0xB41, size: 0x8, addend: 0x0, symName: _fun_so_to_utf_32, symObjAddr: 0xC28, symBinAddr: 0x36A8, symSize: 0x1E8 }
+...

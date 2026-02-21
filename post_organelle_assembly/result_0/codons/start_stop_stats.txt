@@ -1,0 +1,32 @@
+Analyzed 13 CDS sequences.
+
+--- Start Codon Usage ---
+Start_Codon
+ATG    10
+ATA     2
+ATT     1
+
+--- Stop Codon Usage ---
+Stop_Codon
+TAA    8
+TAG    1
+CCT    1
+ATA    1
+GCT    1
+AGA    1
+
+--- Detailed Table ---
+     Gene  Length Start_Codon Stop_Codon  DivisibleBy3
+0    nad1     957         ATG        TAA          True
+1    nad2    1041         ATT        TAG          True
+2    cox1    1542         ATG        TAA          True
+3    cox2     684         ATG        TAA          True
+4    atp8     204         ATG        TAA          True
+5    atp6     681         ATG        TAA          True
+6    cox3     784         ATG        CCT         False
+7    nad3     347         ATA        ATA         False
+8   nad4l     297         ATG        TAA          True
+9    nad4    1378         ATG        GCT         False
+10   nad5    1821         ATA        TAA          True
+11   nad6     513         ATG        AGA          True
+12    cob    1140         ATG        TAA          True

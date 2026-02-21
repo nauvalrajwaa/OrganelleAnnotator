@@ -1,0 +1,107 @@
+# cmsearch :: search CM(s) against a sequence database
+# INFERNAL 1.1.5 (Sep 2023)
+# Copyright (C) 2023 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query CM file:                         /cvmfs/data.galaxyproject.org/byhand/mitos/refseq89m/ncRNA/trnY.cm
+# target sequence database:              outdir//sequence.fas-0
+# max ASCII text line length:            unlimited
+# sequence reporting threshold:          E-value <= 0.01
+# maximum DP search matrix size:         80000.0 Mb
+# HMM gFwd biased comp filter:           off
+# number of worker threads:              1 [--cpu]
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       trnY  [CLEN=70]
+Hit scores:
+ rank     E-value  score  bias  sequence                             start    end   mdl trunc   gc  description
+ ----   --------- ------ -----  ----------------------------------- ------ ------   --- ----- ----  -----------
+  (1) !   4.5e-13   63.6   0.0  Consensus_BEL1_to_NC_002811_Bowtie2   5351   5286 -  cm    no 0.39  -
+  (2) !   1.4e-07   40.5   0.0  Consensus_BEL1_to_NC_002811_Bowtie2   3716   3784 +  cm    no 0.28  -
+  (3) !   4.9e-07   38.2   0.0  Consensus_BEL1_to_NC_002811_Bowtie2   2676   2750 +  cm    no 0.37  -
+  (4) !   7.7e-07   37.4   0.3  Consensus_BEL1_to_NC_002811_Bowtie2  11587  11655 +  cm    no 0.25  -
+  (5) !    0.0019   23.1   0.0  Consensus_BEL1_to_NC_002811_Bowtie2   6976   6908 -  cm    no 0.41  -
+
+
+Hit alignments:
+>> Consensus_BEL1_to_NC_002811_Bowtie2  
+ rank     E-value  score  bias mdl mdl from   mdl to       seq from      seq to       acc trunc   gc
+ ----   --------- ------ ----- --- -------- --------    ----------- -----------      ---- ----- ----
+  (1) !   4.5e-13   63.6   0.0  cm        1       70 []        5351        5286 - .. 0.97    no 0.39
+
+                                                       v      v                                                   NC
+                                           (((((((,,<<<<______>>>>,<<<<<_______>>>>>,,,,<<<<<_______>>>>>))))))): CS
+                                 trnY    1 ggUaagaUGGCuGAguguUAaGCGauagaUUGUAAAucuauuuAuGgaggUUuaAaUccucCucuuAccA 70  
+                                           GGUAA:AUGGCU A++    AGC+:UAG:+UGUAAA:CUA:+ AU:G:GGU   A+UCC:C:U:UUACCA
+  Consensus_BEL1_to_NC_002811_Bowtie2 5351 GGUAAAAUGGCUGAAA---GAGCAUUAGGCUGUAAAUCUAAAAAUAGGGGU-GUAGUCCCCUUUUUACCA 5286
+                                           **************99...9******************************6.569*************** PP
+
+>> Consensus_BEL1_to_NC_002811_Bowtie2  
+ rank     E-value  score  bias mdl mdl from   mdl to       seq from      seq to       acc trunc   gc
+ ----   --------- ------ ----- --- -------- --------    ----------- -----------      ---- ----- ----
+  (2) !   1.4e-07   40.5   0.0  cm        1       70 []        3716        3784 + .. 0.95    no 0.28
+
+                                                                                                                    NC
+                                           (((((((,,<<<<______>>>>,<<<<<___~~~~~>>>>>.,,,,<<<<<_______>>>>>))))))): CS
+                                 trnY    1 ggUaagaUGGCuGAguguUAaGCGauagaUUG*[4]*ucuau.uuAuGgaggUUuaAaUccucCucuuAccA 70  
+                                           :G:AA:AUG CUGA ++  AAG +:UA::UUG     ::UA: U AU:GAGGUUUAA+ CCUC:U:UU:C:A
+  Consensus_BEL1_to_NC_002811_Bowtie2 3716 AGAAAUAUGUCUGACAA--AAGAAUUACUUUG*[4]*AGUAAaUAAUAGAGGUUUAAGCCCUCUUAUUUCUA 3784
+                                           **************996..********99997..8..9997769999************************* PP
+
+>> Consensus_BEL1_to_NC_002811_Bowtie2  
+ rank     E-value  score  bias mdl mdl from   mdl to       seq from      seq to       acc trunc   gc
+ ----   --------- ------ ----- --- -------- --------    ----------- -----------      ---- ----- ----
+  (3) !   4.9e-07   38.2   0.0  cm        1       70 []        2676        2750 + .. 0.87    no 0.37
+
+                                                                        v       v                                   NC
+                                           (((((((,,<<<<__~~~~~>>>>,<<<<<_______>>>>>,,,,.<<<<<_______>>>>>))))))): CS
+                                 trnY    1 ggUaagaUGGCuGAg*[4]*AaGCGauagaUUGUAAAucuauuuAu.GgaggUUuaAaUccucCucuuAccA 70  
+                                           G UAAGAUGGC: AG      :GC+::A: +U  AAA :U::UUAU :GAGGUU+AA UCCUC:UCUUA CA
+  Consensus_BEL1_to_NC_002811_Bowtie2 2676 GUUAAGAUGGCAGAG*[8]*UUGCAUAAAACUUAAAACUUUAUUAUcAGAGGUUCAACUCCUCUUCUUAACA 2750
+                                           ***********9875..8..89***9999988556667777755555************************* PP
+
+>> Consensus_BEL1_to_NC_002811_Bowtie2  
+ rank     E-value  score  bias mdl mdl from   mdl to       seq from      seq to       acc trunc   gc
+ ----   --------- ------ ----- --- -------- --------    ----------- -----------      ---- ----- ----
+  (4) !   7.7e-07   37.4   0.3  cm        1       70 []       11587       11655 + .. 0.97    no 0.25
+
+                                                                                                                   NC
+                                            (((((((,,<<<<______>>>>,<<<<<_______>>>>>,,,,<<<<<_______>>>>>))))))): CS
+                                 trnY     1 ggUaagaUGGCuGAguguUAaGCGauagaUUGUAAAucuauuuAuGgaggUUuaAaUccucCucuuAccA 70   
+                                            G :AA:AU G:U:A++   :A:C+:UAGAUUGU A UCUA:U AU:GA:   +AAA  :UC:U:UU: C 
+  Consensus_BEL1_to_NC_002811_Bowtie2 11587 GUAAAUAUAGUUUAAACA-AAACAUUAGAUUGUGAGUCUAAUAAUAGAAGCCCAAAAUUUCUUAUUUACC 11655
+                                            **************9975.**************888**************9999**************** PP
+
+>> Consensus_BEL1_to_NC_002811_Bowtie2  
+ rank     E-value  score  bias mdl mdl from   mdl to       seq from      seq to       acc trunc   gc
+ ----   --------- ------ ----- --- -------- --------    ----------- -----------      ---- ----- ----
+  (5) !    0.0019   23.1   0.0  cm        1       70 []        6976        6908 - .. 0.97    no 0.41
+
+                                                    v             v                                                NC
+                                           (((((((,,<<<<______.>>>>,<<<<<_______>>>>>,,,,<<<<<_______>>>>>))))))): CS
+                                 trnY    1 ggUaagaUGGCuGAguguU.AaGCGauagaUUGUAAAucuauuuAuGgaggUUuaAaUccucCucuuAccA 70  
+                                           :::AA::   C::AGUG U ::G G:U G:+U  AAA:C A: U  G: GGUU+AA UCC :C::UU::: 
+  Consensus_BEL1_to_NC_002811_Bowtie2 6976 AAGAAAG--ACAUAGUGGUuAUGAGGUUGGCUUGAAACCAAUCUUAGGGGGUUCAAUUCCUUCCUUUCUUG 6908
+                                           *******..9********************9977888********************************** PP
+
+
+
+Internal CM pipeline statistics summary:
+----------------------------------------
+Query model(s):                                                  1  (70 consensus positions)
+Target sequences:                                                1  (33754 residues searched)
+Target sequences re-searched for truncated hits:                 1  (760 residues re-searched)
+Windows   passing  local HMM SSV           filter:             112  (0.7234); expected (0.35)
+Windows   passing  local HMM Viterbi       filter:                  (off)
+Windows   passing  local HMM Viterbi  bias filter:                  (off)
+Windows   passing  local HMM Forward       filter:              46  (0.3364); expected (0.02)
+Windows   passing  local HMM Forward  bias filter:              20  (0.1643); expected (0.02)
+Windows   passing glocal HMM Forward       filter:              14  (0.1547); expected (0.02)
+Windows   passing glocal HMM Forward  bias filter:                  (off)
+Envelopes passing glocal HMM envelope defn filter:              15  (0.03793); expected (0.02)
+Envelopes passing  local CM  CYK           filter:               6  (0.01249); expected (0.0001)
+Total CM hits reported:                                          5  (0.01008); includes 0 truncated hit(s)
+
+# CPU time: 0.21u 0.00s 00:00:00.21 Elapsed: 00:00:00.20
+//
+[ok]

@@ -1,25 +1,81 @@
-#
 # Organelle Annotation Pipeline
-# 
-#
-# A Snakemake workflow for organelle genome annotation using multiple tools:
-#
-#   Plastid/Chloroplast:
-#     - Chloë (Chloe.jl) – Julia-based chloroplast annotator
-#     - PGA              – Perl/BLAST plastid genome annotator
-#
-#   Mitochondrial:
-#     - MFannot          – Docker-based comprehensive annotator
-#     - fpma             – Fast HMM-based gene presence/absence scanner
-#
-#   QC:
-#     - BUSCO            – Genome completeness assessment
-#     - Gene completeness summary (custom)
-#
-#   Report:
-#     - Indexed HTML report with per-tool sections
-#
-# =============================================================================
+
+A **Snakemake** workflow for comprehensive organelle genome annotation using **12 tools**, unified QC, and an aggregated HTML report. Supports both **chloroplast/plastid** and **mitochondrial** genomes with automatic tool selection based on organelle type.
+
+---
+
+## Table of Contents
+
+- [Features](#features)
+- [Tool Overview](#tool-overview)
+- [Quick Start](#quick-start)
+- [Directory Structure](#directory-structure)
+- [Configuration](#configuration)
+  - [Run Modes](#run-modes)
+  - [Sample Sheet](#sample-sheet)
+  - [Tool-specific Settings](#tool-specific-settings)
+- [Prerequisites](#prerequisites)
+  - [First-time Setup](#first-time-setup)
+- [Output & Report](#output--report)
+- [Advanced Usage](#advanced-usage)
+
+---
+
+## Features
+
+- **12 annotation tools** covering plastid, mitochondrial, tRNA, and reference-based annotation
+- **Automatic tool routing** — plastid samples get plastid tools, mito samples get mito tools
+- **Flexible run modes** — run all, plastid-only, mito-only, or hand-pick tools
+- **Mixed execution backends** — Conda, Docker, and Singularity/Apptainer supported
+- **Unified QC layer** — BUSCO + cross-tool gene completeness comparison
+- **Self-contained HTML report** with per-tool sections, gene tables, and BUSCO metrics
+- **Cluster-ready** — SLURM, SGE, PBS via Snakemake's `--cluster` interface
+- **Circular genome maps** via OGDraw (optional)
+
+---
+
+## Tool Overview
+
+### Plastid / Chloroplast Annotation
+
+| Tool | Type | Description | Reference |
+|------|------|-------------|-----------|
+| **Chloë** (Chloe.jl) | Conda (Julia) | XGBoost + suffix-array annotator optimised for angiosperm chloroplasts. Produces GFF, GenBank, EMBL, SFF. | [chloe.plastid.org](https://chloe.plastid.org) |
+| **PGA** | Conda (Perl + BLAST) | Batch plastid genome annotator using TBLASTN against a curated reference GenBank collection. Detects IRs. | [PGA GitHub](https://github.com/quxiaojian/PGA) |
+| **Plann** | Conda (Perl + BLAST) | Transfers annotations from a closely related reference plastid GenBank file via BLAST alignments. | Huang & Cronk (2015) |
+| **CPGAVAS2** | Docker | Comprehensive chloroplast annotator (BLAST + HMMER) with IR detection and circular map generation. | Shi et al. (2019) |
+
+### Mitochondrial Annotation
+
+| Tool | Type | Description | Reference |
+|------|------|-------------|-----------|
+| **MFannot** | Docker | Comprehensive mito/plastid annotator using BLAST, HMMER, Exonerate, Erpin. Excellent for intron-rich genomes. | [MFannot Docker](https://hub.docker.com/r/nbeck/mfannot) |
+| **fpma** | Conda (Rust + HMMER) | Fast presence/absence scan of 43 core + 31 tRNA genes in angiosperm mitochondrial genomes via HMM profiles. | [fpma GitHub](https://github.com/liftoff/fpma) |
+| **MITOS2** | Docker | Reference-based mitochondrial annotator for protein-coding genes, tRNAs, rRNAs. Supports metazoan and fungal refs. | Donath et al. (2019) |
+| **MitoZ** | Docker | Animal mitochondrial genome annotator with automatic circular visualisation. Multiple clade-specific models. | [MitoZ GitHub](https://github.com/linzhi2013/MitoZ) |
+
+### Both Organelles (tRNA / Reference-based)
+
+| Tool | Type | Description | Reference |
+|------|------|-------------|-----------|
+| **tRNAscan-SE** | Conda | Gold-standard tRNA detection using covariance models. Organellar mode (`-O`) for mito/plastid tRNAs. | Lowe & Chan (2016) |
+| **Aragorn** | Conda | Lightweight tRNA and tmRNA detection. Very fast; suitable as a second-opinion tRNA caller. | Laslett & Canback (2004) |
+| **Liftoff** | Conda (minimap2) | Reference-based annotation lift-over. Maps features from a reference GFF+FASTA to a target genome. | Shumate & Salzberg (2021) |
+
+### Visualisation
+
+| Tool | Type | Description | Reference |
+|------|------|-------------|-----------|
+| **OGDraw** | Docker | Generates publication-quality circular and linear genome maps from GenBank annotation files. | Greiner et al. (2019) |
+
+### Quality Control
+
+| Tool | Type | Description |
+|------|------|-------------|
+| **BUSCO** | Conda | Genome completeness assessment against lineage-specific orthologue databases. |
+| **Gene Completeness Summary** | Built-in (Python) | Cross-tool comparison of detected genes, tRNAs, and rRNAs, parsed from each annotator's output. |
+
+---
 
 ## Quick Start
 
@@ -34,125 +90,242 @@ vim config/config.yaml
 # 3. Dry-run to see what will be executed
 snakemake -n --configfile config/config.yaml
 
-# 4. Run the pipeline
+# 4. Run the pipeline (all tools for each sample's organelle type)
 snakemake --cores 8 --use-conda --configfile config/config.yaml
 
-# 5. Run only specific tools via mode override
+# 5. Run only plastid annotation tools
 snakemake --cores 8 --use-conda --config mode=plastid
 
-# 6. Run with Docker support (needed for MFannot)
-snakemake --cores 8 --use-conda --configfile config/config.yaml
-# (Docker must be available; MFannot rule calls `docker run` directly)
+# 6. Run only mitochondrial annotation tools
+snakemake --cores 8 --use-conda --config mode=mito
+
+# 7. Run a hand-picked subset of tools
+snakemake --cores 8 --use-conda --config mode=select
+
+# Docker must be available for: MFannot, MITOS2, MitoZ, CPGAVAS2, OGDraw
 ```
+
+---
 
 ## Directory Structure
 
 ```
 Organelle_annotation/
-├── Snakefile                     # Main workflow
+├── Snakefile                          # Main workflow (tool routing + includes)
 ├── config/
-│   ├── config.yaml               # Pipeline configuration
-│   └── samples.tsv               # Sample sheet (TSV)
+│   ├── config.yaml                    # Pipeline configuration (all tools)
+│   └── samples.tsv                    # Sample sheet (TSV)
 ├── rules/
-│   ├── chloe.smk                 # Chloë rules
-│   ├── pga.smk                   # PGA rules
-│   ├── mfannot.smk               # MFannot rules (Docker)
-│   ├── fpma.smk                  # fpma rules
-│   ├── qc.smk                    # BUSCO + gene completeness
-│   └── report.smk                # HTML report generation
+│   ├── chloe.smk                      # Chloë (Julia)
+│   ├── pga.smk                        # PGA (Perl + BLAST)
+│   ├── plann.smk                      # Plann (reference-based plastid)
+│   ├── cpgavas2.smk                   # CPGAVAS2 (Docker)
+│   ├── mfannot.smk                    # MFannot (Docker)
+│   ├── fpma.smk                       # fpma (Rust + HMMER)
+│   ├── mitos.smk                      # MITOS2 (Docker)
+│   ├── mitoz.smk                      # MitoZ (Docker)
+│   ├── trnascan.smk                   # tRNAscan-SE
+│   ├── aragorn.smk                    # Aragorn
+│   ├── liftoff.smk                    # Liftoff (minimap2 lift-over)
+│   ├── ogdraw.smk                     # OGDraw (Docker, visualisation)
+│   ├── qc.smk                         # BUSCO + gene completeness
+│   └── report.smk                     # HTML report generation
 ├── scripts/
-│   └── generate_report.py        # Report builder
+│   └── generate_report.py             # Report builder
 ├── envs/
-│   ├── busco.yaml                # Conda env: BUSCO
-│   ├── chloe.yaml                # Conda env: Julia
-│   ├── fpma.yaml                 # Conda env: HMMER + Rust
-│   └── pga.yaml                  # Conda env: Perl + BLAST
-├── Chloe.jl/                     # Chloë source
-├── PGA/                          # PGA source
-├── Mfannot/                      # MFannot reference (Docker used)
-├── fpma/                         # fpma source
-└── results/                      # Output (created by pipeline)
-    ├── chloe/<sample>/           # Chloë outputs (GFF, GBK, etc.)
-    ├── pga/<sample>/             # PGA outputs (GenBank)
-    ├── mfannot/<sample>/         # MFannot outputs (masterfile)
-    ├── fpma/<sample>/            # fpma outputs (GFF, TSV, HTML)
+│   ├── aragorn.yaml                   # Conda: aragorn
+│   ├── busco.yaml                     # Conda: BUSCO
+│   ├── chloe.yaml                     # Conda: Julia
+│   ├── fpma.yaml                      # Conda: HMMER + Rust
+│   ├── liftoff.yaml                   # Conda: liftoff + minimap2
+│   ├── pga.yaml                       # Conda: Perl + BLAST
+│   ├── plann.yaml                     # Conda: plann + BLAST + BioPerl
+│   └── trnascan.yaml                  # Conda: tRNAscan-SE
+├── repo/
+│   ├── Chloe.jl/                      # Chloë source
+│   ├── PGA/                           # PGA source
+│   ├── Mfannot/                       # MFannot reference (Docker used)
+│   └── fpma/                          # fpma source (Rust)
+└── results/                           # Output (created by pipeline)
+    ├── chloe/<sample>/                # GFF, GBK, EMBL, SFF
+    ├── pga/<sample>/                  # GenBank (.gb)
+    ├── plann/<sample>/                # GenBank (.gb), GFF
+    ├── cpgavas2/<sample>/             # GenBank (.gb), GFF, circular map
+    ├── mfannot/<sample>/              # Masterfile (.new), GFF
+    ├── fpma/<sample>/                 # GFF, presence TSV, HTML plot
+    ├── mitos/<sample>/                # GFF, BED, protein FASTA
+    ├── mitoz/<sample>/                # GFF, GenBank, circular PNG
+    ├── trnascan/<sample>/             # TSV, GFF, secondary structure
+    ├── aragorn/<sample>/              # Text output, GFF
+    ├── liftoff/<sample>/              # GFF, unmapped features list
+    ├── ogdraw/<sample>/               # SVG circular map
     ├── qc/
-    │   ├── busco/<sample>/       # BUSCO results
-    │   └── summary/<sample>.tsv  # Gene completeness summaries
-    ├── logs/                     # Per-rule log files
-    └── report/index.html         # Final HTML report
+    │   ├── busco/<sample>/            # BUSCO results
+    │   └── summary/<sample>.tsv       # Cross-tool gene completeness
+    ├── logs/                          # Per-rule log files
+    └── report/index.html              # Final HTML report
 ```
+
+---
 
 ## Configuration
 
-### Run Modes (`config.yaml → mode`)
+### Run Modes
 
-| Mode      | Description                                           |
-|-----------|-------------------------------------------------------|
-| `all`     | Run all tools compatible with each sample's organelle |
-| `plastid` | Run only plastid tools (Chloë, PGA)                  |
-| `mito`    | Run only mitochondrial tools (MFannot, fpma)          |
-| `select`  | Run only tools listed in `tools_select`               |
+Set `mode` in `config/config.yaml`:
 
-### Sample Sheet (`config/samples.tsv`)
+| Mode | Plastid tools | Mito tools | Both/QC tools | Description |
+|------|:---:|:---:|:---:|-------------|
+| `all` | Chloë, PGA, Plann, CPGAVAS2 | MFannot, fpma, MITOS2, MitoZ | tRNAscan-SE, Aragorn, Liftoff | All compatible tools per sample |
+| `plastid` | ✓ | — | ✓ | Plastid tools + both-organelle tools |
+| `mito` | — | ✓ | ✓ | Mito tools + both-organelle tools |
+| `select` | (user picks) | (user picks) | (user picks) | Only tools listed in `tools_select` |
 
-Tab-separated with columns:
+### Sample Sheet
 
-| Column        | Description                                       |
-|---------------|---------------------------------------------------|
-| `sample`      | Unique sample identifier                          |
-| `fasta`       | Absolute or relative path to input FASTA file     |
-| `organelle`   | `plastid` or `mito`                               |
-| `genetic_code`| NCBI genetic code (e.g. 11=Plant Plastid, 4=Mold) |
+`config/samples.tsv` — tab-separated:
+
+| Column | Description | Example |
+|--------|-------------|---------|
+| `sample` | Unique sample identifier | `arabidopsis_cp` |
+| `fasta` | Path to input FASTA file | `/data/genomes/ath_cp.fasta` |
+| `organelle` | `plastid` or `mito` | `plastid` |
+| `genetic_code` | NCBI genetic code number | `11` (Plant Plastid) |
+
+Common genetic codes for organelles:
+
+| Code | Name | Use case |
+|------|------|----------|
+| 1 | Standard | Default |
+| 2 | Vertebrate Mitochondrial | Vertebrate mt |
+| 4 | Mold/Protozoan/Coelenterate Mito | Fungal/protist mt |
+| 5 | Invertebrate Mitochondrial | Invertebrate mt |
+| 11 | Bacterial/Plant Plastid | Plant cp and mt |
+
+### Tool-specific Settings
+
+All tool parameters are in `config/config.yaml` under their respective keys. Key settings requiring user input:
+
+| Tool | Required Config | Notes |
+|------|----------------|-------|
+| **Plann** | `plann.reference_gb` | GenBank file from a close relative |
+| **Liftoff** | `liftoff.reference_fasta`, `liftoff.reference_gff` | Reference FASTA + GFF3 from a related species |
+| **CPGAVAS2** | — | Docker image auto-pulls |
+| **MFannot** | — | Docker image: `nbeck/mfannot` |
+| **MITOS2** | `mitos.ref_db` | Choose reference DB version (e.g. `refseq63m`) |
+| **MitoZ** | `mitoz.clade` | Choose clade model (e.g. `Chordata`) |
+| **fpma** | `fpma.hmms_subdir` | Choose HMM set (e.g. `angiosperm_hmms`, `fern_hmms`) |
+| **OGDraw** | — | Docker image: `chlorobox/ogdraw:1.3.1` |
+
+Docker images (`mfannot`, `mitos`, `mitoz`, `cpgavas2`, `ogdraw`) also support **Singularity/Apptainer** — set `use_singularity: true` in the respective config section.
+
+---
 
 ## Prerequisites
 
-| Tool    | Requirement                                    |
-|---------|------------------------------------------------|
-| Chloë   | Julia ≥ 1.9 (installed via conda or `juliaup`) |
-| PGA     | Perl ≥ 5.26, BLAST+ ≥ 2.8.1                   |
-| MFannot | Docker (image: `nbeck/mfannot`)                |
-| fpma    | Rust toolchain, HMMER3 (`nhmmer`)              |
-| BUSCO   | BUSCO ≥ 5.4 (via conda)                        |
+### Software Requirements
 
-### First-time setup
+| Tool | Requirement | Install |
+|------|-------------|---------|
+| **Snakemake** | ≥ 7.0 | `conda install -c bioconda snakemake` |
+| **Conda** | Miniconda or Mamba | [docs.conda.io](https://docs.conda.io) |
+| **Docker** | For MFannot, MITOS2, MitoZ, CPGAVAS2, OGDraw | [docker.com](https://docker.com) |
+| **Chloë** | Julia ≥ 1.9 | Via conda or [`juliaup`](https://julialang.org/downloads/) |
+| **PGA** | Perl ≥ 5.26, BLAST+ ≥ 2.8.1 | Via conda env |
+| **fpma** | Rust toolchain, HMMER3 | `cargo build --release` |
+| **Plann** | Perl, BioPerl, BLAST | Via conda env |
+| **Liftoff** | Python ≥ 3.8, minimap2 | Via conda env |
+| **tRNAscan-SE** | ≥ 2.0.12 | Via conda env |
+| **Aragorn** | ≥ 1.2.41 | Via conda env |
+| **BUSCO** | ≥ 5.4 | Via conda env |
+
+### First-time Setup
 
 ```bash
-# Pull MFannot Docker image
+# Pull Docker images
 docker pull nbeck/mfannot
+docker pull quay.io/biocontainers/mitos:2.1.10--pyhdfd78af_0
+docker pull guanliangmeng/mitoz:3.6
+docker pull lipme/cpgavas2:latest
+docker pull chlorobox/ogdraw:1.3.1
 
 # Build fpma binary
-cd fpma && cargo build --release && cd ..
+cd repo/fpma && cargo build --release && cd ../..
 
 # Install Chloë Julia dependencies
-cd Chloe.jl && julia --project=. -e 'using Pkg; Pkg.instantiate()' && cd ..
+cd repo/Chloe.jl && julia --project=. -e 'using Pkg; Pkg.instantiate()' && cd ../..
 
-# (Optional) Clone Chloë references for full reference set
+# (Optional) Clone Chloë full reference set
 # git clone https://github.com/ian-small/chloe_references
 ```
 
-## Output Report
+---
 
-The pipeline generates `results/report/index.html` — a self-contained HTML
-report with:
+## Output & Report
 
-1. **Pipeline Overview** — sample list and which tools were run
-2. **Per-Tool Sections** — output files with download links for each tool
-3. **Gene Completeness** — cross-tool comparison of detected genes, tRNAs, rRNAs
-4. **BUSCO Assessment** — genome completeness metrics
+### Per-tool Outputs
+
+| Tool | Key output files |
+|------|-----------------|
+| **Chloë** | `{sample}.gff`, `{sample}.gbk`, `{sample}.sff`, `{sample}.embl` |
+| **PGA** | `{sample}.gb` (GenBank) |
+| **Plann** | `{sample}.gb`, `{sample}.gff`, `{sample}.tbl` |
+| **CPGAVAS2** | `{sample}.gb`, `{sample}.gff`, circular map images |
+| **MFannot** | `{sample}.new` (masterfile), `{sample}.gff` |
+| **fpma** | `{sample}.gff`, `{sample}.presence.tsv`, `{sample}.html` (SVG plot) |
+| **MITOS2** | `result.gff`, `result.bed`, protein FASTA |
+| **MitoZ** | `{sample}.gff`, `{sample}.gbk`, circular PNG |
+| **tRNAscan-SE** | `{sample}.trnascan.tsv`, `{sample}.gff`, `{sample}.ss` (secondary structure) |
+| **Aragorn** | `{sample}.aragorn.txt`, `{sample}.gff` |
+| **Liftoff** | `{sample}.gff`, `{sample}.unmapped.txt`, `{sample}.gb` |
+| **OGDraw** | `{sample}_map.svg` (circular genome map) |
+
+### QC Outputs
+
+| File | Content |
+|------|---------|
+| `qc/busco/{sample}/short_summary.txt` | BUSCO completeness metrics (Complete, Fragmented, Missing) |
+| `qc/summary/{sample}.qc_summary.tsv` | Cross-tool comparison: gene count, tRNA count, rRNA count, gene names per tool |
+
+### HTML Report
+
+`results/report/index.html` — self-contained, navigable report containing:
+
+1. **Pipeline Overview** — samples processed and which tools were run
+2. **Per-Tool Sections** — output file listings with sizes and download links
+3. **Gene Completeness Summary** — side-by-side table of genes/tRNAs/rRNAs detected by each tool per sample
+4. **BUSCO Assessment** — completeness metrics (Complete, Single-copy, Duplicated, Fragmented, Missing)
+
+---
 
 ## Advanced Usage
 
 ```bash
-# Cluster execution (SLURM example)
+# Cluster execution (SLURM)
 snakemake --cores 100 --use-conda \
   --cluster "sbatch -p normal -c {threads} --mem={resources.mem_mb}M -t {resources.runtime}" \
   --configfile config/config.yaml
 
-# Only run QC for already-annotated samples
-snakemake --cores 4 --use-conda results/report/index.html
+# Singularity instead of Docker
+snakemake --cores 8 --use-conda --use-singularity \
+  --configfile config/config.yaml
+
+# Only regenerate the report from existing outputs
+snakemake --cores 1 --use-conda results/report/index.html
 
 # Force re-run a specific tool for a sample
 snakemake --cores 4 --use-conda -f results/chloe/sample1/sample1.done
+
+# Run selected tools only
+snakemake --cores 8 --use-conda \
+  --config mode=select tools_select="[chloe,pga,trnascan,aragorn]"
+
+# Override output directory
+snakemake --cores 8 --use-conda --config outdir=my_results
 ```
-# OrganelleAnnotator
+
+---
+
+## License
+
+See individual tool repositories for their respective licenses.

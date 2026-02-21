@@ -1,0 +1,11 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '.ext/arm64-darwin20/enc/trans/ebcdic.bundle'
+relocations:
+  - { offset: 0x1E, size: 0x8, addend: 0x0, symName: _Init_ebcdic, symObjAddr: 0x0, symBinAddr: 0x36D4, symSize: 0x24 }
+  - { offset: 0x4A, size: 0x8, addend: 0x0, symName: _rb_from_IBM037_to_ISO_8859_1, symObjAddr: 0x28, symBinAddr: 0x4008, symSize: 0x0 }
+  - { offset: 0x300, size: 0x8, addend: 0x0, symName: _ebcdic_byte_array, symObjAddr: 0x17C, symBinAddr: 0x373C, symSize: 0x0 }
+  - { offset: 0x322, size: 0x8, addend: 0x0, symName: _ebcdic_word_array, symObjAddr: 0x280, symBinAddr: 0x3840, symSize: 0x0 }
+  - { offset: 0x344, size: 0x8, addend: 0x0, symName: _rb_from_ISO_8859_1_to_IBM037, symObjAddr: 0xC8, symBinAddr: 0x40A8, symSize: 0x0 }
+  - { offset: 0x34D, size: 0x8, addend: 0x0, symName: _Init_ebcdic, symObjAddr: 0x0, symBinAddr: 0x36D4, symSize: 0x24 }
+...

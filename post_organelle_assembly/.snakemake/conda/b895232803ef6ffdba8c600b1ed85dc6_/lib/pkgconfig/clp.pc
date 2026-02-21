@@ -1,0 +1,13 @@
+prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/b895232803ef6ffdba8c600b1ed85dc6_
+exec_prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/b895232803ef6ffdba8c600b1ed85dc6_
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/coin
+
+Name: CLP
+Description: COIN-OR Linear Programming Solver
+URL: https://projects.coin-or.org/Clp
+Version: 1.17.10
+Libs: -L${libdir} -lClpSolver -lClp 
+Libs.private: 
+Cflags: -I${includedir}
+Requires.private: coinutils 

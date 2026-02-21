@@ -1,0 +1,10 @@
+prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/3df4053b3aa4ecb963039b27cb5e7a8c_
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: qhullstatic_r
+Description: Qhull reentrant static library
+Version: 8.0.2
+Libs: -L${libdir} -lqhullstatic_r
+Cflags: -I${includedir}
+

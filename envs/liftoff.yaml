@@ -1,0 +1,10 @@
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - liftoff>=1.6.3
+  - minimap2>=2.24
+  - python>=3.8
+  - biopython>=1.79
+  - bcbio-gff>=0.7

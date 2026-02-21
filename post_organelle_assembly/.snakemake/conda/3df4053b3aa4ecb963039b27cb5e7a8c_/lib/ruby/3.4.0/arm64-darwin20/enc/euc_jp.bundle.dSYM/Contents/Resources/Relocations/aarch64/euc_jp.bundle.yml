@@ -1,0 +1,34 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '.ext/arm64-darwin20/enc/euc_jp.bundle'
+relocations:
+  - { offset: 0x1E, size: 0x8, addend: 0x0, symName: _Init_euc_jp, symObjAddr: 0x0, symBinAddr: 0x2900, symSize: 0x14 }
+  - { offset: 0x4B, size: 0x8, addend: 0x0, symName: _encoding_EUC_JP, symObjAddr: 0xB08, symBinAddr: 0x4020, symSize: 0x0 }
+  - { offset: 0x3AF, size: 0x8, addend: 0x0, symName: _trans, symObjAddr: 0xBC8, symBinAddr: 0x34B4, symSize: 0x0 }
+  - { offset: 0x3E3, size: 0x8, addend: 0x0, symName: _EncLen_EUCJP, symObjAddr: 0xEC8, symBinAddr: 0x37B4, symSize: 0x0 }
+  - { offset: 0x40A, size: 0x8, addend: 0x0, symName: _CaseFoldMap, symObjAddr: 0x12C8, symBinAddr: 0x3BB4, symSize: 0x0 }
+  - { offset: 0x47E, size: 0x8, addend: 0x0, symName: _onig_jis_property_pool_contents, symObjAddr: 0x157A, symBinAddr: 0x3E66, symSize: 0x0 }
+  - { offset: 0x50D, size: 0x8, addend: 0x0, symName: _PropertyList, symObjAddr: 0xB90, symBinAddr: 0x40A8, symSize: 0x0 }
+  - { offset: 0x534, size: 0x8, addend: 0x0, symName: _CR_Hiragana, symObjAddr: 0x1628, symBinAddr: 0x3F14, symSize: 0x0 }
+  - { offset: 0x556, size: 0x8, addend: 0x0, symName: _CR_Katakana, symObjAddr: 0x1634, symBinAddr: 0x3F20, symSize: 0x0 }
+  - { offset: 0x578, size: 0x8, addend: 0x0, symName: _CR_Han, symObjAddr: 0x1650, symBinAddr: 0x3F3C, symSize: 0x0 }
+  - { offset: 0x59A, size: 0x8, addend: 0x0, symName: _CR_Latin, symObjAddr: 0x1674, symBinAddr: 0x3F60, symSize: 0x0 }
+  - { offset: 0x5B0, size: 0x8, addend: 0x0, symName: _CR_Greek, symObjAddr: 0x1698, symBinAddr: 0x3F84, symSize: 0x0 }
+  - { offset: 0x5D2, size: 0x8, addend: 0x0, symName: _CR_Cyrillic, symObjAddr: 0x16AC, symBinAddr: 0x3F98, symSize: 0x0 }
+  - { offset: 0x61F, size: 0x8, addend: 0x0, symName: _Init_euc_jp, symObjAddr: 0x0, symBinAddr: 0x2900, symSize: 0x14 }
+  - { offset: 0x639, size: 0x8, addend: 0x0, symName: _mbc_enc_len, symObjAddr: 0x14, symBinAddr: 0x2914, symSize: 0xA4 }
+  - { offset: 0x669, size: 0x8, addend: 0x0, symName: _mbc_enc_len, symObjAddr: 0x14, symBinAddr: 0x2914, symSize: 0xA4 }
+  - { offset: 0x6F3, size: 0x8, addend: 0x0, symName: _mbc_to_code, symObjAddr: 0xB8, symBinAddr: 0x29B8, symSize: 0xF0 }
+  - { offset: 0x76D, size: 0x8, addend: 0x0, symName: _code_to_mbclen, symObjAddr: 0x1A8, symBinAddr: 0x2AA8, symSize: 0x50 }
+  - { offset: 0x78F, size: 0x8, addend: 0x0, symName: _code_to_mbc, symObjAddr: 0x1F8, symBinAddr: 0x2AF8, symSize: 0x114 }
+  - { offset: 0x89C, size: 0x8, addend: 0x0, symName: _mbc_case_fold, symObjAddr: 0x30C, symBinAddr: 0x2C0C, symSize: 0x230 }
+  - { offset: 0xA50, size: 0x8, addend: 0x0, symName: _apply_all_case_fold, symObjAddr: 0x53C, symBinAddr: 0x2E3C, symSize: 0x20 }
+  - { offset: 0xAAA, size: 0x8, addend: 0x0, symName: _get_case_fold_codes_by_str, symObjAddr: 0x55C, symBinAddr: 0x2E5C, symSize: 0x280 }
+  - { offset: 0xB1E, size: 0x8, addend: 0x0, symName: _get_case_fold_codes_by_str, symObjAddr: 0x55C, symBinAddr: 0x2E5C, symSize: 0x280 }
+  - { offset: 0xD7E, size: 0x8, addend: 0x0, symName: _property_name_to_ctype, symObjAddr: 0x7DC, symBinAddr: 0x30DC, symSize: 0xF0 }
+  - { offset: 0xF3C, size: 0x8, addend: 0x0, symName: _is_code_ctype, symObjAddr: 0x8CC, symBinAddr: 0x31CC, symSize: 0xA8 }
+  - { offset: 0xFA3, size: 0x8, addend: 0x0, symName: _get_ctype_code_range, symObjAddr: 0x974, symBinAddr: 0x3274, symSize: 0x40 }
+  - { offset: 0xFC3, size: 0x8, addend: 0x0, symName: _get_ctype_code_range, symObjAddr: 0x974, symBinAddr: 0x3274, symSize: 0x40 }
+  - { offset: 0x1016, size: 0x8, addend: 0x0, symName: _left_adjust_char_head, symObjAddr: 0x9B4, symBinAddr: 0x32B4, symSize: 0x134 }
+  - { offset: 0x10A9, size: 0x8, addend: 0x0, symName: _is_allowed_reverse_match, symObjAddr: 0xAE8, symBinAddr: 0x33E8, symSize: 0x1C }
+...

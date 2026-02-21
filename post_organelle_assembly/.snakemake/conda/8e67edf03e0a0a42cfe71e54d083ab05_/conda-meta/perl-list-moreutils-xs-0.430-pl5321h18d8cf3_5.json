@@ -1,0 +1,67 @@
+{
+  "name": "perl-list-moreutils-xs",
+  "version": "0.430",
+  "build": "pl5321h18d8cf3_5",
+  "build_number": 5,
+  "channel": "https://conda.anaconda.org/bioconda/noarch",
+  "subdir": "osx-64",
+  "fn": "perl-list-moreutils-xs-0.430-pl5321h18d8cf3_5.tar.bz2",
+  "md5": "2a311e115963e9a985b1029d092a58d1",
+  "url": "https://conda.anaconda.org/bioconda/osx-64/perl-list-moreutils-xs-0.430-pl5321h18d8cf3_5.tar.bz2",
+  "sha256": "eea554693fbc015804eec6c510cca54d0051bcd1d496bfbfac6fe4426f42503f",
+  "depends": [
+    "perl >=5.32.1,<5.33.0a0 *_perl5"
+  ],
+  "constrains": [],
+  "license": "apache_2_0",
+  "timestamp": 1741776966000,
+  "size": 44178,
+  "requested_spec": "None",
+  "package_tarball_full_path": "/Users/user/miniforge3/pkgs/perl-list-moreutils-xs-0.430-pl5321h18d8cf3_5",
+  "extracted_package_dir": "/Users/user/miniforge3/pkgs/perl-list-moreutils-xs-0.430-pl5321h18d8cf3_5",
+  "files": [
+    "lib/perl5/5.32/site_perl/List/MoreUtils/XS.pm",
+    "lib/perl5/5.32/site_perl/auto/List/MoreUtils/XS/.packlist",
+    "lib/perl5/5.32/site_perl/auto/List/MoreUtils/XS/XS.bundle",
+    "man/man3/List::MoreUtils::XS.3"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "lib/perl5/5.32/site_perl/List/MoreUtils/XS.pm",
+        "path_type": "hardlink",
+        "sha256": "d23abecf1b10a13394a82fab807c5232bb17634dd2a2b5a186fb13410fc90d5f",
+        "size_in_bytes": 3423,
+        "sha256_in_prefix": "d23abecf1b10a13394a82fab807c5232bb17634dd2a2b5a186fb13410fc90d5f"
+      },
+      {
+        "_path": "lib/perl5/5.32/site_perl/auto/List/MoreUtils/XS/.packlist",
+        "prefix_placeholder": "/opt/mambaforge/envs/bioconda/conda-bld/perl-list-moreutils-xs_1741776805605/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_p",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "sha256": "645d26dd73921c85928130d984f0120525e8044edae0d1d8f32c847a79c075ce",
+        "size_in_bytes": 1037,
+        "sha256_in_prefix": "b3970c0aea35ec1f52a9fe5a18c3f89c85267ecb80f97a513514e79570142e05"
+      },
+      {
+        "_path": "lib/perl5/5.32/site_perl/auto/List/MoreUtils/XS/XS.bundle",
+        "path_type": "hardlink",
+        "sha256": "3fea22d7e59f117a9085c16964e475baccc66c2d1781161be9fdfea117767651",
+        "size_in_bytes": 127352,
+        "sha256_in_prefix": "3fea22d7e59f117a9085c16964e475baccc66c2d1781161be9fdfea117767651"
+      },
+      {
+        "_path": "man/man3/List::MoreUtils::XS.3",
+        "path_type": "hardlink",
+        "sha256": "209551ee5fac1dfb1bf1bd86dc24e0d5024ee63cc1a980fd434c18948966e5ff",
+        "size_in_bytes": 4755,
+        "sha256_in_prefix": "209551ee5fac1dfb1bf1bd86dc24e0d5024ee63cc1a980fd434c18948966e5ff"
+      }
+    ]
+  },
+  "link": {
+    "source": "/Users/user/miniforge3/pkgs/perl-list-moreutils-xs-0.430-pl5321h18d8cf3_5",
+    "type": 1
+  }
+}

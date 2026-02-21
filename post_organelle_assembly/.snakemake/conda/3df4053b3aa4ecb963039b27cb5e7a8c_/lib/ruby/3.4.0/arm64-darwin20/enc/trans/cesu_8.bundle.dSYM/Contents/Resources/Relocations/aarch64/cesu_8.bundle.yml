@@ -1,0 +1,14 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '.ext/arm64-darwin20/enc/trans/cesu_8.bundle'
+relocations:
+  - { offset: 0x1E, size: 0x8, addend: 0x0, symName: _Init_cesu_8, symObjAddr: 0x0, symBinAddr: 0x3A8C, symSize: 0x24 }
+  - { offset: 0x4A, size: 0x8, addend: 0x0, symName: _rb_from_CESU_8, symObjAddr: 0xF0, symBinAddr: 0x4008, symSize: 0x0 }
+  - { offset: 0x300, size: 0x8, addend: 0x0, symName: _cesu_8_byte_array, symObjAddr: 0x240, symBinAddr: 0x3BBC, symSize: 0x0 }
+  - { offset: 0x322, size: 0x8, addend: 0x0, symName: _cesu_8_word_array, symObjAddr: 0x53C, symBinAddr: 0x3EB8, symSize: 0x0 }
+  - { offset: 0x343, size: 0x8, addend: 0x0, symName: _rb_to_CESU_8, symObjAddr: 0x190, symBinAddr: 0x40A8, symSize: 0x0 }
+  - { offset: 0x34C, size: 0x8, addend: 0x0, symName: _Init_cesu_8, symObjAddr: 0x0, symBinAddr: 0x3A8C, symSize: 0x24 }
+  - { offset: 0x372, size: 0x8, addend: 0x0, symName: _fun_so_from_cesu_8, symObjAddr: 0x24, symBinAddr: 0x3AB0, symSize: 0x5C }
+  - { offset: 0x38E, size: 0x8, addend: 0x0, symName: _fun_so_from_cesu_8, symObjAddr: 0x24, symBinAddr: 0x3AB0, symSize: 0x5C }
+  - { offset: 0x3F2, size: 0x8, addend: 0x0, symName: _fun_so_to_cesu_8, symObjAddr: 0x80, symBinAddr: 0x3B0C, symSize: 0x70 }
+...

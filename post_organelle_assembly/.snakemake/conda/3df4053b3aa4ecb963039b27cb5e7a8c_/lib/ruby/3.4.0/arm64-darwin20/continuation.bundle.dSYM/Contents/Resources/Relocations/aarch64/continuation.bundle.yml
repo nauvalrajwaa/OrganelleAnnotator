@@ -1,0 +1,7 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '../../.ext/arm64-darwin20/continuation.bundle'
+relocations:
+  - { offset: 0x1E, size: 0x8, addend: 0x0, symName: _Init_continuation, symObjAddr: 0x0, symBinAddr: 0x3F2C, symSize: 0x1C }
+  - { offset: 0x3E, size: 0x8, addend: 0x0, symName: _Init_continuation, symObjAddr: 0x0, symBinAddr: 0x3F2C, symSize: 0x1C }
+...

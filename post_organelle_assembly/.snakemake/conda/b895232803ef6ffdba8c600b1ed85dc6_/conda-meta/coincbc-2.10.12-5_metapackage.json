@@ -1,0 +1,33 @@
+{
+  "name": "coincbc",
+  "version": "2.10.12",
+  "build": "5_metapackage",
+  "build_number": 5,
+  "channel": "https://conda.anaconda.org/conda-forge/osx-64",
+  "subdir": "noarch",
+  "fn": "coincbc-2.10.12-5_metapackage.conda",
+  "md5": "507c7d5cabd046a1663d5604377ef921",
+  "url": "https://conda.anaconda.org/conda-forge/noarch/coincbc-2.10.12-5_metapackage.conda",
+  "sha256": "8f70757046d96246d24829eadf7031e830f2b5e73ec6f3b3727e6e9f78aaa64a",
+  "depends": [
+    "coin-or-cbc 2.10.12.*"
+  ],
+  "constrains": [],
+  "noarch": "generic",
+  "license": "EPL-2.0",
+  "package_type": "noarch_generic",
+  "timestamp": 1767757613000,
+  "size": 13233,
+  "requested_spec": "None",
+  "package_tarball_full_path": "/Users/user/miniforge3/pkgs/coincbc-2.10.12-5_metapackage",
+  "extracted_package_dir": "/Users/user/miniforge3/pkgs/coincbc-2.10.12-5_metapackage",
+  "files": [],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": []
+  },
+  "link": {
+    "source": "/Users/user/miniforge3/pkgs/coincbc-2.10.12-5_metapackage",
+    "type": 1
+  }
+}

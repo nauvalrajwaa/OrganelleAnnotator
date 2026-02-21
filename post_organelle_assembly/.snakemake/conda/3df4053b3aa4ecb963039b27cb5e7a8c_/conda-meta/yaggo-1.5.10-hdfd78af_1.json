@@ -1,0 +1,43 @@
+{
+  "name": "yaggo",
+  "version": "1.5.10",
+  "build": "hdfd78af_1",
+  "build_number": 1,
+  "channel": "https://conda.anaconda.org/bioconda/noarch",
+  "subdir": "noarch",
+  "fn": "yaggo-1.5.10-hdfd78af_1.tar.bz2",
+  "md5": "af5feb5125f033203c2f96d0b4c9098b",
+  "url": "https://conda.anaconda.org/bioconda/noarch/yaggo-1.5.10-hdfd78af_1.tar.bz2",
+  "sha256": "b5200c6760f4cb2db944a1a7c8bda3e7a20f8646d574640390a36005f665d2fe",
+  "depends": [
+    "ruby >2.2.3"
+  ],
+  "constrains": [],
+  "noarch": "generic",
+  "license": "GPL-3.0",
+  "package_type": "noarch_generic",
+  "timestamp": 1715221170000,
+  "size": 23931,
+  "requested_spec": "None",
+  "package_tarball_full_path": "/Users/user/miniforge3/pkgs/yaggo-1.5.10-hdfd78af_1",
+  "extracted_package_dir": "/Users/user/miniforge3/pkgs/yaggo-1.5.10-hdfd78af_1",
+  "files": [
+    "bin/yaggo"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "bin/yaggo",
+        "path_type": "hardlink",
+        "sha256": "665f69c5b06715d725958de4020f1b78a838be02c270a2f7ff2361ead0f028bc",
+        "size_in_bytes": 60187,
+        "sha256_in_prefix": "665f69c5b06715d725958de4020f1b78a838be02c270a2f7ff2361ead0f028bc"
+      }
+    ]
+  },
+  "link": {
+    "source": "/Users/user/miniforge3/pkgs/yaggo-1.5.10-hdfd78af_1",
+    "type": 1
+  }
+}

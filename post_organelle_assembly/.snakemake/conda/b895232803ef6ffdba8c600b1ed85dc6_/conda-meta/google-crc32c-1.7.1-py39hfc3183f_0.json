@@ -1,0 +1,204 @@
+{
+  "name": "google-crc32c",
+  "version": "1.7.1",
+  "build": "py39hfc3183f_0",
+  "build_number": 0,
+  "channel": "https://conda.anaconda.org/conda-forge/osx-64",
+  "subdir": "osx-64",
+  "fn": "google-crc32c-1.7.1-py39hfc3183f_0.conda",
+  "md5": "710bcec35bcad483e8bfb09cdf3338a9",
+  "url": "https://conda.anaconda.org/conda-forge/osx-64/google-crc32c-1.7.1-py39hfc3183f_0.conda",
+  "sha256": "4db3da46880dd7b5abc133b994f9660d80d68d13b65a42d715b76e53329297e2",
+  "depends": [
+    "__osx >=10.13",
+    "libcrc32c >=1.1.2,<1.2.0a0",
+    "python >=3.9,<3.10.0a0",
+    "python_abi 3.9.* *_cp39"
+  ],
+  "constrains": [],
+  "license": "Apache-2.0",
+  "timestamp": 1743041805000,
+  "size": 22674,
+  "requested_spec": "None",
+  "package_tarball_full_path": "/Users/user/miniforge3/pkgs/google-crc32c-1.7.1-py39hfc3183f_0",
+  "extracted_package_dir": "/Users/user/miniforge3/pkgs/google-crc32c-1.7.1-py39hfc3183f_0",
+  "files": [
+    "lib/python3.9/site-packages/google_crc32c-1.7.1.dist-info/INSTALLER",
+    "lib/python3.9/site-packages/google_crc32c-1.7.1.dist-info/LICENSE",
+    "lib/python3.9/site-packages/google_crc32c-1.7.1.dist-info/METADATA",
+    "lib/python3.9/site-packages/google_crc32c-1.7.1.dist-info/RECORD",
+    "lib/python3.9/site-packages/google_crc32c-1.7.1.dist-info/REQUESTED",
+    "lib/python3.9/site-packages/google_crc32c-1.7.1.dist-info/WHEEL",
+    "lib/python3.9/site-packages/google_crc32c-1.7.1.dist-info/direct_url.json",
+    "lib/python3.9/site-packages/google_crc32c-1.7.1.dist-info/top_level.txt",
+    "lib/python3.9/site-packages/google_crc32c-1.7.1.dist-info/zip-safe",
+    "lib/python3.9/site-packages/google_crc32c/__config__.py",
+    "lib/python3.9/site-packages/google_crc32c/__init__.py",
+    "lib/python3.9/site-packages/google_crc32c/__pycache__/__config__.cpython-39.pyc",
+    "lib/python3.9/site-packages/google_crc32c/__pycache__/__init__.cpython-39.pyc",
+    "lib/python3.9/site-packages/google_crc32c/__pycache__/_checksum.cpython-39.pyc",
+    "lib/python3.9/site-packages/google_crc32c/__pycache__/cext.cpython-39.pyc",
+    "lib/python3.9/site-packages/google_crc32c/__pycache__/python.cpython-39.pyc",
+    "lib/python3.9/site-packages/google_crc32c/_checksum.py",
+    "lib/python3.9/site-packages/google_crc32c/_crc32c.cpython-39-darwin.so",
+    "lib/python3.9/site-packages/google_crc32c/cext.py",
+    "lib/python3.9/site-packages/google_crc32c/py.typed",
+    "lib/python3.9/site-packages/google_crc32c/python.py"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "lib/python3.9/site-packages/google_crc32c-1.7.1.dist-info/INSTALLER",
+        "path_type": "hardlink",
+        "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "size_in_bytes": 5,
+        "sha256_in_prefix": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8"
+      },
+      {
+        "_path": "lib/python3.9/site-packages/google_crc32c-1.7.1.dist-info/LICENSE",
+        "path_type": "hardlink",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "size_in_bytes": 11358,
+        "sha256_in_prefix": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "_path": "lib/python3.9/site-packages/google_crc32c-1.7.1.dist-info/METADATA",
+        "path_type": "hardlink",
+        "sha256": "d47ce4d53501bffba2141eb6735199ef305def010296e66bbb6f1055058baac7",
+        "size_in_bytes": 2317,
+        "sha256_in_prefix": "d47ce4d53501bffba2141eb6735199ef305def010296e66bbb6f1055058baac7"
+      },
+      {
+        "_path": "lib/python3.9/site-packages/google_crc32c-1.7.1.dist-info/RECORD",
+        "path_type": "hardlink",
+        "sha256": "fff48379765b4d18351d5664cc07d802e10a217aa735b041594a55f21b63b54d",
+        "size_in_bytes": 1659,
+        "sha256_in_prefix": "fff48379765b4d18351d5664cc07d802e10a217aa735b041594a55f21b63b54d"
+      },
+      {
+        "_path": "lib/python3.9/site-packages/google_crc32c-1.7.1.dist-info/REQUESTED",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0,
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "_path": "lib/python3.9/site-packages/google_crc32c-1.7.1.dist-info/WHEEL",
+        "path_type": "hardlink",
+        "sha256": "a338f547aa266b8e18afb9777f025d23e76611bcd24428328a75e9d02fedebe9",
+        "size_in_bytes": 109,
+        "sha256_in_prefix": "a338f547aa266b8e18afb9777f025d23e76611bcd24428328a75e9d02fedebe9"
+      },
+      {
+        "_path": "lib/python3.9/site-packages/google_crc32c-1.7.1.dist-info/direct_url.json",
+        "path_type": "hardlink",
+        "sha256": "8ab83c723a716f162be273c385fc0f5e94446368a7749fa33ecc5c7ccd1906da",
+        "size_in_bytes": 101,
+        "sha256_in_prefix": "8ab83c723a716f162be273c385fc0f5e94446368a7749fa33ecc5c7ccd1906da"
+      },
+      {
+        "_path": "lib/python3.9/site-packages/google_crc32c-1.7.1.dist-info/top_level.txt",
+        "path_type": "hardlink",
+        "sha256": "afb3cb3e52a37e13192ea791b0a5c841d2336dedc5aefff6fdbf1799cbd9e054",
+        "size_in_bytes": 14,
+        "sha256_in_prefix": "afb3cb3e52a37e13192ea791b0a5c841d2336dedc5aefff6fdbf1799cbd9e054"
+      },
+      {
+        "_path": "lib/python3.9/site-packages/google_crc32c-1.7.1.dist-info/zip-safe",
+        "path_type": "hardlink",
+        "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "size_in_bytes": 1,
+        "sha256_in_prefix": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+      },
+      {
+        "_path": "lib/python3.9/site-packages/google_crc32c/__config__.py",
+        "path_type": "hardlink",
+        "sha256": "da2d0aa4aa3eca998c4bf3fd8b7a8e6c05b679e9825adae6bbf3c95e4b631cef",
+        "size_in_bytes": 1138,
+        "sha256_in_prefix": "da2d0aa4aa3eca998c4bf3fd8b7a8e6c05b679e9825adae6bbf3c95e4b631cef"
+      },
+      {
+        "_path": "lib/python3.9/site-packages/google_crc32c/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "0ee9fa5611b143ef1fc9d191fe15f853d2b79fc5cf6170832a6a080406ada733",
+        "size_in_bytes": 1291,
+        "sha256_in_prefix": "0ee9fa5611b143ef1fc9d191fe15f853d2b79fc5cf6170832a6a080406ada733"
+      },
+      {
+        "_path": "lib/python3.9/site-packages/google_crc32c/__pycache__/__config__.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "24d2b4028bcbef8b6e3032284f8583a031765f8bd400001bbf627c77e00cb772",
+        "size_in_bytes": 623,
+        "sha256_in_prefix": "24d2b4028bcbef8b6e3032284f8583a031765f8bd400001bbf627c77e00cb772"
+      },
+      {
+        "_path": "lib/python3.9/site-packages/google_crc32c/__pycache__/__init__.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "83dc44791273cb7ecd759f3e1e0c631752b5b71debad6be8b1feb29afb6e72fa",
+        "size_in_bytes": 701,
+        "sha256_in_prefix": "83dc44791273cb7ecd759f3e1e0c631752b5b71debad6be8b1feb29afb6e72fa"
+      },
+      {
+        "_path": "lib/python3.9/site-packages/google_crc32c/__pycache__/_checksum.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "686aefccd25eed83299148dd7efed3d09ad9378a409f6085b0218d1d53941683",
+        "size_in_bytes": 2652,
+        "sha256_in_prefix": "686aefccd25eed83299148dd7efed3d09ad9378a409f6085b0218d1d53941683"
+      },
+      {
+        "_path": "lib/python3.9/site-packages/google_crc32c/__pycache__/cext.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "2aa30fb218dac3f6dfa33565b108e303bb6212ec506de8be74ded8eb1d84d808",
+        "size_in_bytes": 1233,
+        "sha256_in_prefix": "2aa30fb218dac3f6dfa33565b108e303bb6212ec506de8be74ded8eb1d84d808"
+      },
+      {
+        "_path": "lib/python3.9/site-packages/google_crc32c/__pycache__/python.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "7ddb8a39ae872585abe7299862367803cb74b5ce58d2ef21ab17897f70fa1ea9",
+        "size_in_bytes": 4280,
+        "sha256_in_prefix": "7ddb8a39ae872585abe7299862367803cb74b5ce58d2ef21ab17897f70fa1ea9"
+      },
+      {
+        "_path": "lib/python3.9/site-packages/google_crc32c/_checksum.py",
+        "path_type": "hardlink",
+        "sha256": "affd8f7242b5a705a55bd13a7bdc72b38a9d4f867b2597b659f6031733506cd2",
+        "size_in_bytes": 2636,
+        "sha256_in_prefix": "affd8f7242b5a705a55bd13a7bdc72b38a9d4f867b2597b659f6031733506cd2"
+      },
+      {
+        "_path": "lib/python3.9/site-packages/google_crc32c/_crc32c.cpython-39-darwin.so",
+        "path_type": "hardlink",
+        "sha256": "b70c859ea599a08d467acdf96a91ef13a48ebd255a971a8e877792d71c017e2f",
+        "size_in_bytes": 13040,
+        "sha256_in_prefix": "b70c859ea599a08d467acdf96a91ef13a48ebd255a971a8e877792d71c017e2f"
+      },
+      {
+        "_path": "lib/python3.9/site-packages/google_crc32c/cext.py",
+        "path_type": "hardlink",
+        "sha256": "a05ecd16929650e128c9895b546200255a3c48d0e25914ff558c82235e3ee63a",
+        "size_in_bytes": 1557,
+        "sha256_in_prefix": "a05ecd16929650e128c9895b546200255a3c48d0e25914ff558c82235e3ee63a"
+      },
+      {
+        "_path": "lib/python3.9/site-packages/google_crc32c/py.typed",
+        "path_type": "hardlink",
+        "sha256": "dab4ffc2d8b3c762709a7cc0afab57766b04744e4f229e24ba6ed8b0384ec3fc",
+        "size_in_bytes": 76,
+        "sha256_in_prefix": "dab4ffc2d8b3c762709a7cc0afab57766b04744e4f229e24ba6ed8b0384ec3fc"
+      },
+      {
+        "_path": "lib/python3.9/site-packages/google_crc32c/python.py",
+        "path_type": "hardlink",
+        "sha256": "f73cba001001fca33c24945c6671386faf15aa7384151366086b9fae371beea7",
+        "size_in_bytes": 5661,
+        "sha256_in_prefix": "f73cba001001fca33c24945c6671386faf15aa7384151366086b9fae371beea7"
+      }
+    ]
+  },
+  "link": {
+    "source": "/Users/user/miniforge3/pkgs/google-crc32c-1.7.1-py39hfc3183f_0",
+    "type": 1
+  }
+}

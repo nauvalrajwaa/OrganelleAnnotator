@@ -1,0 +1,11 @@
+prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/587f3f215464ea2823e946f5fa8c3a8a_
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: lcms2
+Description: LCMS Color Management Library
+Version: 2.18
+Libs: -L${libdir} -llcms2 
+Libs.private: -lm -lpthread
+Cflags: -I${includedir}

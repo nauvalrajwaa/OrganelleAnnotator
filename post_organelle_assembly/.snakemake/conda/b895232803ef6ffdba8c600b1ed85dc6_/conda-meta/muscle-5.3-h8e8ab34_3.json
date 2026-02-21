@@ -1,0 +1,42 @@
+{
+  "name": "muscle",
+  "version": "5.3",
+  "build": "h8e8ab34_3",
+  "build_number": 3,
+  "channel": "https://conda.anaconda.org/bioconda/osx-64",
+  "subdir": "osx-64",
+  "fn": "muscle-5.3-h8e8ab34_3.tar.bz2",
+  "md5": "5fe99b2041c0921c2d36cdc2bc63d672",
+  "url": "https://conda.anaconda.org/bioconda/osx-64/muscle-5.3-h8e8ab34_3.tar.bz2",
+  "sha256": "221bf1c809c03a5d790caf773d7f0e8de53701c38ce6e1280a5012c36c295c99",
+  "depends": [
+    "libcxx >=18",
+    "llvm-openmp >=18.1.8"
+  ],
+  "constrains": [],
+  "license": "GPL-3.0-only",
+  "timestamp": 1753911617000,
+  "size": 585799,
+  "requested_spec": "muscle",
+  "package_tarball_full_path": "/Users/user/miniforge3/pkgs/muscle-5.3-h8e8ab34_3",
+  "extracted_package_dir": "/Users/user/miniforge3/pkgs/muscle-5.3-h8e8ab34_3",
+  "files": [
+    "bin/muscle"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "bin/muscle",
+        "path_type": "hardlink",
+        "sha256": "221bc63cc1b71ea35698da0a69420724223c26c173e81130963b8b45068533f4",
+        "size_in_bytes": 1301248,
+        "sha256_in_prefix": "221bc63cc1b71ea35698da0a69420724223c26c173e81130963b8b45068533f4"
+      }
+    ]
+  },
+  "link": {
+    "source": "/Users/user/miniforge3/pkgs/muscle-5.3-h8e8ab34_3",
+    "type": 1
+  }
+}

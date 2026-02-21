@@ -1,0 +1,12 @@
+prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/587f3f215464ea2823e946f5fa8c3a8a_
+exec_prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/587f3f215464ea2823e946f5fa8c3a8a_
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/coin
+
+Name: OsiUnitTests
+Description: COIN-OR Open Solver Interface Common Unit Tests
+URL: https://projects.coin-or.org/Osi
+Version: 0.108.11
+Libs: -L${libdir} -lOsiCommonTests
+Cflags: -I${includedir}
+Requires: osi

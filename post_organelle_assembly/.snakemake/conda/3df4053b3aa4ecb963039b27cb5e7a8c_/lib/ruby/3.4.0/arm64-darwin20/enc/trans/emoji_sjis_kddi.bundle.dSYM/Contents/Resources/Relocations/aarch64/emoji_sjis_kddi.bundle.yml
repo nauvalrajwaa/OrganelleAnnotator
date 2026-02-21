@@ -1,0 +1,11 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '.ext/arm64-darwin20/enc/trans/emoji_sjis_kddi.bundle'
+relocations:
+  - { offset: 0x1E, size: 0x8, addend: 0x0, symName: _Init_emoji_sjis_kddi, symObjAddr: 0x0, symBinAddr: 0x39D4, symSize: 0x24 }
+  - { offset: 0x4B, size: 0x8, addend: 0x0, symName: _rb_from_SJIS_KDDI_to_UTF8_KDDI, symObjAddr: 0x28, symBinAddr: 0x20008, symSize: 0x0 }
+  - { offset: 0x301, size: 0x8, addend: 0x0, symName: _emoji_sjis_kddi_byte_array, symObjAddr: 0x17C, symBinAddr: 0x3A3C, symSize: 0x0 }
+  - { offset: 0x324, size: 0x8, addend: 0x0, symName: _emoji_sjis_kddi_word_array, symObjAddr: 0x6C94, symBinAddr: 0xA554, symSize: 0x0 }
+  - { offset: 0x347, size: 0x8, addend: 0x0, symName: _rb_from_UTF8_KDDI_to_SJIS_KDDI, symObjAddr: 0xC8, symBinAddr: 0x200A8, symSize: 0x0 }
+  - { offset: 0x350, size: 0x8, addend: 0x0, symName: _Init_emoji_sjis_kddi, symObjAddr: 0x0, symBinAddr: 0x39D4, symSize: 0x24 }
+...

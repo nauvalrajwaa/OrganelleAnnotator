@@ -1,0 +1,17 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '.ext/arm64-darwin20/enc/iso_8859_1.bundle'
+relocations:
+  - { offset: 0x1E, size: 0x8, addend: 0x0, symName: _Init_iso_8859_1, symObjAddr: 0x0, symBinAddr: 0x38B0, symSize: 0x14 }
+  - { offset: 0x4B, size: 0x8, addend: 0x0, symName: _encoding_ISO_8859_1, symObjAddr: 0x3C0, symBinAddr: 0x4010, symSize: 0x0 }
+  - { offset: 0x3AF, size: 0x8, addend: 0x0, symName: _CaseFoldMap, symObjAddr: 0x454, symBinAddr: 0x3CB0, symSize: 0x0 }
+  - { offset: 0x3FD, size: 0x8, addend: 0x0, symName: _EncISO_8859_1_CtypeTable, symObjAddr: 0x544, symBinAddr: 0x3DA0, symSize: 0x0 }
+  - { offset: 0x41F, size: 0x8, addend: 0x0, symName: _Init_iso_8859_1, symObjAddr: 0x0, symBinAddr: 0x38B0, symSize: 0x14 }
+  - { offset: 0x439, size: 0x8, addend: 0x0, symName: _mbc_case_fold, symObjAddr: 0x14, symBinAddr: 0x38C4, symSize: 0x58 }
+  - { offset: 0x469, size: 0x8, addend: 0x0, symName: _mbc_case_fold, symObjAddr: 0x14, symBinAddr: 0x38C4, symSize: 0x58 }
+  - { offset: 0x4D3, size: 0x8, addend: 0x0, symName: _apply_all_case_fold, symObjAddr: 0x6C, symBinAddr: 0x391C, symSize: 0x20 }
+  - { offset: 0x528, size: 0x8, addend: 0x0, symName: _get_case_fold_codes_by_str, symObjAddr: 0x8C, symBinAddr: 0x393C, symSize: 0x1A4 }
+  - { offset: 0x581, size: 0x8, addend: 0x0, symName: _get_case_fold_codes_by_str, symObjAddr: 0x8C, symBinAddr: 0x393C, symSize: 0x1A4 }
+  - { offset: 0x5D8, size: 0x8, addend: 0x0, symName: _is_code_ctype, symObjAddr: 0x230, symBinAddr: 0x3AE0, symSize: 0x28 }
+  - { offset: 0x619, size: 0x8, addend: 0x0, symName: _case_map, symObjAddr: 0x258, symBinAddr: 0x3B08, symSize: 0x120 }
+...

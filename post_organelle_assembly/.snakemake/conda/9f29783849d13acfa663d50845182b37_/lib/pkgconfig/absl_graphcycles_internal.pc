@@ -1,0 +1,12 @@
+prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/9f29783849d13acfa663d50845182b37_
+exec_prefix=${prefix}
+libdir=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/9f29783849d13acfa663d50845182b37_/lib
+includedir=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/9f29783849d13acfa663d50845182b37_/include
+
+Name: absl_graphcycles_internal
+Description: Abseil graphcycles_internal library
+URL: https://abseil.io/
+Version: 20250512
+Requires: absl_base = 20250512, absl_base_internal = 20250512, absl_config = 20250512, absl_core_headers = 20250512, absl_malloc_internal = 20250512, absl_raw_logging_internal = 20250512
+Libs: -L${libdir}  -labsl_graphcycles_internal 
+Cflags: -I${includedir} -Wno-float-conversion -Wno-implicit-float-conversion -Wno-implicit-int-float-conversion -Wno-unknown-warning-option -DNOMINMAX

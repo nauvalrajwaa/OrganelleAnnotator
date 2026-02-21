@@ -1,0 +1,13 @@
+# Package Information for pkg-config
+
+prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/8e67edf03e0a0a42cfe71e54d083ab05_
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: SQLite
+Description: SQL database engine
+Version: 3.51.2
+Libs: -L${libdir} -lsqlite3
+Libs.private:  -lz   
+Cflags: -I${includedir}

@@ -1,0 +1,40 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '../../../../../../.bundle/extensions/arm64-darwin-20/3.4.0/racc-1.8.1/racc/cparse.bundle'
+relocations:
+  - { offset: 0x1E, size: 0x8, addend: 0x0, symName: _Init_cparse, symObjAddr: 0x0, symBinAddr: 0x1E98, symSize: 0x254 }
+  - { offset: 0x4A, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xCC30, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0x73, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xCC30, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0x88, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xCC30, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0xAA, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xCC30, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0xC1, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xCC30, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0xD8, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xCC30, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0xEF, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xCC30, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0x106, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xCC30, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0x11D, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xCC30, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0x134, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xCC30, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0x14B, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xCC30, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0x162, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xCC30, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0x179, size: 0x8, addend: 0x0, symName: __MergedGlobals, symObjAddr: 0xCC30, symBinAddr: 0x8140, symSize: 0x0 }
+  - { offset: 0x190, size: 0x8, addend: 0x0, symName: _cparse_params_type, symObjAddr: 0x1D38, symBinAddr: 0x4030, symSize: 0x0 }
+  - { offset: 0x53C, size: 0x8, addend: 0x0, symName: _Init_cparse, symObjAddr: 0x0, symBinAddr: 0x1E98, symSize: 0x254 }
+  - { offset: 0xAC3, size: 0x8, addend: 0x0, symName: _racc_cparse, symObjAddr: 0x254, symBinAddr: 0x20EC, symSize: 0xDC }
+  - { offset: 0xC17, size: 0x8, addend: 0x0, symName: _initialize_params, symObjAddr: 0x46C, symBinAddr: 0x2304, symSize: 0x478 }
+  - { offset: 0x1890, size: 0x8, addend: 0x0, symName: _parse_main, symObjAddr: 0x8E4, symBinAddr: 0x277C, symSize: 0x7E4 }
+  - { offset: 0x189A, size: 0x8, addend: 0x0, symName: _parse_main, symObjAddr: 0x8E4, symBinAddr: 0x277C, symSize: 0x7E4 }
+  - { offset: 0x26A5, size: 0x8, addend: 0x0, symName: _cparse_params_mark, symObjAddr: 0x10C8, symBinAddr: 0x2F60, symSize: 0xA8 }
+  - { offset: 0x26C5, size: 0x8, addend: 0x0, symName: _racc_yyparse, symObjAddr: 0x330, symBinAddr: 0x21C8, symSize: 0x13C }
+  - { offset: 0x2C04, size: 0x8, addend: 0x0, symName: _rb_array_len, symObjAddr: 0x1178, symBinAddr: 0x3010, symSize: 0x18 }
+  - { offset: 0x2C24, size: 0x8, addend: 0x0, symName: _rb_array_len, symObjAddr: 0x1178, symBinAddr: 0x3010, symSize: 0x18 }
+  - { offset: 0x2C47, size: 0x8, addend: 0x0, symName: _rb_array_len, symObjAddr: 0x1178, symBinAddr: 0x3010, symSize: 0x18 }
+  - { offset: 0x2E0C, size: 0x8, addend: 0x0, symName: _shift, symObjAddr: 0x1348, symBinAddr: 0x31E0, symSize: 0x108 }
+  - { offset: 0x309D, size: 0x8, addend: 0x0, symName: _reduce0, symObjAddr: 0x1450, symBinAddr: 0x32E8, symSize: 0x57C }
+  - { offset: 0x30A7, size: 0x8, addend: 0x0, symName: _extract_user_token, symObjAddr: 0x1190, symBinAddr: 0x3028, symSize: 0x1B8 }
+  - { offset: 0x32A6, size: 0x8, addend: 0x0, symName: _shift, symObjAddr: 0x1348, symBinAddr: 0x31E0, symSize: 0x108 }
+  - { offset: 0x32B7, size: 0x8, addend: 0x0, symName: _cparse_params_mark, symObjAddr: 0x10C8, symBinAddr: 0x2F60, symSize: 0xA8 }
+  - { offset: 0x33CE, size: 0x8, addend: 0x0, symName: _cparse_params_memsize, symObjAddr: 0x1170, symBinAddr: 0x3008, symSize: 0x8 }
+  - { offset: 0x33E5, size: 0x8, addend: 0x0, symName: _cparse_params_memsize, symObjAddr: 0x1170, symBinAddr: 0x3008, symSize: 0x8 }
+  - { offset: 0x3479, size: 0x8, addend: 0x0, symName: _reduce0, symObjAddr: 0x1450, symBinAddr: 0x32E8, symSize: 0x57C }
+  - { offset: 0x4169, size: 0x8, addend: 0x0, symName: _lexer_i, symObjAddr: 0x19CC, symBinAddr: 0x3864, symSize: 0xBC }
+  - { offset: 0x4199, size: 0x8, addend: 0x0, symName: _lexer_i, symObjAddr: 0x19CC, symBinAddr: 0x3864, symSize: 0xBC }
+...

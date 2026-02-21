@@ -267,6 +267,37 @@ rule gene_completeness_summary:
                                 if "tmrna" in name.lower() or ftype == "tmRNA":
                                     pass  # tmRNA counted as gene, not tRNA/rRNA
 
+            elif tool in ("plann", "cpgavas2", "liftoff"):
+                # Parse GFF output (all three produce standard GFF3)
+                gff = os.path.join(tool_dir, f"{sample}.gff")
+                if os.path.exists(gff) and os.path.getsize(gff) > 0:
+                    with open(gff) as f:
+                        for line in f:
+                            if line.startswith("#"):
+                                continue
+                            cols = line.strip().split("\t")
+                            if len(cols) >= 9:
+                                ftype = cols[2]
+                                attrs = cols[8]
+                                name_m = re.search(r"Name=([^;]+)", attrs)
+                                if not name_m:
+                                    name_m = re.search(r"gene=([^;]+)", attrs)
+                                if not name_m:
+                                    name_m = re.search(r"ID=([^;]+)", attrs)
+                                name = name_m.group(1) if name_m else "unknown"
+                                if ftype in ("gene", "CDS", "tRNA", "rRNA", "mRNA"):
+                                    if name not in gene_names:
+                                        gene_count += 1
+                                        gene_names.append(name)
+                                    if ftype == "tRNA" or "trn" in name.lower():
+                                        trna_count += 1
+                                    if ftype == "rRNA" or "rrn" in name.lower():
+                                        rrna_count += 1
+
+            elif tool == "ogdraw":
+                # OGDraw is visualisation-only; no gene parsing needed
+                pass
+
             rows.append({
                 "sample": sample,
                 "tool": tool,

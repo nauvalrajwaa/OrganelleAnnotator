@@ -1,0 +1,64 @@
+{
+  "name": "perl-test-fatal",
+  "version": "0.016",
+  "build": "pl5321hdfd78af_0",
+  "build_number": 0,
+  "channel": "https://conda.anaconda.org/bioconda/noarch",
+  "subdir": "noarch",
+  "fn": "perl-test-fatal-0.016-pl5321hdfd78af_0.tar.bz2",
+  "md5": "c67cdcdcfd2d0ae252c9d17f40da798d",
+  "url": "https://conda.anaconda.org/bioconda/noarch/perl-test-fatal-0.016-pl5321hdfd78af_0.tar.bz2",
+  "sha256": "fdf89a3e8481aa1068626b0ff11e5b7b320570fd41b11d0a45e43b100b903ec2",
+  "depends": [
+    "perl-carp",
+    "perl-exporter",
+    "perl-try-tiny",
+    "perl >=5.32.1,<6.0a0 *_perl5"
+  ],
+  "constrains": [],
+  "noarch": "generic",
+  "license": "perl_5",
+  "package_type": "noarch_generic",
+  "timestamp": 1644832115000,
+  "size": 13142,
+  "requested_spec": "None",
+  "package_tarball_full_path": "/Users/user/miniforge3/pkgs/perl-test-fatal-0.016-pl5321hdfd78af_0",
+  "extracted_package_dir": "/Users/user/miniforge3/pkgs/perl-test-fatal-0.016-pl5321hdfd78af_0",
+  "files": [
+    "lib/perl5/5.32/site_perl/auto/Test/Fatal/.packlist",
+    "lib/perl5/site_perl/Test/Fatal.pm",
+    "man/man3/Test::Fatal.3"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "lib/perl5/5.32/site_perl/auto/Test/Fatal/.packlist",
+        "prefix_placeholder": "/opt/conda/conda-bld/perl-test-fatal_1644831892332/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeho",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "sha256": "1a8ffcbb3f0485e1eda4bced985da7e3be0c3731f9cd9c459806a17b8d1140fb",
+        "size_in_bytes": 676,
+        "sha256_in_prefix": "8ecbd164f7924189333168aee08323b02a34be8a52f18b4c8ae253a11af6f76b"
+      },
+      {
+        "_path": "lib/perl5/site_perl/Test/Fatal.pm",
+        "path_type": "hardlink",
+        "sha256": "510dba52c119aefb779274da2e04a47f852cb498bc82419903d68a796be95561",
+        "size_in_bytes": 14864,
+        "sha256_in_prefix": "510dba52c119aefb779274da2e04a47f852cb498bc82419903d68a796be95561"
+      },
+      {
+        "_path": "man/man3/Test::Fatal.3",
+        "path_type": "hardlink",
+        "sha256": "26b585bdba7716e09fd45fac8b684a6ca0abecc8d69ae04a576a6bc82938d714",
+        "size_in_bytes": 9141,
+        "sha256_in_prefix": "26b585bdba7716e09fd45fac8b684a6ca0abecc8d69ae04a576a6bc82938d714"
+      }
+    ]
+  },
+  "link": {
+    "source": "/Users/user/miniforge3/pkgs/perl-test-fatal-0.016-pl5321hdfd78af_0",
+    "type": 1
+  }
+}

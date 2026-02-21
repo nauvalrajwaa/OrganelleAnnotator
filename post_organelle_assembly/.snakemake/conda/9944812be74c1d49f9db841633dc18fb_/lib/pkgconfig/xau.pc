@@ -1,0 +1,11 @@
+prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/9944812be74c1d49f9db841633dc18fb_
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: Xau
+Description: X authorization file management library
+Version: 1.0.12
+Requires: xproto
+Cflags: -I${includedir}
+Libs: -L${libdir} -lXau

@@ -1,0 +1,58 @@
+{
+  "name": "libgfortran5",
+  "version": "15.2.0",
+  "build": "hd16e46c_17",
+  "build_number": 17,
+  "channel": "https://conda.anaconda.org/conda-forge/osx-64",
+  "subdir": "osx-64",
+  "fn": "libgfortran5-15.2.0-hd16e46c_17.conda",
+  "md5": "bb0c5b043c41c27f4f73a103c6ad0c7f",
+  "url": "https://conda.anaconda.org/conda-forge/osx-64/libgfortran5-15.2.0-hd16e46c_17.conda",
+  "sha256": "464b13f5383bb0e38fecbf6bf5b2feadc12f5f57d7d0fd2d49ac051b10e453d3",
+  "depends": [
+    "libgcc >=15.2.0"
+  ],
+  "constrains": [
+    "libgfortran 15.2.0"
+  ],
+  "license": "GPL-3.0-only WITH GCC-exception-3.1",
+  "timestamp": 1770252727000,
+  "size": 1063057,
+  "requested_spec": "None",
+  "package_tarball_full_path": "/Users/user/miniforge3/pkgs/libgfortran5-15.2.0-hd16e46c_17",
+  "extracted_package_dir": "/Users/user/miniforge3/pkgs/libgfortran5-15.2.0-hd16e46c_17",
+  "files": [
+    "lib/libgfortran.5.dylib",
+    "lib/libgfortran.dylib",
+    "share/licenses/libgfortran/RUNTIME.LIBRARY.EXCEPTION"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "lib/libgfortran.5.dylib",
+        "path_type": "hardlink",
+        "sha256": "b863598b1b107cd6236efe8b8319da6fab37e12136e5e1a4c92510a096734827",
+        "size_in_bytes": 3940440,
+        "sha256_in_prefix": "b863598b1b107cd6236efe8b8319da6fab37e12136e5e1a4c92510a096734827"
+      },
+      {
+        "_path": "lib/libgfortran.dylib",
+        "path_type": "softlink",
+        "sha256": "b863598b1b107cd6236efe8b8319da6fab37e12136e5e1a4c92510a096734827",
+        "size_in_bytes": 3940440
+      },
+      {
+        "_path": "share/licenses/libgfortran/RUNTIME.LIBRARY.EXCEPTION",
+        "path_type": "hardlink",
+        "sha256": "9d6b43ce4d8de0c878bf16b54d8e7a10d9bd42b75178153e3af6a815bdc90f74",
+        "size_in_bytes": 3324,
+        "sha256_in_prefix": "9d6b43ce4d8de0c878bf16b54d8e7a10d9bd42b75178153e3af6a815bdc90f74"
+      }
+    ]
+  },
+  "link": {
+    "source": "/Users/user/miniforge3/pkgs/libgfortran5-15.2.0-hd16e46c_17",
+    "type": 1
+  }
+}

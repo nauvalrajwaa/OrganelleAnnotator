@@ -1,0 +1,12 @@
+prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/b895232803ef6ffdba8c600b1ed85dc6_
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: Readline
+Description: Gnu Readline library for command line editing
+URL: http://tiswww.cwru.edu/php/chet/readline/rltop.html
+Version: 8.3
+Requires.private: ncurses
+Libs: -L${libdir} -lreadline
+Cflags: -I${includedir}

@@ -1,0 +1,11 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '../../../.ext/arm64-darwin20/digest/bubblebabble.bundle'
+relocations:
+  - { offset: 0x1E, size: 0x8, addend: 0x0, symName: _Init_bubblebabble, symObjAddr: 0x0, symBinAddr: 0x36B0, symSize: 0xF0 }
+  - { offset: 0x4A, size: 0x8, addend: 0x0, symName: _id_digest, symObjAddr: 0x28D8, symBinAddr: 0x8078, symSize: 0x0 }
+  - { offset: 0xD5, size: 0x8, addend: 0x0, symName: _Init_bubblebabble, symObjAddr: 0x0, symBinAddr: 0x36B0, symSize: 0xF0 }
+  - { offset: 0x32F, size: 0x8, addend: 0x0, symName: _rb_digest_s_bubblebabble, symObjAddr: 0xF0, symBinAddr: 0x37A0, symSize: 0x20C }
+  - { offset: 0x45E, size: 0x8, addend: 0x0, symName: _rb_digest_class_s_bubblebabble, symObjAddr: 0x2FC, symBinAddr: 0x39AC, symSize: 0x228 }
+  - { offset: 0x5C0, size: 0x8, addend: 0x0, symName: _rb_digest_instance_bubblebabble, symObjAddr: 0x524, symBinAddr: 0x3BD4, symSize: 0x21C }
+...

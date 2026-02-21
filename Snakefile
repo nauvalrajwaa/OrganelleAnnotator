@@ -1,8 +1,10 @@
 # =============================================================================
 # Organelle Annotation Pipeline – Snakemake Workflow
 # =============================================================================
-# Tools:  Chloe.jl | PGA | MFannot (Docker) | fpma | MITOS2 (Docker)
-#         MitoZ (Docker) | tRNAscan-SE | Aragorn
+# Tools:  Chloe.jl | PGA | Plann | CPGAVAS2 (Docker)
+#         MFannot (Docker) | fpma | MITOS2 (Docker) | MitoZ (Docker)
+#         tRNAscan-SE | Aragorn | Liftoff
+# Viz:    OGDraw (Docker)
 # QC:     BUSCO + custom gene-completeness summary
 # Report: Aggregated indexed HTML
 # =============================================================================
@@ -24,9 +26,9 @@ OUTDIR = config["outdir"]
 # ---------------------------------------------------------------------------
 # Helper: which tools to run per sample
 # ---------------------------------------------------------------------------
-PLASTID_TOOLS = ["chloe", "pga"]
+PLASTID_TOOLS = ["chloe", "pga", "plann", "cpgavas2"]
 MITO_TOOLS = ["mfannot", "fpma", "mitos", "mitoz"]
-BOTH_TOOLS = ["trnascan", "aragorn"]
+BOTH_TOOLS = ["trnascan", "aragorn", "liftoff"]
 ALL_TOOLS = PLASTID_TOOLS + MITO_TOOLS + BOTH_TOOLS
 
 def tools_for_sample(sample):
@@ -96,5 +98,9 @@ include: "rules/mitos.smk"
 include: "rules/mitoz.smk"
 include: "rules/trnascan.smk"
 include: "rules/aragorn.smk"
+include: "rules/plann.smk"
+include: "rules/cpgavas2.smk"
+include: "rules/liftoff.smk"
+include: "rules/ogdraw.smk"
 include: "rules/qc.smk"
 include: "rules/report.smk"

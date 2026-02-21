@@ -1,0 +1,13 @@
+prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/b895232803ef6ffdba8c600b1ed85dc6_
+exec_prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/b895232803ef6ffdba8c600b1ed85dc6_
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/coin
+
+Name: CBC
+Description: COIN-OR Branch and Cut
+URL: https://projects.coin-or.org/Cbc
+Version: 2.10.12
+Libs: -L${libdir} -lCbcSolver -lCbc
+Libs.private: 
+Cflags: -I${includedir}
+Requires.private: clp osi-clp cgl osi coinutils 

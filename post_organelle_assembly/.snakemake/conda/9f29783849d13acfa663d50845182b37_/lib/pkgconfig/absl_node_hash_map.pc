@@ -1,0 +1,12 @@
+prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/9f29783849d13acfa663d50845182b37_
+exec_prefix=${prefix}
+libdir=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/9f29783849d13acfa663d50845182b37_/lib
+includedir=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/9f29783849d13acfa663d50845182b37_/include
+
+Name: absl_node_hash_map
+Description: Abseil node_hash_map library
+URL: https://abseil.io/
+Version: 20250512
+Requires: absl_container_memory = 20250512, absl_core_headers = 20250512, absl_hash_container_defaults = 20250512, absl_node_slot_policy = 20250512, absl_raw_hash_map = 20250512, absl_algorithm_container = 20250512, absl_memory = 20250512, absl_type_traits = 20250512
+Libs: -L${libdir}  
+Cflags: -I${includedir} -Wno-float-conversion -Wno-implicit-float-conversion -Wno-implicit-int-float-conversion -Wno-unknown-warning-option -DNOMINMAX

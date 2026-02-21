@@ -1,0 +1,11 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '.ext/arm64-darwin20/enc/trans/gbk.bundle'
+relocations:
+  - { offset: 0x1E, size: 0x8, addend: 0x0, symName: _Init_gbk, symObjAddr: 0x0, symBinAddr: 0x1C60, symSize: 0x24 }
+  - { offset: 0x4B, size: 0x8, addend: 0x0, symName: _rb_from_GBK, symObjAddr: 0x28, symBinAddr: 0x30008, symSize: 0x0 }
+  - { offset: 0x301, size: 0x8, addend: 0x0, symName: _gbk_byte_array, symObjAddr: 0x174, symBinAddr: 0x1CC0, symSize: 0x0 }
+  - { offset: 0x324, size: 0x8, addend: 0x0, symName: _gbk_word_array, symObjAddr: 0x19E4, symBinAddr: 0x3530, symSize: 0x0 }
+  - { offset: 0x347, size: 0x8, addend: 0x0, symName: _rb_to_GBK, symObjAddr: 0xC8, symBinAddr: 0x300A8, symSize: 0x0 }
+  - { offset: 0x350, size: 0x8, addend: 0x0, symName: _Init_gbk, symObjAddr: 0x0, symBinAddr: 0x1C60, symSize: 0x24 }
+...

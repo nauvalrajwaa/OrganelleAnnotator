@@ -1,0 +1,32 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '.ext/arm64-darwin20/enc/trans/iso2022.bundle'
+relocations:
+  - { offset: 0x1E, size: 0x8, addend: 0x0, symName: _Init_iso2022, symObjAddr: 0x0, symBinAddr: 0x3088, symSize: 0x6C }
+  - { offset: 0x4B, size: 0x8, addend: 0x0, symName: _rb_iso2022jp_decoder, symObjAddr: 0x838, symBinAddr: 0x4008, symSize: 0x0 }
+  - { offset: 0x301, size: 0x8, addend: 0x0, symName: _iso2022_byte_array, symObjAddr: 0xD84, symBinAddr: 0x393C, symSize: 0x0 }
+  - { offset: 0x323, size: 0x8, addend: 0x0, symName: _iso2022_word_array, symObjAddr: 0x1264, symBinAddr: 0x3E1C, symSize: 0x0 }
+  - { offset: 0x345, size: 0x8, addend: 0x0, symName: _rb_iso2022jp_encoder, symObjAddr: 0x8D8, symBinAddr: 0x40A8, symSize: 0x0 }
+  - { offset: 0x35B, size: 0x8, addend: 0x0, symName: _rb_stateless_iso2022jp_to_eucjp, symObjAddr: 0x978, symBinAddr: 0x4148, symSize: 0x0 }
+  - { offset: 0x371, size: 0x8, addend: 0x0, symName: _rb_eucjp_to_stateless_iso2022jp, symObjAddr: 0xA18, symBinAddr: 0x41E8, symSize: 0x0 }
+  - { offset: 0x387, size: 0x8, addend: 0x0, symName: _rb_cp50220_decoder, symObjAddr: 0xAB8, symBinAddr: 0x4288, symSize: 0x0 }
+  - { offset: 0x39D, size: 0x8, addend: 0x0, symName: _rb_cp50221_decoder, symObjAddr: 0xB58, symBinAddr: 0x4328, symSize: 0x0 }
+  - { offset: 0x3B3, size: 0x8, addend: 0x0, symName: _rb_cp50220_encoder, symObjAddr: 0xBF8, symBinAddr: 0x43C8, symSize: 0x0 }
+  - { offset: 0x3C9, size: 0x8, addend: 0x0, symName: _tbl0208, symObjAddr: 0x1378, symBinAddr: 0x3F30, symSize: 0x0 }
+  - { offset: 0x3F1, size: 0x8, addend: 0x0, symName: _rb_cp50221_encoder, symObjAddr: 0xC98, symBinAddr: 0x4468, symSize: 0x0 }
+  - { offset: 0x3FA, size: 0x8, addend: 0x0, symName: _Init_iso2022, symObjAddr: 0x0, symBinAddr: 0x3088, symSize: 0x6C }
+  - { offset: 0x46F, size: 0x8, addend: 0x0, symName: _iso2022jp_init, symObjAddr: 0x6C, symBinAddr: 0x30F4, symSize: 0xC }
+  - { offset: 0x48B, size: 0x8, addend: 0x0, symName: _iso2022jp_init, symObjAddr: 0x6C, symBinAddr: 0x30F4, symSize: 0xC }
+  - { offset: 0x4C3, size: 0x8, addend: 0x0, symName: _fun_si_iso2022jp_decoder, symObjAddr: 0x78, symBinAddr: 0x3100, symSize: 0x2C }
+  - { offset: 0x518, size: 0x8, addend: 0x0, symName: _fun_so_iso2022jp_decoder, symObjAddr: 0xA4, symBinAddr: 0x312C, symSize: 0xA0 }
+  - { offset: 0x5C7, size: 0x8, addend: 0x0, symName: _fun_so_iso2022jp_encoder, symObjAddr: 0x144, symBinAddr: 0x31CC, symSize: 0xD8 }
+  - { offset: 0x68C, size: 0x8, addend: 0x0, symName: _finish_iso2022jp_encoder, symObjAddr: 0x21C, symBinAddr: 0x32A4, symSize: 0x2C }
+  - { offset: 0x714, size: 0x8, addend: 0x0, symName: _iso2022jp_encoder_reset_sequence_size, symObjAddr: 0x248, symBinAddr: 0x32D0, symSize: 0x14 }
+  - { offset: 0x74F, size: 0x8, addend: 0x0, symName: _fun_so_stateless_iso2022jp_to_eucjp, symObjAddr: 0x25C, symBinAddr: 0x32E4, symSize: 0x18 }
+  - { offset: 0x7AA, size: 0x8, addend: 0x0, symName: _fun_so_eucjp_to_stateless_iso2022jp, symObjAddr: 0x274, symBinAddr: 0x32FC, symSize: 0x20 }
+  - { offset: 0x805, size: 0x8, addend: 0x0, symName: _fun_si_cp50221_decoder, symObjAddr: 0x294, symBinAddr: 0x331C, symSize: 0xC4 }
+  - { offset: 0x86A, size: 0x8, addend: 0x0, symName: _fun_so_cp50221_decoder, symObjAddr: 0x358, symBinAddr: 0x33E0, symSize: 0xF0 }
+  - { offset: 0x949, size: 0x8, addend: 0x0, symName: _fun_so_cp50220_encoder, symObjAddr: 0x448, symBinAddr: 0x34D0, symSize: 0x2A0 }
+  - { offset: 0xB95, size: 0x8, addend: 0x0, symName: _finish_cp50220_encoder, symObjAddr: 0x6E8, symBinAddr: 0x3770, symSize: 0x94 }
+  - { offset: 0xC9B, size: 0x8, addend: 0x0, symName: _fun_so_cp5022x_encoder, symObjAddr: 0x77C, symBinAddr: 0x3804, symSize: 0xBC }
+...

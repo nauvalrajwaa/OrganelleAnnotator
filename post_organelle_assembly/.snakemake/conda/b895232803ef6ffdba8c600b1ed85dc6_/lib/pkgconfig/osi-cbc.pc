@@ -1,0 +1,12 @@
+prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/b895232803ef6ffdba8c600b1ed85dc6_
+exec_prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/b895232803ef6ffdba8c600b1ed85dc6_
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/coin
+
+Name: OsiCbc
+Description: COIN-OR Open Solver Interface for CBC
+URL: https://projects.coin-or.org/Osi
+Version: 2.10.12
+Libs: -L${libdir} -lOsiCbc
+Cflags: -I${includedir}
+Requires: cbc

@@ -1,0 +1,75 @@
+{
+  "name": "lerc",
+  "version": "4.0.0",
+  "build": "hd64df32_1",
+  "build_number": 1,
+  "channel": "https://conda.anaconda.org/conda-forge/noarch",
+  "subdir": "osx-arm64",
+  "fn": "lerc-4.0.0-hd64df32_1.conda",
+  "md5": "a74332d9b60b62905e3d30709df08bf1",
+  "url": "https://conda.anaconda.org/conda-forge/osx-arm64/lerc-4.0.0-hd64df32_1.conda",
+  "sha256": "12361697f8ffc9968907d1a7b5830e34c670e4a59b638117a2cdfed8f63a38f8",
+  "depends": [
+    "__osx >=11.0",
+    "libcxx >=18"
+  ],
+  "constrains": [],
+  "license": "Apache-2.0",
+  "timestamp": 1745264362000,
+  "size": 188306,
+  "requested_spec": "None",
+  "package_tarball_full_path": "/Users/user/miniforge3/pkgs/lerc-4.0.0-hd64df32_1",
+  "extracted_package_dir": "/Users/user/miniforge3/pkgs/lerc-4.0.0-hd64df32_1",
+  "files": [
+    "include/Lerc_c_api.h",
+    "include/Lerc_types.h",
+    "lib/libLerc.4.dylib",
+    "lib/libLerc.dylib",
+    "lib/pkgconfig/Lerc.pc"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "include/Lerc_c_api.h",
+        "path_type": "hardlink",
+        "sha256": "51c3d4c683eac91beb16e521a7ae38516ac06b867dc12e5555961cb7d1975e65",
+        "size_in_bytes": 22507,
+        "sha256_in_prefix": "51c3d4c683eac91beb16e521a7ae38516ac06b867dc12e5555961cb7d1975e65"
+      },
+      {
+        "_path": "include/Lerc_types.h",
+        "path_type": "hardlink",
+        "sha256": "4887c98b138f7cebaa4f26699e9a8647d612058892b261c37395728b3695b038",
+        "size_in_bytes": 1285,
+        "sha256_in_prefix": "4887c98b138f7cebaa4f26699e9a8647d612058892b261c37395728b3695b038"
+      },
+      {
+        "_path": "lib/libLerc.4.dylib",
+        "path_type": "hardlink",
+        "sha256": "b5742ef3b563c64da031a886a86f2658cd01c7871615ca403d1bb6a29f772aa6",
+        "size_in_bytes": 652784,
+        "sha256_in_prefix": "b5742ef3b563c64da031a886a86f2658cd01c7871615ca403d1bb6a29f772aa6"
+      },
+      {
+        "_path": "lib/libLerc.dylib",
+        "path_type": "softlink",
+        "sha256": "b5742ef3b563c64da031a886a86f2658cd01c7871615ca403d1bb6a29f772aa6",
+        "size_in_bytes": 652784
+      },
+      {
+        "_path": "lib/pkgconfig/Lerc.pc",
+        "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/lerc_1745264108094/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_plac",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "sha256": "aa9aa63836c3a51006bc6042eb9a48f886e14551b86504e649e5f293c765e471",
+        "size_in_bytes": 526,
+        "sha256_in_prefix": "034ed7e97db70370485bb06f229d7215bac49c2cb50ca12741ebc825b68235fa"
+      }
+    ]
+  },
+  "link": {
+    "source": "/Users/user/miniforge3/pkgs/lerc-4.0.0-hd64df32_1",
+    "type": 1
+  }
+}

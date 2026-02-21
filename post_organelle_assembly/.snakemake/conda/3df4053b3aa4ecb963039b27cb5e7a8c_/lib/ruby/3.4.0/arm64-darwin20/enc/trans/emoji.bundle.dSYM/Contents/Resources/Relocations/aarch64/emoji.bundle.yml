@@ -1,0 +1,21 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '.ext/arm64-darwin20/enc/trans/emoji.bundle'
+relocations:
+  - { offset: 0x1E, size: 0x8, addend: 0x0, symName: _Init_emoji, symObjAddr: 0x0, symBinAddr: 0x23EC, symSize: 0x9C }
+  - { offset: 0x4B, size: 0x8, addend: 0x0, symName: _rb_from_UTF8_DoCoMo_to_UTF8_KDDI, symObjAddr: 0xA0, symBinAddr: 0xC008, symSize: 0x0 }
+  - { offset: 0x301, size: 0x8, addend: 0x0, symName: _emoji_byte_array, symObjAddr: 0x84C, symBinAddr: 0x24E4, symSize: 0x0 }
+  - { offset: 0x324, size: 0x8, addend: 0x0, symName: _emoji_word_array, symObjAddr: 0x451C, symBinAddr: 0x61B4, symSize: 0x0 }
+  - { offset: 0x347, size: 0x8, addend: 0x0, symName: _rb_from_UTF8_DoCoMo_to_UTF8_SoftBank, symObjAddr: 0x140, symBinAddr: 0xC0A8, symSize: 0x0 }
+  - { offset: 0x35D, size: 0x8, addend: 0x0, symName: _rb_from_UTF8_DoCoMo, symObjAddr: 0x1E0, symBinAddr: 0xC148, symSize: 0x0 }
+  - { offset: 0x373, size: 0x8, addend: 0x0, symName: _rb_from_UTF8_KDDI_to_UTF8_DoCoMo, symObjAddr: 0x280, symBinAddr: 0xC1E8, symSize: 0x0 }
+  - { offset: 0x389, size: 0x8, addend: 0x0, symName: _rb_from_UTF8_KDDI_to_UTF8_SoftBank, symObjAddr: 0x320, symBinAddr: 0xC288, symSize: 0x0 }
+  - { offset: 0x39F, size: 0x8, addend: 0x0, symName: _rb_from_UTF8_KDDI, symObjAddr: 0x3C0, symBinAddr: 0xC328, symSize: 0x0 }
+  - { offset: 0x3B5, size: 0x8, addend: 0x0, symName: _rb_from_UTF8_SoftBank_to_UTF8_DoCoMo, symObjAddr: 0x460, symBinAddr: 0xC3C8, symSize: 0x0 }
+  - { offset: 0x3CB, size: 0x8, addend: 0x0, symName: _rb_from_UTF8_SoftBank_to_UTF8_KDDI, symObjAddr: 0x500, symBinAddr: 0xC468, symSize: 0x0 }
+  - { offset: 0x3E1, size: 0x8, addend: 0x0, symName: _rb_from_UTF8_SoftBank, symObjAddr: 0x5A0, symBinAddr: 0xC508, symSize: 0x0 }
+  - { offset: 0x3F7, size: 0x8, addend: 0x0, symName: _rb_to_UTF8_DoCoMo, symObjAddr: 0x640, symBinAddr: 0xC5A8, symSize: 0x0 }
+  - { offset: 0x40D, size: 0x8, addend: 0x0, symName: _rb_to_UTF8_KDDI, symObjAddr: 0x6E0, symBinAddr: 0xC648, symSize: 0x0 }
+  - { offset: 0x423, size: 0x8, addend: 0x0, symName: _rb_to_UTF8_SoftBank, symObjAddr: 0x780, symBinAddr: 0xC6E8, symSize: 0x0 }
+  - { offset: 0x42C, size: 0x8, addend: 0x0, symName: _Init_emoji, symObjAddr: 0x0, symBinAddr: 0x23EC, symSize: 0x9C }
+...

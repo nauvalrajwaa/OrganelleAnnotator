@@ -1,0 +1,10 @@
+prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/587f3f215464ea2823e946f5fa8c3a8a_
+exec_prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/587f3f215464ea2823e946f5fa8c3a8a_
+libdir=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/587f3f215464ea2823e946f5fa8c3a8a_/lib
+includedir=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/587f3f215464ea2823e946f5fa8c3a8a_/include
+
+Name: libturbojpeg
+Description: A SIMD-accelerated JPEG codec that provides the TurboJPEG API
+Version: 3.1.2
+Libs: -L${libdir} -lturbojpeg
+Cflags: -I${includedir}

@@ -1,0 +1,16 @@
+# tcl pkg-config source file
+
+prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/8e67edf03e0a0a42cfe71e54d083ab05_
+exec_prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/8e67edf03e0a0a42cfe71e54d083ab05_
+libdir=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/8e67edf03e0a0a42cfe71e54d083ab05_/lib
+includedir=${prefix}/include
+libfile=libtcl8.6.dylib
+
+Name: Tool Command Language
+Description: Tcl is a powerful, easy-to-learn dynamic programming language, suitable for a wide range of uses.
+URL: https://www.tcl-lang.org/
+Version: 8.6.13
+Requires.private: zlib >= 1.2.3
+Libs: -L${libdir} -ltcl8.6 -ltclstub8.6
+Libs.private:  -lz  -lpthread -framework CoreFoundation 
+Cflags: -I${includedir}

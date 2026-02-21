@@ -1,0 +1,61 @@
+{
+  "name": "perl-set-intspan",
+  "version": "1.19",
+  "build": "pl5321hdfd78af_2",
+  "build_number": 2,
+  "channel": "https://conda.anaconda.org/bioconda/noarch",
+  "subdir": "noarch",
+  "fn": "perl-set-intspan-1.19-pl5321hdfd78af_2.tar.bz2",
+  "md5": "091ed7ffa1082dfbc76ab273a9c4b49f",
+  "url": "https://conda.anaconda.org/bioconda/noarch/perl-set-intspan-1.19-pl5321hdfd78af_2.tar.bz2",
+  "sha256": "8885c1dea9709373a6bd94716d7c4309026251fcd206960e928a369a1dd17d06",
+  "depends": [
+    "perl >=5.32.1,<6.0a0 *_perl5"
+  ],
+  "constrains": [],
+  "noarch": "generic",
+  "license": "unknown",
+  "package_type": "noarch_generic",
+  "timestamp": 1642557568000,
+  "size": 24785,
+  "requested_spec": "perl-set-intspan",
+  "package_tarball_full_path": "/Users/user/miniforge3/pkgs/perl-set-intspan-1.19-pl5321hdfd78af_2",
+  "extracted_package_dir": "/Users/user/miniforge3/pkgs/perl-set-intspan-1.19-pl5321hdfd78af_2",
+  "files": [
+    "lib/perl5/5.32/site_perl/auto/Set/IntSpan/.packlist",
+    "lib/perl5/site_perl/Set/IntSpan.pm",
+    "man/man3/Set::IntSpan.3"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "lib/perl5/5.32/site_perl/auto/Set/IntSpan/.packlist",
+        "prefix_placeholder": "/opt/conda/conda-bld/perl-set-intspan_1642557297710/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeh",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "sha256": "5cd785a25d3a0a04500a46b27f3c61b9776362b4bd46ec9ac52062cab4586b6e",
+        "size_in_bytes": 680,
+        "sha256_in_prefix": "da7c7cb6567a952d093e4afa8654d36a214d42cdb1151a6ae292185aa5bb804a"
+      },
+      {
+        "_path": "lib/perl5/site_perl/Set/IntSpan.pm",
+        "path_type": "hardlink",
+        "sha256": "88af25449e371317ee8ccae202960afc2512853177061ddd1c2666315d5b5b71",
+        "size_in_bytes": 51949,
+        "sha256_in_prefix": "88af25449e371317ee8ccae202960afc2512853177061ddd1c2666315d5b5b71"
+      },
+      {
+        "_path": "man/man3/Set::IntSpan.3",
+        "path_type": "hardlink",
+        "sha256": "7c7aa953e20fdc6d33d17e6dc1d7487d8acfac1bded614b3b3491f047c77afa3",
+        "size_in_bytes": 41110,
+        "sha256_in_prefix": "7c7aa953e20fdc6d33d17e6dc1d7487d8acfac1bded614b3b3491f047c77afa3"
+      }
+    ]
+  },
+  "link": {
+    "source": "/Users/user/miniforge3/pkgs/perl-set-intspan-1.19-pl5321hdfd78af_2",
+    "type": 1
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "name": "iqtree",
+  "version": "3.0.1",
+  "build": "h39b84e0_0",
+  "build_number": 0,
+  "channel": "https://conda.anaconda.org/bioconda/osx-arm64",
+  "subdir": "osx-arm64",
+  "fn": "iqtree-3.0.1-h39b84e0_0.tar.bz2",
+  "md5": "b5484352ccf4bdc783fd11e4d2275596",
+  "url": "https://conda.anaconda.org/bioconda/osx-arm64/iqtree-3.0.1-h39b84e0_0.tar.bz2",
+  "sha256": "cfaf108973d2f49be8d0f936088cc37fa89c3920f653ff876fe785e7e56f2d64",
+  "depends": [
+    "libcxx >=18",
+    "llvm-openmp >=18.1.8"
+  ],
+  "constrains": [],
+  "license": "GPL-2.0-or-later",
+  "timestamp": 1752022032000,
+  "size": 3334734,
+  "requested_spec": "iqtree",
+  "package_tarball_full_path": "/Users/user/miniforge3/pkgs/iqtree-3.0.1-h39b84e0_0",
+  "extracted_package_dir": "/Users/user/miniforge3/pkgs/iqtree-3.0.1-h39b84e0_0",
+  "files": [
+    "bin/iqtree",
+    "bin/iqtree3"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "bin/iqtree",
+        "path_type": "softlink",
+        "sha256": "6ce61fc957ba64e1ce513d6a5449d922942a9f446fa0e378eaf6a46c975be579",
+        "size_in_bytes": 8164624
+      },
+      {
+        "_path": "bin/iqtree3",
+        "prefix_placeholder": "/opt/mambaforge/envs/bioconda/conda-bld/iqtree_1752021838242/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeho",
+        "file_mode": "binary",
+        "path_type": "hardlink",
+        "sha256": "6ce61fc957ba64e1ce513d6a5449d922942a9f446fa0e378eaf6a46c975be579",
+        "size_in_bytes": 8164624,
+        "sha256_in_prefix": "1b8913971ae42b8e90f24492afb1df8330ab950ca7f547ef1789759eaaab32c9"
+      }
+    ]
+  },
+  "link": {
+    "source": "/Users/user/miniforge3/pkgs/iqtree-3.0.1-h39b84e0_0",
+    "type": 1
+  }
+}

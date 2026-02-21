@@ -1,0 +1,19 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '.ext/arm64-darwin20/enc/trans/big5.bundle'
+relocations:
+  - { offset: 0x1E, size: 0x8, addend: 0x0, symName: _Init_big5, symObjAddr: 0x0, symBinAddr: 0x48B8, symSize: 0x84 }
+  - { offset: 0x4D, size: 0x8, addend: 0x0, symName: _rb_from_Big5, symObjAddr: 0x88, symBinAddr: 0x90008, symSize: 0x0 }
+  - { offset: 0x303, size: 0x8, addend: 0x0, symName: _big5_byte_array, symObjAddr: 0x6F4, symBinAddr: 0x4998, symSize: 0x0 }
+  - { offset: 0x328, size: 0x8, addend: 0x0, symName: _big5_word_array, symObjAddr: 0x21240, symBinAddr: 0x254E4, symSize: 0x0 }
+  - { offset: 0x34F, size: 0x8, addend: 0x0, symName: _rb_to_Big5, symObjAddr: 0x128, symBinAddr: 0x900A8, symSize: 0x0 }
+  - { offset: 0x367, size: 0x8, addend: 0x0, symName: _rb_from_CP950, symObjAddr: 0x1C8, symBinAddr: 0x90148, symSize: 0x0 }
+  - { offset: 0x37F, size: 0x8, addend: 0x0, symName: _rb_to_CP950, symObjAddr: 0x268, symBinAddr: 0x901E8, symSize: 0x0 }
+  - { offset: 0x397, size: 0x8, addend: 0x0, symName: _rb_from_Big5_HKSCS, symObjAddr: 0x308, symBinAddr: 0x90288, symSize: 0x0 }
+  - { offset: 0x3AF, size: 0x8, addend: 0x0, symName: _rb_to_Big5_HKSCS, symObjAddr: 0x3A8, symBinAddr: 0x90328, symSize: 0x0 }
+  - { offset: 0x3C7, size: 0x8, addend: 0x0, symName: _rb_from_CP951, symObjAddr: 0x448, symBinAddr: 0x903C8, symSize: 0x0 }
+  - { offset: 0x3DF, size: 0x8, addend: 0x0, symName: _rb_to_CP951, symObjAddr: 0x4E8, symBinAddr: 0x90468, symSize: 0x0 }
+  - { offset: 0x3F7, size: 0x8, addend: 0x0, symName: _rb_from_Big5_UAO, symObjAddr: 0x588, symBinAddr: 0x90508, symSize: 0x0 }
+  - { offset: 0x40F, size: 0x8, addend: 0x0, symName: _rb_to_Big5_UAO, symObjAddr: 0x628, symBinAddr: 0x905A8, symSize: 0x0 }
+  - { offset: 0x418, size: 0x8, addend: 0x0, symName: _Init_big5, symObjAddr: 0x0, symBinAddr: 0x48B8, symSize: 0x84 }
+...

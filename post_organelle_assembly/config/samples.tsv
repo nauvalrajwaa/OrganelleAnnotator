@@ -1,0 +1,2 @@
+sample_name	fasta_path	gff_path
+Tarsius	resources/Tarsius/Consensus.fasta	resources/Tarsius/result.gff

@@ -1,0 +1,14 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '.ext/arm64-darwin20/enc/trans/japanese.bundle'
+relocations:
+  - { offset: 0x1E, size: 0x8, addend: 0x0, symName: _Init_japanese, symObjAddr: 0x0, symBinAddr: 0x3A64, symSize: 0x24 }
+  - { offset: 0x4A, size: 0x8, addend: 0x0, symName: _rb_eucjp2sjis, symObjAddr: 0x100, symBinAddr: 0x4008, symSize: 0x0 }
+  - { offset: 0x300, size: 0x8, addend: 0x0, symName: _japanese_byte_array, symObjAddr: 0x254, symBinAddr: 0x3BA4, symSize: 0x0 }
+  - { offset: 0x322, size: 0x8, addend: 0x0, symName: _japanese_word_array, symObjAddr: 0x5D4, symBinAddr: 0x3F24, symSize: 0x0 }
+  - { offset: 0x343, size: 0x8, addend: 0x0, symName: _rb_sjis2eucjp, symObjAddr: 0x1A0, symBinAddr: 0x40A8, symSize: 0x0 }
+  - { offset: 0x34C, size: 0x8, addend: 0x0, symName: _Init_japanese, symObjAddr: 0x0, symBinAddr: 0x3A64, symSize: 0x24 }
+  - { offset: 0x372, size: 0x8, addend: 0x0, symName: _fun_so_eucjp2sjis, symObjAddr: 0x24, symBinAddr: 0x3A88, symSize: 0x64 }
+  - { offset: 0x38E, size: 0x8, addend: 0x0, symName: _fun_so_eucjp2sjis, symObjAddr: 0x24, symBinAddr: 0x3A88, symSize: 0x64 }
+  - { offset: 0x41E, size: 0x8, addend: 0x0, symName: _fun_so_sjis2eucjp, symObjAddr: 0x88, symBinAddr: 0x3AEC, symSize: 0x74 }
+...

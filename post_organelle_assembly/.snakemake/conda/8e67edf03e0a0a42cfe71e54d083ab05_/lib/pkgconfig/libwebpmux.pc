@@ -1,0 +1,12 @@
+prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/8e67edf03e0a0a42cfe71e54d083ab05_
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libwebpmux
+Description: Library for manipulating the WebP graphics format container
+Version: 1.6.0
+Requires.private: libwebp >= 0.2.0
+Cflags: -I${includedir}
+Libs: -L${libdir} -lwebpmux
+Libs.private: 

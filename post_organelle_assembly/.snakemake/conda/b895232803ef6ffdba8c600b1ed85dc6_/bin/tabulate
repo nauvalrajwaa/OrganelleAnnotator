@@ -1,0 +1,11 @@
+#!/bin/sh
+'''exec' "/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/b895232803ef6ffdba8c600b1ed85dc6_/bin/python3.9" "$0" "$@" #'''
+# -*- coding: utf-8 -*-
+import re
+import sys
+
+from tabulate import _main
+
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])
+    sys.exit(_main())

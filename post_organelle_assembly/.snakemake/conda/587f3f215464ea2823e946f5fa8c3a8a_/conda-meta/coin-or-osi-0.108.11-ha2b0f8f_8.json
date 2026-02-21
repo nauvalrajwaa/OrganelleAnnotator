@@ -1,0 +1,256 @@
+{
+  "name": "coin-or-osi",
+  "version": "0.108.11",
+  "build": "ha2b0f8f_8",
+  "build_number": 8,
+  "channel": "https://conda.anaconda.org/conda-forge/noarch",
+  "subdir": "osx-arm64",
+  "fn": "coin-or-osi-0.108.11-ha2b0f8f_8.conda",
+  "md5": "57ecf4592cfcb8fc5806f3ddd241f5fe",
+  "url": "https://conda.anaconda.org/conda-forge/osx-arm64/coin-or-osi-0.108.11-ha2b0f8f_8.conda",
+  "sha256": "aa204e2b3da30885a6435f81210c0c4b6c4688d9b33f2486f1f74cecb5ea99c6",
+  "depends": [
+    "__osx >=11.0",
+    "bzip2 >=1.0.8,<2.0a0",
+    "coin-or-utils >=2.11,<2.12.0a0",
+    "libblas >=3.9.0,<4.0a0",
+    "libcblas >=3.9.0,<4.0a0",
+    "libcxx >=19",
+    "libgfortran",
+    "libgfortran5 >=14.3.0",
+    "libgfortran5 >=15.2.0",
+    "liblapack >=3.9.0,<4.0a0",
+    "liblapacke >=3.9.0,<4.0a0",
+    "libzlib >=1.3.1,<2.0a0"
+  ],
+  "constrains": [
+    "coincbc * *_metapackage"
+  ],
+  "license": "EPL-2.0",
+  "timestamp": 1762933366000,
+  "size": 327175,
+  "requested_spec": "None",
+  "package_tarball_full_path": "/Users/user/miniforge3/pkgs/coin-or-osi-0.108.11-ha2b0f8f_8",
+  "extracted_package_dir": "/Users/user/miniforge3/pkgs/coin-or-osi-0.108.11-ha2b0f8f_8",
+  "files": [
+    "include/coin/OsiAuxInfo.hpp",
+    "include/coin/OsiBranchingObject.hpp",
+    "include/coin/OsiChooseVariable.hpp",
+    "include/coin/OsiColCut.hpp",
+    "include/coin/OsiCollections.hpp",
+    "include/coin/OsiConfig.h",
+    "include/coin/OsiCut.hpp",
+    "include/coin/OsiCuts.hpp",
+    "include/coin/OsiPresolve.hpp",
+    "include/coin/OsiRowCut.hpp",
+    "include/coin/OsiRowCutDebugger.hpp",
+    "include/coin/OsiSolverBranch.hpp",
+    "include/coin/OsiSolverInterface.hpp",
+    "include/coin/OsiSolverParameters.hpp",
+    "include/coin/OsiUnitTests.hpp",
+    "lib/libOsi.1.13.11.dylib",
+    "lib/libOsi.1.dylib",
+    "lib/libOsi.dylib",
+    "lib/libOsiCommonTests.1.13.11.dylib",
+    "lib/libOsiCommonTests.1.dylib",
+    "lib/libOsiCommonTests.dylib",
+    "lib/pkgconfig/osi-unittests.pc",
+    "lib/pkgconfig/osi.pc",
+    "share/coin/doc/Osi/AUTHORS",
+    "share/coin/doc/Osi/LICENSE",
+    "share/coin/doc/Osi/osi_addlibs.txt"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "include/coin/OsiAuxInfo.hpp",
+        "path_type": "hardlink",
+        "sha256": "892912ff59db46c70f8745441ec4ef0a33cfb2e6570b85cadf71b3029276eea8",
+        "size_in_bytes": 8619,
+        "sha256_in_prefix": "892912ff59db46c70f8745441ec4ef0a33cfb2e6570b85cadf71b3029276eea8"
+      },
+      {
+        "_path": "include/coin/OsiBranchingObject.hpp",
+        "path_type": "hardlink",
+        "sha256": "b32e96206bd67c9c0ca136e3a23553ff5dbd7532ff8e1cfaaba1fd3d8ca278de",
+        "size_in_bytes": 31656,
+        "sha256_in_prefix": "b32e96206bd67c9c0ca136e3a23553ff5dbd7532ff8e1cfaaba1fd3d8ca278de"
+      },
+      {
+        "_path": "include/coin/OsiChooseVariable.hpp",
+        "path_type": "hardlink",
+        "sha256": "aa17862112905e44b14f3c3742f6dcad5deb9c116eb2fddd0174146585eda037",
+        "size_in_bytes": 19511,
+        "sha256_in_prefix": "aa17862112905e44b14f3c3742f6dcad5deb9c116eb2fddd0174146585eda037"
+      },
+      {
+        "_path": "include/coin/OsiColCut.hpp",
+        "path_type": "hardlink",
+        "sha256": "d78beae0c81c4121a7e15a0c83577ea74d2e4a2d52686f8466b497c29ff59624",
+        "size_in_bytes": 8264,
+        "sha256_in_prefix": "d78beae0c81c4121a7e15a0c83577ea74d2e4a2d52686f8466b497c29ff59624"
+      },
+      {
+        "_path": "include/coin/OsiCollections.hpp",
+        "path_type": "hardlink",
+        "sha256": "29ce037be29a8e128ba176bf38144ad76500501525213a70a6a1be7c2f2f6aca",
+        "size_in_bytes": 888,
+        "sha256_in_prefix": "29ce037be29a8e128ba176bf38144ad76500501525213a70a6a1be7c2f2f6aca"
+      },
+      {
+        "_path": "include/coin/OsiConfig.h",
+        "path_type": "hardlink",
+        "sha256": "22cb2f1f2d9ea8c8339c9fd4ba2297f5155b32521515cbc5884de48c7bf325fd",
+        "size_in_bytes": 416,
+        "sha256_in_prefix": "22cb2f1f2d9ea8c8339c9fd4ba2297f5155b32521515cbc5884de48c7bf325fd"
+      },
+      {
+        "_path": "include/coin/OsiCut.hpp",
+        "path_type": "hardlink",
+        "sha256": "bd6126d992a9bf8d52351283878d496369d644beb261333d425d0fa096aa8a87",
+        "size_in_bytes": 7551,
+        "sha256_in_prefix": "bd6126d992a9bf8d52351283878d496369d644beb261333d425d0fa096aa8a87"
+      },
+      {
+        "_path": "include/coin/OsiCuts.hpp",
+        "path_type": "hardlink",
+        "sha256": "6310733e1be02903699bdfe420a280306a80bb2cb9812c53c8a79b1d47e43727",
+        "size_in_bytes": 13638,
+        "sha256_in_prefix": "6310733e1be02903699bdfe420a280306a80bb2cb9812c53c8a79b1d47e43727"
+      },
+      {
+        "_path": "include/coin/OsiPresolve.hpp",
+        "path_type": "hardlink",
+        "sha256": "d7f35fc144200c3b9c77a240c8916c7cf6ea0b6b8f811e8c1c02d15b285ffba3",
+        "size_in_bytes": 9670,
+        "sha256_in_prefix": "d7f35fc144200c3b9c77a240c8916c7cf6ea0b6b8f811e8c1c02d15b285ffba3"
+      },
+      {
+        "_path": "include/coin/OsiRowCut.hpp",
+        "path_type": "hardlink",
+        "sha256": "29a1bf2fda3ed016883f2d294481e296591374de815eaa52e6029908e41d0e81",
+        "size_in_bytes": 8385,
+        "sha256_in_prefix": "29a1bf2fda3ed016883f2d294481e296591374de815eaa52e6029908e41d0e81"
+      },
+      {
+        "_path": "include/coin/OsiRowCutDebugger.hpp",
+        "path_type": "hardlink",
+        "sha256": "599014fc139217245be3e1537fcb02c1121423b3e9c95790e89c0adb00c36916",
+        "size_in_bytes": 6125,
+        "sha256_in_prefix": "599014fc139217245be3e1537fcb02c1121423b3e9c95790e89c0adb00c36916"
+      },
+      {
+        "_path": "include/coin/OsiSolverBranch.hpp",
+        "path_type": "hardlink",
+        "sha256": "d640aa1af0adf3d2a98c1a2645d67b91edd2dbb5b492e603ecfd3c6a996562b1",
+        "size_in_bytes": 4058,
+        "sha256_in_prefix": "d640aa1af0adf3d2a98c1a2645d67b91edd2dbb5b492e603ecfd3c6a996562b1"
+      },
+      {
+        "_path": "include/coin/OsiSolverInterface.hpp",
+        "path_type": "hardlink",
+        "sha256": "db43c7f8cb9f761475eb132f1c266ec9f05813f89c9dbed046a3036ff4fa1788",
+        "size_in_bytes": 78417,
+        "sha256_in_prefix": "db43c7f8cb9f761475eb132f1c266ec9f05813f89c9dbed046a3036ff4fa1788"
+      },
+      {
+        "_path": "include/coin/OsiSolverParameters.hpp",
+        "path_type": "hardlink",
+        "sha256": "5d77ffdbf297350704c1262915469c83b42ade295840477b4dcda1823ca504e1",
+        "size_in_bytes": 4758,
+        "sha256_in_prefix": "5d77ffdbf297350704c1262915469c83b42ade295840477b4dcda1823ca504e1"
+      },
+      {
+        "_path": "include/coin/OsiUnitTests.hpp",
+        "path_type": "hardlink",
+        "sha256": "0eedc9ba0972211f548c54e4d41945949875c5393de60051d912d9d8aace6d39",
+        "size_in_bytes": 16724,
+        "sha256_in_prefix": "0eedc9ba0972211f548c54e4d41945949875c5393de60051d912d9d8aace6d39"
+      },
+      {
+        "_path": "lib/libOsi.1.13.11.dylib",
+        "path_type": "hardlink",
+        "sha256": "504ee815b2a3012d25a5c4a5cdc7cd0094ee46e3a36eea02c919c28fcbbfc835",
+        "size_in_bytes": 333856,
+        "sha256_in_prefix": "504ee815b2a3012d25a5c4a5cdc7cd0094ee46e3a36eea02c919c28fcbbfc835"
+      },
+      {
+        "_path": "lib/libOsi.1.dylib",
+        "path_type": "softlink",
+        "sha256": "504ee815b2a3012d25a5c4a5cdc7cd0094ee46e3a36eea02c919c28fcbbfc835",
+        "size_in_bytes": 333856
+      },
+      {
+        "_path": "lib/libOsi.dylib",
+        "path_type": "softlink",
+        "sha256": "504ee815b2a3012d25a5c4a5cdc7cd0094ee46e3a36eea02c919c28fcbbfc835",
+        "size_in_bytes": 333856
+      },
+      {
+        "_path": "lib/libOsiCommonTests.1.13.11.dylib",
+        "path_type": "hardlink",
+        "sha256": "8de1a30cd9cba8c65b3f98875c02fa98af167eb2b65db92dca6a5d5999c14fce",
+        "size_in_bytes": 639824,
+        "sha256_in_prefix": "8de1a30cd9cba8c65b3f98875c02fa98af167eb2b65db92dca6a5d5999c14fce"
+      },
+      {
+        "_path": "lib/libOsiCommonTests.1.dylib",
+        "path_type": "softlink",
+        "sha256": "8de1a30cd9cba8c65b3f98875c02fa98af167eb2b65db92dca6a5d5999c14fce",
+        "size_in_bytes": 639824
+      },
+      {
+        "_path": "lib/libOsiCommonTests.dylib",
+        "path_type": "softlink",
+        "sha256": "8de1a30cd9cba8c65b3f98875c02fa98af167eb2b65db92dca6a5d5999c14fce",
+        "size_in_bytes": 639824
+      },
+      {
+        "_path": "lib/pkgconfig/osi-unittests.pc",
+        "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/coin-or-osi_1762932892029/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeho",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "sha256": "91397496377fe23cf0ec97943cb0558e8afaa20e2705a4e9e571ff0f324a6b14",
+        "size_in_bytes": 801,
+        "sha256_in_prefix": "e8fd0cf4bb73bb2f8c53e9bbfda8338b7f1fc4a98f3b6fbda0c41c02342a078e"
+      },
+      {
+        "_path": "lib/pkgconfig/osi.pc",
+        "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/coin-or-osi_1762932892029/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeho",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "sha256": "a6d3cfa4c58206563cca0285c0b49548b03e57371216f883231a793457584d71",
+        "size_in_bytes": 793,
+        "sha256_in_prefix": "1b760d06f99cadebf7f03d8c74dd89b74308043b259fcea48903a94fc955d008"
+      },
+      {
+        "_path": "share/coin/doc/Osi/AUTHORS",
+        "path_type": "hardlink",
+        "sha256": "838659b503f1a29bd406572fb07c541e9dbe7ed5b9abf50a4a7b34c20d7ba4d0",
+        "size_in_bytes": 191,
+        "sha256_in_prefix": "838659b503f1a29bd406572fb07c541e9dbe7ed5b9abf50a4a7b34c20d7ba4d0"
+      },
+      {
+        "_path": "share/coin/doc/Osi/LICENSE",
+        "path_type": "hardlink",
+        "sha256": "0076749b626931ea5aaee25ddd5019fbfd96da78243cc0d5bd24fe246500981f",
+        "size_in_bytes": 11415,
+        "sha256_in_prefix": "0076749b626931ea5aaee25ddd5019fbfd96da78243cc0d5bd24fe246500981f"
+      },
+      {
+        "_path": "share/coin/doc/Osi/osi_addlibs.txt",
+        "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/coin-or-osi_1762932892029/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeho",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "sha256": "0dd10ef85659160e4165b8f0fdd1ee9483cc4cd540e8be892fed68732dbf9659",
+        "size_in_bytes": 268,
+        "sha256_in_prefix": "e04e4d995842eff1964a6ad037ec1c52fbc982f35c696eeeaab4eb8abe8f045a"
+      }
+    ]
+  },
+  "link": {
+    "source": "/Users/user/miniforge3/pkgs/coin-or-osi-0.108.11-ha2b0f8f_8",
+    "type": 1
+  }
+}

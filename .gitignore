@@ -1,3 +1,4 @@
 repo/
 cache/
 *.log
+.DS_Store

@@ -1,0 +1,50 @@
+{
+  "name": "libintl-devel",
+  "version": "0.25.1",
+  "build": "h493aca8_0",
+  "build_number": 0,
+  "channel": "https://conda.anaconda.org/conda-forge/noarch",
+  "subdir": "osx-arm64",
+  "fn": "libintl-devel-0.25.1-h493aca8_0.conda",
+  "md5": "5f9888e1cdbbbef52c8cf8b567393535",
+  "url": "https://conda.anaconda.org/conda-forge/osx-arm64/libintl-devel-0.25.1-h493aca8_0.conda",
+  "sha256": "5a446cb0501d87e0816da0bce524c60a053a4cf23c94dfd3e2b32a8499009e36",
+  "depends": [
+    "__osx >=11.0",
+    "libiconv >=1.18,<2.0a0",
+    "libintl 0.25.1 h493aca8_0"
+  ],
+  "constrains": [],
+  "license": "LGPL-2.1-or-later",
+  "timestamp": 1751558481000,
+  "size": 40340,
+  "requested_spec": "None",
+  "package_tarball_full_path": "/Users/user/miniforge3/pkgs/libintl-devel-0.25.1-h493aca8_0",
+  "extracted_package_dir": "/Users/user/miniforge3/pkgs/libintl-devel-0.25.1-h493aca8_0",
+  "files": [
+    "include/libintl.h",
+    "lib/libintl.dylib"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "include/libintl.h",
+        "path_type": "hardlink",
+        "sha256": "86841e94f7adbc7747e53462626292d8ed157d09315d72bf8c8d6fe93f9d2396",
+        "size_in_bytes": 41257,
+        "sha256_in_prefix": "86841e94f7adbc7747e53462626292d8ed157d09315d72bf8c8d6fe93f9d2396"
+      },
+      {
+        "_path": "lib/libintl.dylib",
+        "path_type": "softlink",
+        "sha256": "6df1128a8ce806f0ea76780ed98045eb9f872e950d8c91b95d5edf59e9f5c2bb",
+        "size_in_bytes": 229856
+      }
+    ]
+  },
+  "link": {
+    "source": "/Users/user/miniforge3/pkgs/libintl-devel-0.25.1-h493aca8_0",
+    "type": 1
+  }
+}

@@ -1,0 +1,21 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '.ext/arm64-darwin20/enc/gb18030.bundle'
+relocations:
+  - { offset: 0x1E, size: 0x8, addend: 0x0, symName: _Init_gb18030, symObjAddr: 0x0, symBinAddr: 0x3460, symSize: 0x14 }
+  - { offset: 0x4B, size: 0x8, addend: 0x0, symName: _encoding_GB18030, symObjAddr: 0xAB8, symBinAddr: 0x4008, symSize: 0x0 }
+  - { offset: 0x3AF, size: 0x8, addend: 0x0, symName: _trans, symObjAddr: 0x5B1, symBinAddr: 0x3AA1, symSize: 0x0 }
+  - { offset: 0x3E3, size: 0x8, addend: 0x0, symName: _GB18030_MAP, symObjAddr: 0x9B1, symBinAddr: 0x3EA1, symSize: 0x0 }
+  - { offset: 0x4BD, size: 0x8, addend: 0x0, symName: _Init_gb18030, symObjAddr: 0x0, symBinAddr: 0x3460, symSize: 0x14 }
+  - { offset: 0x4D7, size: 0x8, addend: 0x0, symName: _gb18030_mbc_enc_len, symObjAddr: 0x14, symBinAddr: 0x3474, symSize: 0xB4 }
+  - { offset: 0x507, size: 0x8, addend: 0x0, symName: _gb18030_mbc_enc_len, symObjAddr: 0x14, symBinAddr: 0x3474, symSize: 0xB4 }
+  - { offset: 0x566, size: 0x8, addend: 0x0, symName: _gb18030_mbc_to_code, symObjAddr: 0xC8, symBinAddr: 0x3528, symSize: 0xA4 }
+  - { offset: 0x61B, size: 0x8, addend: 0x0, symName: _gb18030_code_to_mbc, symObjAddr: 0x16C, symBinAddr: 0x35CC, symSize: 0x14 }
+  - { offset: 0x665, size: 0x8, addend: 0x0, symName: _gb18030_mbc_case_fold, symObjAddr: 0x180, symBinAddr: 0x35E0, symSize: 0x1C }
+  - { offset: 0x6A0, size: 0x8, addend: 0x0, symName: _gb18030_mbc_case_fold, symObjAddr: 0x180, symBinAddr: 0x35E0, symSize: 0x1C }
+  - { offset: 0x708, size: 0x8, addend: 0x0, symName: _gb18030_is_code_ctype, symObjAddr: 0x19C, symBinAddr: 0x35FC, symSize: 0x14 }
+  - { offset: 0x75B, size: 0x8, addend: 0x0, symName: _gb18030_is_code_ctype, symObjAddr: 0x19C, symBinAddr: 0x35FC, symSize: 0x14 }
+  - { offset: 0x7A5, size: 0x8, addend: 0x0, symName: _gb18030_left_adjust_char_head, symObjAddr: 0x1B0, symBinAddr: 0x3610, symSize: 0x3BC }
+  - { offset: 0x7E0, size: 0x8, addend: 0x0, symName: _gb18030_left_adjust_char_head, symObjAddr: 0x1B0, symBinAddr: 0x3610, symSize: 0x3BC }
+  - { offset: 0x84C, size: 0x8, addend: 0x0, symName: _gb18030_is_allowed_reverse_match, symObjAddr: 0x56C, symBinAddr: 0x39CC, symSize: 0x1C }
+...

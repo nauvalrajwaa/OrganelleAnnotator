@@ -21,23 +21,31 @@ output_html = snakemake.output.html
 TOOL_LABELS = {
     "chloe": "Chloë (Chloe.jl) — Chloroplast Annotator",
     "pga": "PGA — Plastid Genome Annotator",
+    "plann": "Plann — Reference-based Plastid Annotator",
+    "cpgavas2": "CPGAVAS2 — Chloroplast Annotation & Visualisation",
     "mfannot": "MFannot — Mitochondrial/Plastid Annotator",
     "fpma": "fpma — Fast Plant Mitochondria Annotator",
     "mitos": "MITOS2 — Mitochondrial Genome Annotator",
     "mitoz": "MitoZ — Animal Mitochondrial Genome Annotator",
     "trnascan": "tRNAscan-SE — tRNA Gene Detection",
     "aragorn": "Aragorn — tRNA/tmRNA Detection",
+    "liftoff": "Liftoff — Reference-based Annotation Lift-over",
+    "ogdraw": "OGDraw — Circular Genome Map Visualisation",
 }
 
 TOOL_DESCRIPTIONS = {
     "chloe": "Julia-based chloroplast genome annotator using XGBoost models and suffix-array alignment.",
     "pga": "Perl/BLAST pipeline for rapid batch annotation of plastid genomes against GenBank references.",
+    "plann": "Perl tool that transfers annotations from a reference plastid GenBank file via BLAST alignments.",
+    "cpgavas2": "Docker-based chloroplast annotator using BLAST+HMMER against curated plant cp protein DB. Detects IRs and produces circular maps.",
     "mfannot": "Comprehensive mitochondrial/plastid annotator (Docker: nbeck/mfannot) using BLAST, HMMER, Exonerate, Erpin.",
     "fpma": "Rust-based fast HMM scanner for presence/absence of mitochondrial genes using HMMER3 nhmmer.",
     "mitos": "Reference-based mitochondrial genome annotator (Docker: quay.io/biocontainers/mitos) for protein-coding genes, tRNAs, and rRNAs.",
     "mitoz": "Docker-based animal mitochondrial genome annotator with circular visualisation (Docker: guanliangmeng/mitoz).",
     "trnascan": "Gold-standard tRNA detection tool using covariance models. Supports organellar/mitochondrial mode (-O).",
     "aragorn": "Lightweight tRNA and tmRNA detection using homology search. Fast and suitable for organelle genomes.",
+    "liftoff": "Minimap2-based annotation lift-over from a reference organelle genome. Works for both cp and mt genomes.",
+    "ogdraw": "OrganellarGenomeDRAW — generates publication-quality circular and linear genome maps from GenBank files.",
 }
 
 # ---------------------------------------------------------------------------
@@ -106,7 +114,7 @@ sections = []  # (id, title, html_content)
 overview_rows = ""
 for s in samples:
     tools_run = []
-    for tool in ["chloe", "pga", "mfannot", "fpma", "mitos", "mitoz", "trnascan", "aragorn"]:
+    for tool in ["chloe", "pga", "plann", "cpgavas2", "mfannot", "fpma", "mitos", "mitoz", "trnascan", "aragorn", "liftoff", "ogdraw"]:
         done = os.path.join(outdir, tool, s, f"{s}.done")
         if os.path.exists(done):
             tools_run.append(tool)

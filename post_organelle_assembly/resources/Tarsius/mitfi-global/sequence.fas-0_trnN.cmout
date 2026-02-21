@@ -1,0 +1,55 @@
+# cmsearch :: search CM(s) against a sequence database
+# INFERNAL 1.1.5 (Sep 2023)
+# Copyright (C) 2023 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query CM file:                         /cvmfs/data.galaxyproject.org/byhand/mitos/refseq89m/ncRNA/trnN.cm
+# target sequence database:              outdir//sequence.fas-0
+# max ASCII text line length:            unlimited
+# sequence reporting threshold:          E-value <= 0.01
+# maximum DP search matrix size:         80000.0 Mb
+# HMM gFwd biased comp filter:           off
+# number of worker threads:              1 [--cpu]
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       trnN  [CLEN=72]
+Hit scores:
+ rank     E-value  score  bias  sequence                             start    end   mdl trunc   gc  description
+ ----   --------- ------ -----  ----------------------------------- ------ ------   --- ----- ----  -----------
+  (1) !   1.4e-13   73.0   0.0  Consensus_BEL1_to_NC_002811_Bowtie2   5187   5115 -  cm    no 0.42  -
+
+
+Hit alignments:
+>> Consensus_BEL1_to_NC_002811_Bowtie2  
+ rank     E-value  score  bias mdl mdl from   mdl to       seq from      seq to       acc trunc   gc
+ ----   --------- ------ ----- --- -------- --------    ----------- -----------      ---- ----- ----
+  (1) !   1.4e-13   73.0   0.0  cm        1       72 []        5187        5115 - .. 1.00    no 0.42
+
+                                                                                                                     NC
+                                           (((((((,,<<<<._______>>>>,<<<<<_______>>>>>,,,,,<<<<<_______>>>>>))))))): CS
+                                 trnN    1 UagauuGAAGCca.uuaguUaagGCauuUagCUGUUAAcuAaaAgaUUGuaggAUcGAggccuaCCaaucuAG 72  
+                                           UAGAUUGAA:CCA UU+ +UAAGG:AUUUAGCUGUUAACUAAA ++U G :GG U+G +GCC: CCAAUCUAG
+  Consensus_BEL1_to_NC_002811_Bowtie2 5187 UAGAUUGAAGCCAgUUGCAUAAGGUAUUUAGCUGUUAACUAAAUUUUCGUGGGGUUGGAGCCCGCCAAUCUAG 5115
+                                           ************************************************************************* PP
+
+
+
+Internal CM pipeline statistics summary:
+----------------------------------------
+Query model(s):                                                  1  (72 consensus positions)
+Target sequences:                                                1  (33754 residues searched)
+Target sequences re-searched for truncated hits:                 1  (408 residues re-searched)
+Windows   passing  local HMM SSV           filter:             234  (0.7972); expected (0.35)
+Windows   passing  local HMM Viterbi       filter:                  (off)
+Windows   passing  local HMM Viterbi  bias filter:                  (off)
+Windows   passing  local HMM Forward       filter:              71  (0.3078); expected (0.02)
+Windows   passing  local HMM Forward  bias filter:              12  (0.05811); expected (0.02)
+Windows   passing glocal HMM Forward       filter:               6  (0.04019); expected (0.02)
+Windows   passing glocal HMM Forward  bias filter:                  (off)
+Envelopes passing glocal HMM envelope defn filter:               5  (0.01121); expected (0.02)
+Envelopes passing  local CM  CYK           filter:               1  (0.002137); expected (0.0001)
+Total CM hits reported:                                          1  (0.002137); includes 0 truncated hit(s)
+
+# CPU time: 0.04u 0.00s 00:00:00.04 Elapsed: 00:00:00.04
+//
+[ok]

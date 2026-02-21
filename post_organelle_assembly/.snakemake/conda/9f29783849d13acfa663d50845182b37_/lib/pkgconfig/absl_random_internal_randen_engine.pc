@@ -1,0 +1,12 @@
+prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/9f29783849d13acfa663d50845182b37_
+exec_prefix=${prefix}
+libdir=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/9f29783849d13acfa663d50845182b37_/lib
+includedir=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/9f29783849d13acfa663d50845182b37_/include
+
+Name: absl_random_internal_randen_engine
+Description: Abseil random_internal_randen_engine library
+URL: https://abseil.io/
+Version: 20250512
+Requires: absl_endian = 20250512, absl_random_internal_iostream_state_saver = 20250512, absl_random_internal_randen = 20250512, absl_raw_logging_internal = 20250512, absl_type_traits = 20250512
+Libs: -L${libdir}  
+Cflags: -I${includedir} -Wno-float-conversion -Wno-implicit-float-conversion -Wno-implicit-int-float-conversion -Wno-unknown-warning-option -DNOMINMAX

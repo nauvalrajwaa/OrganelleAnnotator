@@ -1,0 +1,8 @@
+#nexus
+begin sets;
+    charset atp6 = 1-681;
+    charset atp8 = 682-885;
+    charset cox1 = 886-2430;
+    charset cox2 = 2431-3114;
+    charset cox3 = 3115-3898;
+end;

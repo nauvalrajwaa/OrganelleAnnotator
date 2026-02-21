@@ -2,9 +2,10 @@
 # Organelle Annotation Pipeline - Configuration
 # =============================================================================
 # Supported tools:
-#   Plastid/Chloroplast: chloe, pga
+#   Plastid/Chloroplast: chloe, pga, plann, cpgavas2
 #   Mitochondrial:       mfannot, fpma, mitos, mitoz
-#   Both/QC:             trnascan, aragorn
+#   Both/QC:             trnascan, aragorn, liftoff
+#   Visualisation:       ogdraw
 # =============================================================================
 
 # -- Sample sheet (TSV) -------------------------------------------------------
@@ -15,7 +16,7 @@ outdir: "results"
 
 # -- Run mode ------------------------------------------------------------------
 #   "all"           : run all compatible tools per sample (based on organelle type)
-#   "plastid"       : run only plastid tools (chloe, pga)
+#   "plastid"       : run only plastid tools (chloe, pga, plann, cpgavas2)
 #   "mito"          : run only mitochondrial tools (mfannot, fpma, mitos, mitoz)
 #   "select"        : run only tools listed in 'tools_select'
 mode: "all"
@@ -24,12 +25,16 @@ mode: "all"
 tools_select:
   - chloe
   - pga
+  - plann
+  - cpgavas2
   - mfannot
   - fpma
   - mitos
   - mitoz
   - trnascan
   - aragorn
+  - liftoff
+  # - ogdraw   # enable for circular genome map visualisation
 
 # -- Quality control -----------------------------------------------------------
 qc:
@@ -80,6 +85,45 @@ pga:
   pidentity: 40
   # Query coverage range (min,max)
   qcoverage: "0.5,2"
+
+# Plann – reference-based plastid genome annotator (conda)
+plann:
+  # Path to a reference GenBank file from a closely related plastid genome.
+  # Required — Plann transfers annotations from this reference.
+  reference_gb: ""  # e.g. "/path/to/Arabidopsis_chloroplast.gb"
+  # Extra flags
+  extra: ""
+
+# CPGAVAS2 – Chloroplast Genome Annotation, Visualization, Analysis (Docker)
+cpgavas2:
+  # Docker image
+  docker_image: "lipme/cpgavas2:latest"
+  # Use Singularity/Apptainer instead of Docker
+  use_singularity: false
+  # Extra flags
+  extra: ""
+
+# Liftoff – reference-based annotation lift-over (conda + minimap2)
+liftoff:
+  # Path to reference organelle FASTA (closely related species)
+  reference_fasta: ""  # e.g. "/path/to/ref_plastid.fasta"
+  # Path to reference GFF3 annotation
+  reference_gff: ""    # e.g. "/path/to/ref_plastid.gff3"
+  # Minimum coverage for feature mapping (0.0-1.0)
+  min_coverage: 0.5
+  # Minimum sequence identity (0.0-1.0)
+  min_identity: 0.5
+  # Extra flags
+  extra: ""
+
+# OGDraw – OrganellarGenomeDRAW circular map visualisation (Docker)
+ogdraw:
+  # Docker image
+  docker_image: "chlorobox/ogdraw:1.3.1"
+  # Use Singularity/Apptainer instead of Docker
+  use_singularity: false
+  # Extra flags for drawgenemap (e.g. --gc_content, --ir)
+  extra: ""
 
 # MFannot – mitochondrial / plastid genome annotator (Docker)
 mfannot:
@@ -203,6 +247,22 @@ resources:
     mem_mb: 4000
     runtime: 30
   aragorn:
+    threads: 1
+    mem_mb: 2000
+    runtime: 15
+  plann:
+    threads: 2
+    mem_mb: 4000
+    runtime: 60
+  cpgavas2:
+    threads: 4
+    mem_mb: 8000
+    runtime: 120
+  liftoff:
+    threads: 4
+    mem_mb: 4000
+    runtime: 30
+  ogdraw:
     threads: 1
     mem_mb: 2000
     runtime: 15

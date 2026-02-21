@@ -1,0 +1,13 @@
+prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/b895232803ef6ffdba8c600b1ed85dc6_
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+xcbproto_version=1.17.0
+
+Name: XCB
+Description: X-protocol C Binding
+Version: 1.17.0
+Requires.private: xau >= 0.99.2 xdmcp
+Libs: -L${libdir} -lxcb
+Libs.private: 
+Cflags: -I${includedir}

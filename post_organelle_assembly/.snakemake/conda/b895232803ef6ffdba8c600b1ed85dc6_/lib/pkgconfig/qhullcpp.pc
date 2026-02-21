@@ -1,0 +1,10 @@
+prefix=/Users/user/Downloads/04. Pipeline_NGS/pipeline_assembly/post_organelle_assembly/.snakemake/conda/b895232803ef6ffdba8c600b1ed85dc6_
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: qhullcpp
+Description: Qhull C++ library
+Version: 8.0.2
+Libs: -L${libdir} -lqhullcpp
+Cflags: -I${includedir}
+

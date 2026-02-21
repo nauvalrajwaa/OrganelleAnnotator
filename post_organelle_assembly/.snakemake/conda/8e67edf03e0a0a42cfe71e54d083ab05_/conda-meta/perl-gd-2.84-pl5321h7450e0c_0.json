@@ -1,0 +1,179 @@
+{
+  "name": "perl-gd",
+  "version": "2.84",
+  "build": "pl5321h7450e0c_0",
+  "build_number": 0,
+  "channel": "https://conda.anaconda.org/bioconda/noarch",
+  "subdir": "osx-64",
+  "fn": "perl-gd-2.84-pl5321h7450e0c_0.conda",
+  "md5": "d247c30006b48cf2afc545b2a074b09a",
+  "url": "https://conda.anaconda.org/bioconda/osx-64/perl-gd-2.84-pl5321h7450e0c_0.conda",
+  "sha256": "af8d6ba1b913ca2adb54efe6ac978b0e7ffa80f26ed51d7c0aa57a6060ec2fb9",
+  "depends": [
+    "zlib",
+    "libcxx >=18",
+    "libzlib >=1.3.1,<2.0a0",
+    "perl >=5.32.1,<5.33.0a0 *_perl5",
+    "perl-test-nowarnings 1.06.*",
+    "libgd >=2.3.3,<2.4.0a0",
+    "libexpat >=2.7.3,<3.0a0"
+  ],
+  "constrains": [],
+  "license": "perl_5",
+  "timestamp": 1767559079000,
+  "size": 104998,
+  "requested_spec": "perl-gd",
+  "package_tarball_full_path": "/Users/user/miniforge3/pkgs/perl-gd-2.84-pl5321h7450e0c_0",
+  "extracted_package_dir": "/Users/user/miniforge3/pkgs/perl-gd-2.84-pl5321h7450e0c_0",
+  "files": [
+    "bin/bdf2gdfont.pl",
+    "lib/perl5/5.32/site_perl/GD.pm",
+    "lib/perl5/5.32/site_perl/GD/Group.pm",
+    "lib/perl5/5.32/site_perl/GD/Image.pm",
+    "lib/perl5/5.32/site_perl/GD/Polygon.pm",
+    "lib/perl5/5.32/site_perl/GD/Polyline.pm",
+    "lib/perl5/5.32/site_perl/GD/Simple.pm",
+    "lib/perl5/5.32/site_perl/auto/GD/.packlist",
+    "lib/perl5/5.32/site_perl/auto/GD/GD.bundle",
+    "lib/perl5/5.32/site_perl/auto/GD/autosplit.ix",
+    "man/man1/bdf2gdfont.pl.1",
+    "man/man3/GD.3",
+    "man/man3/GD::Group.3",
+    "man/man3/GD::Image.3",
+    "man/man3/GD::Polygon.3",
+    "man/man3/GD::Polyline.3",
+    "man/man3/GD::Simple.3"
+  ],
+  "paths_data": {
+    "paths_version": 1,
+    "paths": [
+      {
+        "_path": "bin/bdf2gdfont.pl",
+        "prefix_placeholder": "/opt/mambaforge/envs/bioconda/conda-bld/perl-gd_1767558865613/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeh",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "sha256": "d1788cde7dab83e99e9b04d5a80da0bf719194ca97813fbbb6d53477ccf6ec52",
+        "size_in_bytes": 4940,
+        "sha256_in_prefix": "32534813e5d54c27df5fc39f7c96369e78d8a771c71febf41db880a6ec17ae90"
+      },
+      {
+        "_path": "lib/perl5/5.32/site_perl/GD.pm",
+        "path_type": "hardlink",
+        "sha256": "5da1de0ad86da7fa77beeb5044293040d0158fe2fca2a6cf347af188999c8be5",
+        "size_in_bytes": 72088,
+        "sha256_in_prefix": "5da1de0ad86da7fa77beeb5044293040d0158fe2fca2a6cf347af188999c8be5"
+      },
+      {
+        "_path": "lib/perl5/5.32/site_perl/GD/Group.pm",
+        "path_type": "hardlink",
+        "sha256": "a5c8d2674d72cc5fccb54aedf6665b524a52ce86b3852e6767fbde74141274fc",
+        "size_in_bytes": 671,
+        "sha256_in_prefix": "a5c8d2674d72cc5fccb54aedf6665b524a52ce86b3852e6767fbde74141274fc"
+      },
+      {
+        "_path": "lib/perl5/5.32/site_perl/GD/Image.pm",
+        "path_type": "hardlink",
+        "sha256": "3ab191a7dde3481ccbad871b8e03f523daf243f7a7414d531253b9d1a675983e",
+        "size_in_bytes": 8233,
+        "sha256_in_prefix": "3ab191a7dde3481ccbad871b8e03f523daf243f7a7414d531253b9d1a675983e"
+      },
+      {
+        "_path": "lib/perl5/5.32/site_perl/GD/Polygon.pm",
+        "path_type": "hardlink",
+        "sha256": "25ba85289dcf0eff813a5f6fb88d2995111488a3f08c7608fe7a52f3b8fd9b08",
+        "size_in_bytes": 4505,
+        "sha256_in_prefix": "25ba85289dcf0eff813a5f6fb88d2995111488a3f08c7608fe7a52f3b8fd9b08"
+      },
+      {
+        "_path": "lib/perl5/5.32/site_perl/GD/Polyline.pm",
+        "path_type": "hardlink",
+        "sha256": "b9b9cc9a16e18c5182457657bf8f7b4b894daf9a633acc747426fab6018aed03",
+        "size_in_bytes": 23027,
+        "sha256_in_prefix": "b9b9cc9a16e18c5182457657bf8f7b4b894daf9a633acc747426fab6018aed03"
+      },
+      {
+        "_path": "lib/perl5/5.32/site_perl/GD/Simple.pm",
+        "path_type": "hardlink",
+        "sha256": "19cf8d16f8f430eef4b22af0d1deeed9ed0ae31b10dc82dd2bf628d058378a7a",
+        "size_in_bytes": 37898,
+        "sha256_in_prefix": "19cf8d16f8f430eef4b22af0d1deeed9ed0ae31b10dc82dd2bf628d058378a7a"
+      },
+      {
+        "_path": "lib/perl5/5.32/site_perl/auto/GD/.packlist",
+        "prefix_placeholder": "/opt/mambaforge/envs/bioconda/conda-bld/perl-gd_1767558865613/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeh",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "sha256": "3a77870f86c94f2a9eec83d3c665bf37fafa6c01322a03b507435b35446a39b4",
+        "size_in_bytes": 5210,
+        "sha256_in_prefix": "5801a9dc7cdc0fd1e6f16d8452cd1259220940897163bdfae11fa3126bfb05f3"
+      },
+      {
+        "_path": "lib/perl5/5.32/site_perl/auto/GD/GD.bundle",
+        "path_type": "hardlink",
+        "sha256": "a0dbdc7d8adcb323a88cc4ecd2bc7b171ba0c7053fc1f368dbcd4c98e6819e2c",
+        "size_in_bytes": 157136,
+        "sha256_in_prefix": "a0dbdc7d8adcb323a88cc4ecd2bc7b171ba0c7053fc1f368dbcd4c98e6819e2c"
+      },
+      {
+        "_path": "lib/perl5/5.32/site_perl/auto/GD/autosplit.ix",
+        "path_type": "hardlink",
+        "sha256": "fe6097e49bf7e9be1d8f5c40bec6c46379425d26713d82f8d30ebdd3acbd2776",
+        "size_in_bytes": 81,
+        "sha256_in_prefix": "fe6097e49bf7e9be1d8f5c40bec6c46379425d26713d82f8d30ebdd3acbd2776"
+      },
+      {
+        "_path": "man/man1/bdf2gdfont.pl.1",
+        "path_type": "hardlink",
+        "sha256": "84750661a55719e09b22e15e4bb02d92e3b42798dd7ec60eea7352198465968c",
+        "size_in_bytes": 4392,
+        "sha256_in_prefix": "84750661a55719e09b22e15e4bb02d92e3b42798dd7ec60eea7352198465968c"
+      },
+      {
+        "_path": "man/man3/GD.3",
+        "path_type": "hardlink",
+        "sha256": "ed945d59eb88c830fb0aaf6d43ed201c5a433cc561c6204d22524e28bd6d8c79",
+        "size_in_bytes": 91523,
+        "sha256_in_prefix": "ed945d59eb88c830fb0aaf6d43ed201c5a433cc561c6204d22524e28bd6d8c79"
+      },
+      {
+        "_path": "man/man3/GD::Group.3",
+        "path_type": "hardlink",
+        "sha256": "7c48576e1224aa9a5f5c5f975dc40e747bb3704d0873d2ba97a4cb4631b56736",
+        "size_in_bytes": 2379,
+        "sha256_in_prefix": "7c48576e1224aa9a5f5c5f975dc40e747bb3704d0873d2ba97a4cb4631b56736"
+      },
+      {
+        "_path": "man/man3/GD::Image.3",
+        "path_type": "hardlink",
+        "sha256": "ce5f32baa9221731f81215a293c37e6f405cd4070ecf5a8a22e18eaaeb27de13",
+        "size_in_bytes": 3394,
+        "sha256_in_prefix": "ce5f32baa9221731f81215a293c37e6f405cd4070ecf5a8a22e18eaaeb27de13"
+      },
+      {
+        "_path": "man/man3/GD::Polygon.3",
+        "path_type": "hardlink",
+        "sha256": "424a9699f4a255e267fd2371347c01b8acd56c4391ea25dd37dbcb50514c19e5",
+        "size_in_bytes": 2842,
+        "sha256_in_prefix": "424a9699f4a255e267fd2371347c01b8acd56c4391ea25dd37dbcb50514c19e5"
+      },
+      {
+        "_path": "man/man3/GD::Polyline.3",
+        "path_type": "hardlink",
+        "sha256": "3229b5ff25b55497b913cfd1f76d4e91d97ce3f929616cefe9ed1c3a3c8168ca",
+        "size_in_bytes": 16038,
+        "sha256_in_prefix": "3229b5ff25b55497b913cfd1f76d4e91d97ce3f929616cefe9ed1c3a3c8168ca"
+      },
+      {
+        "_path": "man/man3/GD::Simple.3",
+        "path_type": "hardlink",
+        "sha256": "39b484dca6130483ce0536c4062b4fba97729a93632d7ea01a13e134534b5685",
+        "size_in_bytes": 22703,
+        "sha256_in_prefix": "39b484dca6130483ce0536c4062b4fba97729a93632d7ea01a13e134534b5685"
+      }
+    ]
+  },
+  "link": {
+    "source": "/Users/user/miniforge3/pkgs/perl-gd-2.84-pl5321h7450e0c_0",
+    "type": 1
+  }
+}

@@ -1,0 +1,16 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '.ext/arm64-darwin20/enc/trans/utf8_mac.bundle'
+relocations:
+  - { offset: 0x1E, size: 0x8, addend: 0x0, symName: _Init_utf8_mac, symObjAddr: 0x0, symBinAddr: 0x3738, symSize: 0x24 }
+  - { offset: 0x4D, size: 0x8, addend: 0x0, symName: _rb_to_UTF8_MAC, symObjAddr: 0x3B8, symBinAddr: 0x44010, symSize: 0x0 }
+  - { offset: 0x303, size: 0x8, addend: 0x0, symName: _utf8_mac_byte_array, symObjAddr: 0x508, symBinAddr: 0x3B44, symSize: 0x0 }
+  - { offset: 0x328, size: 0x8, addend: 0x0, symName: _utf8_mac_word_array, symObjAddr: 0x1DD7C, symBinAddr: 0x213B8, symSize: 0x0 }
+  - { offset: 0x34D, size: 0x8, addend: 0x0, symName: _rb_from_UTF8_MAC, symObjAddr: 0x458, symBinAddr: 0x440B0, symSize: 0x0 }
+  - { offset: 0x356, size: 0x8, addend: 0x0, symName: _Init_utf8_mac, symObjAddr: 0x0, symBinAddr: 0x3738, symSize: 0x24 }
+  - { offset: 0x37F, size: 0x8, addend: 0x0, symName: _from_utf8_mac_init, symObjAddr: 0x24, symBinAddr: 0x375C, symSize: 0xC }
+  - { offset: 0x3FF, size: 0x8, addend: 0x0, symName: _from_utf8_mac_init, symObjAddr: 0x24, symBinAddr: 0x375C, symSize: 0xC }
+  - { offset: 0x443, size: 0x8, addend: 0x0, symName: _from_utf8_mac_init, symObjAddr: 0x24, symBinAddr: 0x375C, symSize: 0xC }
+  - { offset: 0x663, size: 0x8, addend: 0x0, symName: _fun_so_from_utf8_mac, symObjAddr: 0x30, symBinAddr: 0x3768, symSize: 0x32C }
+  - { offset: 0x98F, size: 0x8, addend: 0x0, symName: _from_utf8_mac_finish, symObjAddr: 0x35C, symBinAddr: 0x3A94, symSize: 0x58 }
+...
