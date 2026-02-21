@@ -1,0 +1,16 @@
+# Downstream analysis environment
+# Covers: RSCU, codon usage, Ka/Ks (via MAFFT + KaKs_Calculator),
+#          composition, genome map (pyGenomeViz), report
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.10
+  - biopython>=1.81
+  - pandas>=2.0
+  - matplotlib>=3.7
+  - seaborn>=0.12
+  - mafft>=7.520
+  - pygenomeviz>=1.4
+  - kakscalculator2>=2.0

@@ -212,6 +212,37 @@ fpma:
   # Generate HTML SVG plot
   plot: true
 
+# -- Downstream analysis -------------------------------------------------------
+# Post-annotation analyses: RSCU, codon usage, Ka/Ks, phylogeny, composition,
+# genome map, and synteny. Set enabled: true to run.
+downstream:
+  enabled: true
+  # Species name for NCBI reference fetching (genus or binomial)
+  species_name: ""          # e.g. "Arabidopsis thaliana"
+  # Email for NCBI Entrez (required by NCBI policy)
+  email: ""                 # e.g. "user@example.com"
+  # Reference genome settings
+  max_ref_genomes: 10
+  min_genome_length: 10000
+  max_genome_length: 300000
+  # Ka/Ks method: NG, LWL, YN, MYN, GY
+  kaks_method: "NG"
+  # Phylogeny: minimum shared genes for supermatrix
+  phylo_min_genes: 4
+  # IQ-TREE model and bootstrap replicates
+  phylo_model: "GTR+G"
+  phylo_bootstrap: 1000
+  # Which downstream modules to run (all enabled by default)
+  modules:
+    - fetch_reference
+    - rscu
+    - codons
+    - kaks
+    - composition
+    - phylogeny
+    - genome_map
+    - synteny
+
 # -- Cluster / resource defaults -----------------------------------------------
 resources:
   default:
@@ -270,3 +301,7 @@ resources:
     threads: 8
     mem_mb: 16000
     runtime: 120
+  downstream:
+    threads: 4
+    mem_mb: 8000
+    runtime: 180

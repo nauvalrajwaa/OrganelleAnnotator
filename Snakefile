@@ -4,11 +4,15 @@
 # Tools:  Chloe.jl | PGA | Plann | CPGAVAS2 (Docker)
 #         MFannot (Docker) | fpma | MITOS2 (Docker) | MitoZ (Docker)
 #         tRNAscan-SE | Aragorn | Liftoff
-# Viz:    OGDraw (Docker)
+# Viz:    OGDraw (Docker) | pyGenomeViz (genome map)
 # QC:     BUSCO + custom gene-completeness summary
 # Report: Aggregated indexed HTML
+# Downstream: RSCU | Codon Usage | Ka/Ks (MAFFT + KaKs_Calculator) |
+#             Phylogeny (IQ-TREE) | GC/AA Composition | Genome Map |
+#             Synteny (MUMmer4) | NCBI Reference Fetch
 # =============================================================================
 
+import os
 import pandas as pd
 from pathlib import Path
 
@@ -79,6 +83,9 @@ def all_outputs():
             outputs.append(f"{OUTDIR}/qc/summary/{s}.qc_summary.tsv")
             if get_organelle(s) in ("plastid", "mito"):
                 outputs.append(f"{OUTDIR}/qc/busco/{s}/short_summary.txt")
+        # Downstream analysis outputs
+        if config.get("downstream", {}).get("enabled", False):
+            outputs.append(f"{OUTDIR}/downstream/{s}/downstream_report.html")
     # Final report
     outputs.append(f"{OUTDIR}/report/index.html")
     return outputs
@@ -104,3 +111,4 @@ include: "rules/liftoff.smk"
 include: "rules/ogdraw.smk"
 include: "rules/qc.smk"
 include: "rules/report.smk"
+include: "rules/downstream.smk"

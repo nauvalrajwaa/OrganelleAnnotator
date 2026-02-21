@@ -214,6 +214,48 @@ for s in samples:
 
 sections.append(("qc-busco", "BUSCO Assessment", busco_html))
 
+# -- Downstream analysis section (links to per-sample downstream reports) ----
+downstream_html = ""
+downstream_enabled = False
+try:
+    # Check for downstream reports
+    for s in samples:
+        ds_report = os.path.join(outdir, "downstream", s, "downstream_report.html")
+        if os.path.exists(ds_report):
+            downstream_enabled = True
+            rel_path = os.path.relpath(ds_report, os.path.dirname(output_html))
+            downstream_html += f"""
+            <h4>{html_mod.escape(s)}</h4>
+            <p>
+              <a href="{rel_path}" target="_blank">&#x1F4CA; Open Downstream Report</a>
+              &mdash; RSCU, Codon Usage, Ka/Ks, Phylogeny, Composition, Genome Map, Synteny
+            </p>
+            <table class="files">
+              <thead><tr><th>Analysis</th><th>Status</th></tr></thead>
+              <tbody>
+            """
+            analysis_items = [
+                ("RSCU Analysis", "rscu/rscu.tsv"),
+                ("Codon Analysis", "codons/codon_stats.txt"),
+                ("Ka/Ks Analysis", "kaks/kaks_summary.tsv"),
+                ("GC/AA Composition", "composition/gc_content_plot.png"),
+                ("Phylogenetic Tree", "phylogeny/tree_plot.png"),
+                ("Genome Map", "genome_map/genome_map.png"),
+                ("Synteny Plot", "synteny/synteny_plot.png"),
+            ]
+            for label, subpath in analysis_items:
+                fp = os.path.join(outdir, "downstream", s, subpath)
+                status = "&#x2705; Complete" if os.path.exists(fp) and os.path.getsize(fp) > 0 else "&#x274C; Not available"
+                downstream_html += f"<tr><td>{label}</td><td>{status}</td></tr>\n"
+            downstream_html += "</tbody></table>\n"
+except Exception:
+    pass
+
+if not downstream_enabled:
+    downstream_html = "<p><em>Downstream analysis was not enabled or has not completed yet. Enable via <code>downstream.enabled: true</code> in config.yaml.</em></p>"
+
+sections.append(("downstream", "Downstream Analysis", downstream_html))
+
 # ---------------------------------------------------------------------------
 # Assemble final HTML
 # ---------------------------------------------------------------------------

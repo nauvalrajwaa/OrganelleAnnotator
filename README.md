@@ -1,6 +1,6 @@
 # Organelle Annotation Pipeline
 
-A **Snakemake** workflow for comprehensive organelle genome annotation using **12 tools**, unified QC, and an aggregated HTML report. Supports both **chloroplast/plastid** and **mitochondrial** genomes with automatic tool selection based on organelle type.
+A **Snakemake** workflow for comprehensive organelle genome annotation using **12 tools**, unified QC, an aggregated HTML report, and **integrated downstream analysis** (RSCU, Ka/Ks, phylogeny, genome maps, synteny). Supports both **chloroplast/plastid** and **mitochondrial** genomes with automatic tool selection based on organelle type.
 
 ---
 
@@ -8,12 +8,14 @@ A **Snakemake** workflow for comprehensive organelle genome annotation using **1
 
 - [Features](#features)
 - [Tool Overview](#tool-overview)
+- [Downstream Analysis](#downstream-analysis)
 - [Quick Start](#quick-start)
 - [Directory Structure](#directory-structure)
 - [Configuration](#configuration)
   - [Run Modes](#run-modes)
   - [Sample Sheet](#sample-sheet)
   - [Tool-specific Settings](#tool-specific-settings)
+  - [Downstream Settings](#downstream-settings)
 - [Prerequisites](#prerequisites)
   - [First-time Setup](#first-time-setup)
 - [Output & Report](#output--report)
@@ -28,9 +30,10 @@ A **Snakemake** workflow for comprehensive organelle genome annotation using **1
 - **Flexible run modes** — run all, plastid-only, mito-only, or hand-pick tools
 - **Mixed execution backends** — Conda, Docker, and Singularity/Apptainer supported
 - **Unified QC layer** — BUSCO + cross-tool gene completeness comparison
-- **Self-contained HTML report** with per-tool sections, gene tables, and BUSCO metrics
+- **Integrated downstream analysis** — RSCU, codon usage, Ka/Ks, phylogeny, composition, genome maps, synteny
+- **Self-contained HTML reports** with per-tool sections, gene tables, BUSCO metrics, and downstream results
 - **Cluster-ready** — SLURM, SGE, PBS via Snakemake's `--cluster` interface
-- **Circular genome maps** via OGDraw (optional)
+- **Circular genome maps** via OGDraw (Docker) or pyGenomeViz (Python-native)
 
 ---
 
@@ -74,6 +77,32 @@ A **Snakemake** workflow for comprehensive organelle genome annotation using **1
 |------|------|-------------|
 | **BUSCO** | Conda | Genome completeness assessment against lineage-specific orthologue databases. |
 | **Gene Completeness Summary** | Built-in (Python) | Cross-tool comparison of detected genes, tRNAs, and rRNAs, parsed from each annotator's output. |
+
+---
+
+## Downstream Analysis
+
+Integrated post-annotation analyses that run automatically after annotation completes (enable via `downstream.enabled: true` in config). All downstream analyses produce per-sample results and a unified HTML report.
+
+| Analysis | Tool / Method | Description |
+|----------|:---:|-------------|
+| **RSCU** | BioPython | Relative Synonymous Codon Usage heatmap and bar plots |
+| **Codon Usage** | BioPython | Start/stop codon frequency analysis across all CDS |
+| **Ka/Ks** | MAFFT + KaKs_Calculator2 | Pairwise synonymous/non-synonymous substitution rates vs. reference |
+| **Phylogeny** | MAFFT + IQ-TREE | Supermatrix from shared genes → ML tree with ultrafast bootstrap |
+| **GC/AA Composition** | BioPython | Per-gene GC content and aggregate amino acid frequency plots |
+| **Genome Map** | pyGenomeViz | Circular genome visualisation (pure Python — no Perl/Circos needed) |
+| **Synteny** | MUMmer4 / nucmer | Genome structure comparison with Bezier ribbon visualisation |
+| **Reference Fetch** | NCBI Entrez | Automatic download of related reference genomes for comparative analysis |
+
+**Key improvements over the original post-assembly pipeline:**
+
+- **Circos replaced** with pyGenomeViz (Python-native, no 20+ Perl dependencies)
+- **MUSCLE replaced** with MAFFT (faster, better for divergent sequences)
+- **Duplicate code eliminated** — shared `gene_utils.py` for gene name normalisation
+- **Duplicate Ka/Ks removed** — single implementation using proper KaKs_Calculator2
+- **Hardcoded species removed** — fully configurable via `config.yaml`
+- **Removed** `mitos_to_genbank.py` (redundant — main pipeline tools already produce GenBank)
 
 ---
 
@@ -129,17 +158,32 @@ Organelle_annotation/
 │   ├── liftoff.smk                    # Liftoff (minimap2 lift-over)
 │   ├── ogdraw.smk                     # OGDraw (Docker, visualisation)
 │   ├── qc.smk                         # BUSCO + gene completeness
-│   └── report.smk                     # HTML report generation
+│   ├── report.smk                     # HTML report generation
+│   └── downstream.smk                 # Post-annotation downstream analyses
 ├── scripts/
-│   └── generate_report.py             # Report builder
+│   ├── gene_utils.py                  # Shared gene name maps & utilities
+│   ├── generate_report.py             # Main report builder
+│   ├── generate_downstream_report.py  # Downstream HTML report
+│   ├── fetch_organelle_ref.py         # NCBI reference genome fetcher
+│   ├── calculate_rscu.py              # RSCU analysis
+│   ├── analyze_codons.py              # Start/stop codon analysis
+│   ├── run_kaks_analysis.py           # Ka/Ks (MAFFT + KaKs_Calculator)
+│   ├── prepare_phylo.py               # Supermatrix builder (MAFFT)
+│   ├── plot_tree.py                   # Phylogenetic tree plotter
+│   ├── analyze_composition.py         # GC/AA composition analysis
+│   ├── create_genome_map.py           # Genome map (pyGenomeViz)
+│   └── run_synteny_analysis.py        # Synteny analysis (MUMmer4)
 ├── envs/
 │   ├── aragorn.yaml                   # Conda: aragorn
 │   ├── busco.yaml                     # Conda: BUSCO
 │   ├── chloe.yaml                     # Conda: Julia
+│   ├── downstream.yaml                # Conda: downstream analysis tools
 │   ├── fpma.yaml                      # Conda: HMMER + Rust
 │   ├── liftoff.yaml                   # Conda: liftoff + minimap2
 │   ├── pga.yaml                       # Conda: Perl + BLAST
+│   ├── phylo.yaml                     # Conda: IQ-TREE + MAFFT
 │   ├── plann.yaml                     # Conda: plann + BLAST + BioPerl
+│   ├── synteny.yaml                   # Conda: MUMmer4
 │   └── trnascan.yaml                  # Conda: tRNAscan-SE
 ├── repo/
 │   ├── Chloe.jl/                      # Chloë source
@@ -147,21 +191,20 @@ Organelle_annotation/
 │   ├── Mfannot/                       # MFannot reference (Docker used)
 │   └── fpma/                          # fpma source (Rust)
 └── results/                           # Output (created by pipeline)
-    ├── chloe/<sample>/                # GFF, GBK, EMBL, SFF
-    ├── pga/<sample>/                  # GenBank (.gb)
-    ├── plann/<sample>/                # GenBank (.gb), GFF
-    ├── cpgavas2/<sample>/             # GenBank (.gb), GFF, circular map
-    ├── mfannot/<sample>/              # Masterfile (.new), GFF
-    ├── fpma/<sample>/                 # GFF, presence TSV, HTML plot
-    ├── mitos/<sample>/                # GFF, BED, protein FASTA
-    ├── mitoz/<sample>/                # GFF, GenBank, circular PNG
-    ├── trnascan/<sample>/             # TSV, GFF, secondary structure
-    ├── aragorn/<sample>/              # Text output, GFF
-    ├── liftoff/<sample>/              # GFF, unmapped features list
-    ├── ogdraw/<sample>/               # SVG circular map
+    ├── <tool>/<sample>/               # Per-tool annotation outputs
     ├── qc/
     │   ├── busco/<sample>/            # BUSCO results
     │   └── summary/<sample>.tsv       # Cross-tool gene completeness
+    ├── downstream/<sample>/           # Downstream analysis results
+    │   ├── rscu/                      # RSCU heatmaps and tables
+    │   ├── codons/                    # Codon usage stats
+    │   ├── kaks/                      # Ka/Ks summary tables
+    │   ├── composition/               # GC content and AA plots
+    │   ├── phylogeny/                 # Supermatrix, tree, partition files
+    │   ├── genome_map/                # Circular genome map (PNG + SVG)
+    │   ├── synteny/                   # Synteny plot and stats
+    │   ├── references/                # Downloaded reference genomes
+    │   └── downstream_report.html     # Per-sample downstream HTML report
     ├── logs/                          # Per-rule log files
     └── report/index.html              # Final HTML report
 ```
@@ -218,6 +261,35 @@ All tool parameters are in `config/config.yaml` under their respective keys. Key
 | **OGDraw** | — | Docker image: `chlorobox/ogdraw:1.3.1` |
 
 Docker images (`mfannot`, `mitos`, `mitoz`, `cpgavas2`, `ogdraw`) also support **Singularity/Apptainer** — set `use_singularity: true` in the respective config section.
+
+### Downstream Settings
+
+Enable integrated downstream analysis in `config/config.yaml`:
+
+```yaml
+downstream:
+  enabled: true
+  species_name: "Arabidopsis thaliana"   # For NCBI reference fetching
+  email: "user@example.com"              # Required by NCBI Entrez
+  max_ref_genomes: 10                    # Max references to download
+  kaks_method: "NG"                      # NG, LWL, YN, MYN, GY
+  phylo_min_genes: 4                     # Min shared genes for supermatrix
+  phylo_model: "GTR+G"                   # IQ-TREE substitution model
+  phylo_bootstrap: 1000                  # Ultrafast bootstrap replicates
+```
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `enabled` | `true` | Enable/disable all downstream analyses |
+| `species_name` | `""` | Species name for NCBI reference search |
+| `email` | `""` | Email for NCBI Entrez API (required) |
+| `max_ref_genomes` | `10` | Maximum reference genomes to download |
+| `min_genome_length` | `10000` | Minimum genome length filter (bp) |
+| `max_genome_length` | `300000` | Maximum genome length filter (bp) |
+| `kaks_method` | `"NG"` | Ka/Ks calculation method |
+| `phylo_min_genes` | `4` | Minimum genes for supermatrix construction |
+| `phylo_model` | `"GTR+G"` | IQ-TREE substitution model |
+| `phylo_bootstrap` | `1000` | Bootstrap replicates for ML tree |
 
 ---
 
@@ -295,6 +367,23 @@ cd repo/Chloe.jl && julia --project=. -e 'using Pkg; Pkg.instantiate()' && cd ..
 2. **Per-Tool Sections** — output file listings with sizes and download links
 3. **Gene Completeness Summary** — side-by-side table of genes/tRNAs/rRNAs detected by each tool per sample
 4. **BUSCO Assessment** — completeness metrics (Complete, Single-copy, Duplicated, Fragmented, Missing)
+5. **Downstream Analysis** — links to per-sample downstream reports with status indicators
+
+### Downstream Outputs
+
+Each sample gets a dedicated `downstream/<sample>/` directory containing:
+
+| Directory | Key Files | Description |
+|-----------|-----------|-------------|
+| `rscu/` | `rscu.tsv`, `rscu_barplot.png`, `rscu_heatmap.png` | RSCU values and visualisations |
+| `codons/` | `codon_stats.txt` | Start/stop codon frequencies |
+| `kaks/` | `kaks_summary.tsv` | Per-gene Ka, Ks, Ka/Ks values |
+| `composition/` | `gc_content_plot.png`, `aa_composition_plot.png` | GC & amino acid plots |
+| `phylogeny/` | `supermatrix.fasta`, `phylogeny.treefile`, `tree_plot.png` | Alignment, ML tree, tree plot |
+| `genome_map/` | `genome_map.png`, `genome_map.svg` | Circular genome map (pyGenomeViz) |
+| `synteny/` | `synteny_plot.png`, `synteny_stats.tsv` | Synteny ribbon plot & statistics |
+| `references/` | `*.fasta`, `*.gbk` | Downloaded NCBI reference genomes |
+| — | `downstream_report.html` | Self-contained per-sample downstream report |
 
 ---
 
@@ -322,6 +411,15 @@ snakemake --cores 8 --use-conda \
 
 # Override output directory
 snakemake --cores 8 --use-conda --config outdir=my_results
+
+# Run annotation only (disable downstream analysis)
+snakemake --cores 8 --use-conda --config downstream="{enabled: false}"
+
+# Run downstream analysis for a specific sample
+snakemake --cores 4 --use-conda results/downstream/sample1/downstream_report.html
+
+# Run phylogeny only for a sample
+snakemake --cores 4 --use-conda results/downstream/sample1/phylogeny/phylogeny.treefile
 ```
 
 ---
