@@ -1,11 +1,10 @@
 # Phylogenetics environment (IQ-TREE + MAFFT)
 channels:
-  - bioconda
   - conda-forge
-  - defaults
+  - bioconda
 dependencies:
+  - python>=3.10,<3.13
   - iqtree>=2.2
   - mafft>=7.520
-  - python>=3.10
   - biopython>=1.81
   - matplotlib>=3.7

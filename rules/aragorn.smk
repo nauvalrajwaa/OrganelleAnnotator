@@ -82,14 +82,14 @@ with open('{output.txt}') as fh:
                 name, start, end = m.group(1), m.group(2), m.group(3)
                 anticodon = m.group(4) or ''
                 strand = '-'
-                gff.append(f'{seq_id}\taragorn\ttRNA\t{start}\t{end}\t.\t{strand}\t.\tID={name};Name={name};anticodon={anticodon}')
+                gff.append(seq_id+'\taragorn\ttRNA\t'+start+'\t'+end+'\t.\t'+strand+'\t.\tID='+name+';Name='+name+';anticodon='+anticodon)
                 continue
             m = re.match(r'\s*\d+\s+(tRNA-\S+|tmRNA)\s+\[?(\d+),(\d+)\]?\s*(\(\w+\))?', line)
             if m:
                 name, start, end = m.group(1), m.group(2), m.group(3)
                 anticodon = m.group(4) or ''
                 strand = '+'
-                gff.append(f'{seq_id}\taragorn\ttRNA\t{start}\t{end}\t.\t{strand}\t.\tID={name};Name={name};anticodon={anticodon}')
+                gff.append(seq_id+'\taragorn\ttRNA\t'+start+'\t'+end+'\t.\t'+strand+'\t.\tID='+name+';Name='+name+';anticodon='+anticodon)
                 continue
 
 with open('{output.gff}', 'w') as out:

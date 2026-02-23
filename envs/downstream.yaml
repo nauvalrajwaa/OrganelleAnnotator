@@ -2,11 +2,10 @@
 # Covers: RSCU, codon usage, Ka/Ks (via MAFFT + KaKs_Calculator),
 #          composition, genome map (pyGenomeViz), report
 channels:
-  - bioconda
   - conda-forge
-  - defaults
+  - bioconda
 dependencies:
-  - python>=3.10
+  - python>=3.10,<3.13
   - biopython>=1.81
   - pandas>=2.0
   - matplotlib>=3.7

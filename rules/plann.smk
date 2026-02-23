@@ -83,7 +83,7 @@ with open(gb_path) as fh:
         if m:
             ftype, start, end = m.group(1), m.group(2), m.group(3)
             strand = '-' if 'complement' in line else '+'
-            gff_lines.append(f'{seq_id}\tplann\t{ftype}\t{start}\t{end}\t.\t{strand}\t.\tID={ftype}_{start}')
+            gff_lines.append(seq_id+'\tplann\t'+ftype+'\t'+start+'\t'+end+'\t.\t'+strand+'\t.\tID='+ftype+'_'+start)
 
 with open('{output.gff}', 'w') as out:
     out.write('\n'.join(gff_lines) + '\n')

@@ -66,9 +66,9 @@ rule chloe_annotate:
 
         # Rename outputs to standardised names
         for ext in gff sff gbk embl; do
-            found=$(find {params.out_dir} -maxdepth 1 -name "*.${ext}" -o -name "*.chloe.${ext}" 2>/dev/null | head -1)
-            if [ -n "$found" ] && [ "$found" != "{params.out_dir}/{wildcards.sample}.${ext}" ]; then
-                cp "$found" {params.out_dir}/{wildcards.sample}.${ext} 2>/dev/null || true
+            found=$(find {params.out_dir} -maxdepth 1 -name "*.${{ext}}" -o -name "*.chloe.${{ext}}" 2>/dev/null | head -1)
+            if [ -n "$found" ] && [ "$found" != "{params.out_dir}/{wildcards.sample}.${{ext}}" ]; then
+                cp "$found" "{params.out_dir}/{wildcards.sample}.${{ext}}" 2>/dev/null || true
             fi
         done
 

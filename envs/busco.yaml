@@ -1,7 +1,6 @@
 channels:
   - conda-forge
   - bioconda
-  - defaults
 dependencies:
   - busco>=5.4
-  - python>=3.8
+  - python>=3.8,<3.13
