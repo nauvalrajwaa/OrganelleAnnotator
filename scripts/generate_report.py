@@ -21,7 +21,6 @@ output_html = snakemake.output.html
 TOOL_LABELS = {
     "chloe": "Chloë (Chloe.jl) — Chloroplast Annotator",
     "pga": "PGA — Plastid Genome Annotator",
-    "plann": "Plann — Reference-based Plastid Annotator",
     "cpgavas2": "CPGAVAS2 — Chloroplast Annotation & Visualisation",
     "mfannot": "MFannot — Mitochondrial/Plastid Annotator",
     "fpma": "fpma — Fast Plant Mitochondria Annotator",
@@ -36,7 +35,6 @@ TOOL_LABELS = {
 TOOL_DESCRIPTIONS = {
     "chloe": "Julia-based chloroplast genome annotator using XGBoost models and suffix-array alignment.",
     "pga": "Perl/BLAST pipeline for rapid batch annotation of plastid genomes against GenBank references.",
-    "plann": "Perl tool that transfers annotations from a reference plastid GenBank file via BLAST alignments.",
     "cpgavas2": "Docker-based chloroplast annotator using BLAST+HMMER against curated plant cp protein DB. Detects IRs and produces circular maps.",
     "mfannot": "Comprehensive mitochondrial/plastid annotator (Docker: nbeck/mfannot) using BLAST, HMMER, Exonerate, Erpin.",
     "fpma": "Rust-based fast HMM scanner for presence/absence of mitochondrial genes using HMMER3 nhmmer.",
@@ -114,7 +112,7 @@ sections = []  # (id, title, html_content)
 overview_rows = ""
 for s in samples:
     tools_run = []
-    for tool in ["chloe", "pga", "plann", "cpgavas2", "mfannot", "fpma", "mitos", "mitoz", "trnascan", "aragorn", "liftoff", "ogdraw"]:
+    for tool in ["chloe", "pga", "cpgavas2", "mfannot", "fpma", "mitos", "mitoz", "trnascan", "aragorn", "liftoff", "ogdraw"]:
         done = os.path.join(outdir, tool, s, f"{s}.done")
         if os.path.exists(done):
             tools_run.append(tool)

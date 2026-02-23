@@ -1,7 +1,0 @@
-channels:
-  - conda-forge
-  - bioconda
-dependencies:
-  - plann>=1.1.2
-  - blast>=2.12
-  - bioperl>=1.7

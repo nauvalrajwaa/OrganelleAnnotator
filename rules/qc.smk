@@ -267,7 +267,7 @@ rule gene_completeness_summary:
                                 if "tmrna" in name.lower() or ftype == "tmRNA":
                                     pass  # tmRNA counted as gene, not tRNA/rRNA
 
-            elif tool in ("plann", "cpgavas2", "liftoff"):
+            elif tool in ("cpgavas2", "liftoff"):
                 # Parse GFF output (all three produce standard GFF3)
                 gff = os.path.join(tool_dir, f"{sample}.gff")
                 if os.path.exists(gff) and os.path.getsize(gff) > 0:

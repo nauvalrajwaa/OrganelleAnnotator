@@ -22,7 +22,7 @@ def get_sample_gbk(sample):
     """Find the best GenBank annotation file for genome map / downstream."""
     organelle = get_organelle(sample)
     if organelle == "plastid":
-        priority = ["chloe", "pga", "plann", "cpgavas2", "liftoff"]
+        priority = ["chloe", "pga", "cpgavas2", "liftoff"]
     else:
         priority = ["mfannot", "mitos", "mitoz", "liftoff"]
 

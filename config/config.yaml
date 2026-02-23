@@ -2,7 +2,7 @@
 # Organelle Annotation Pipeline - Configuration
 # =============================================================================
 # Supported tools:
-#   Plastid/Chloroplast: chloe, pga, plann, cpgavas2
+#   Plastid/Chloroplast: chloe, pga, cpgavas2
 #   Mitochondrial:       mfannot, fpma, mitos, mitoz
 #   Both/QC:             trnascan, aragorn, liftoff
 #   Visualisation:       ogdraw
@@ -16,7 +16,7 @@ outdir: "results"
 
 # -- Run mode ------------------------------------------------------------------
 #   "all"           : run all compatible tools per sample (based on organelle type)
-#   "plastid"       : run only plastid tools (chloe, pga, plann, cpgavas2)
+#   "plastid"       : run only plastid tools (chloe, pga, cpgavas2)
 #   "mito"          : run only mitochondrial tools (mfannot, fpma, mitos, mitoz)
 #   "select"        : run only tools listed in 'tools_select'
 mode: "all"
@@ -25,7 +25,6 @@ mode: "all"
 tools_select:
   - chloe
   - pga
-  - plann
   - cpgavas2
   - mfannot
   - fpma
@@ -85,14 +84,6 @@ pga:
   pidentity: 40
   # Query coverage range (min,max)
   qcoverage: "0.5,2"
-
-# Plann – reference-based plastid genome annotator (conda)
-plann:
-  # Path to a reference GenBank file from a closely related plastid genome.
-  # Required — Plann transfers annotations from this reference.
-  reference_gb: ""  # e.g. "/path/to/Arabidopsis_chloroplast.gb"
-  # Extra flags
-  extra: ""
 
 # CPGAVAS2 – Chloroplast Genome Annotation, Visualization, Analysis (Docker)
 cpgavas2:
@@ -281,10 +272,6 @@ resources:
     threads: 1
     mem_mb: 2000
     runtime: 15
-  plann:
-    threads: 2
-    mem_mb: 4000
-    runtime: 60
   cpgavas2:
     threads: 4
     mem_mb: 8000

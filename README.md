@@ -45,7 +45,6 @@ A **Snakemake** workflow for comprehensive organelle genome annotation using **1
 |------|------|-------------|-----------|
 | **Chloë** (Chloe.jl) | Conda (Julia) | XGBoost + suffix-array annotator optimised for angiosperm chloroplasts. Produces GFF, GenBank, EMBL, SFF. | [chloe.plastid.org](https://chloe.plastid.org) |
 | **PGA** | Conda (Perl + BLAST) | Batch plastid genome annotator using TBLASTN against a curated reference GenBank collection. Detects IRs. | [PGA GitHub](https://github.com/quxiaojian/PGA) |
-| **Plann** | Conda (Perl + BLAST) | Transfers annotations from a closely related reference plastid GenBank file via BLAST alignments. | Huang & Cronk (2015) |
 | **CPGAVAS2** | Docker | Comprehensive chloroplast annotator (BLAST + HMMER) with IR detection and circular map generation. | Shi et al. (2019) |
 
 ### Mitochondrial Annotation
@@ -147,7 +146,6 @@ Organelle_annotation/
 ├── rules/
 │   ├── chloe.smk                      # Chloë (Julia)
 │   ├── pga.smk                        # PGA (Perl + BLAST)
-│   ├── plann.smk                      # Plann (reference-based plastid)
 │   ├── cpgavas2.smk                   # CPGAVAS2 (Docker)
 │   ├── mfannot.smk                    # MFannot (Docker)
 │   ├── fpma.smk                       # fpma (Rust + HMMER)
@@ -182,7 +180,6 @@ Organelle_annotation/
 │   ├── liftoff.yaml                   # Conda: liftoff + minimap2
 │   ├── pga.yaml                       # Conda: Perl + BLAST
 │   ├── phylo.yaml                     # Conda: IQ-TREE + MAFFT
-│   ├── plann.yaml                     # Conda: plann + BLAST + BioPerl
 │   ├── synteny.yaml                   # Conda: MUMmer4
 │   └── trnascan.yaml                  # Conda: tRNAscan-SE
 ├── repo/
@@ -219,7 +216,7 @@ Set `mode` in `config/config.yaml`:
 
 | Mode | Plastid tools | Mito tools | Both/QC tools | Description |
 |------|:---:|:---:|:---:|-------------|
-| `all` | Chloë, PGA, Plann, CPGAVAS2 | MFannot, fpma, MITOS2, MitoZ | tRNAscan-SE, Aragorn, Liftoff | All compatible tools per sample |
+| `all` | Chloë, PGA, CPGAVAS2 | MFannot, fpma, MITOS2, MitoZ | tRNAscan-SE, Aragorn, Liftoff | All compatible tools per sample |
 | `plastid` | ✓ | — | ✓ | Plastid tools + both-organelle tools |
 | `mito` | — | ✓ | ✓ | Mito tools + both-organelle tools |
 | `select` | (user picks) | (user picks) | (user picks) | Only tools listed in `tools_select` |
@@ -251,7 +248,6 @@ All tool parameters are in `config/config.yaml` under their respective keys. Key
 
 | Tool | Required Config | Notes |
 |------|----------------|-------|
-| **Plann** | `plann.reference_gb` | GenBank file from a close relative |
 | **Liftoff** | `liftoff.reference_fasta`, `liftoff.reference_gff` | Reference FASTA + GFF3 from a related species |
 | **CPGAVAS2** | — | Docker image auto-pulls |
 | **MFannot** | — | Docker image: `nbeck/mfannot` |
@@ -305,7 +301,6 @@ downstream:
 | **Chloë** | Julia ≥ 1.9 | Via conda or [`juliaup`](https://julialang.org/downloads/) |
 | **PGA** | Perl ≥ 5.26, BLAST+ ≥ 2.8.1 | Via conda env |
 | **fpma** | Rust toolchain, HMMER3 | `cargo build --release` |
-| **Plann** | Perl, BioPerl, BLAST | Via conda env |
 | **Liftoff** | Python ≥ 3.8, minimap2 | Via conda env |
 | **tRNAscan-SE** | ≥ 2.0.12 | Via conda env |
 | **Aragorn** | ≥ 1.2.41 | Via conda env |
@@ -341,7 +336,6 @@ cd repo/Chloe.jl && julia --project=. -e 'using Pkg; Pkg.instantiate()' && cd ..
 |------|-----------------|
 | **Chloë** | `{sample}.gff`, `{sample}.gbk`, `{sample}.sff`, `{sample}.embl` |
 | **PGA** | `{sample}.gb` (GenBank) |
-| **Plann** | `{sample}.gb`, `{sample}.gff`, `{sample}.tbl` |
 | **CPGAVAS2** | `{sample}.gb`, `{sample}.gff`, circular map images |
 | **MFannot** | `{sample}.new` (masterfile), `{sample}.gff` |
 | **fpma** | `{sample}.gff`, `{sample}.presence.tsv`, `{sample}.html` (SVG plot) |
