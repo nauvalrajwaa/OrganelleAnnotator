@@ -13,7 +13,7 @@ rule chloe_annotate:
         done=touch(f"{OUTDIR}/chloe/{{sample}}/{{sample}}.done"),
         gff=f"{OUTDIR}/chloe/{{sample}}/{{sample}}.gff",
     params:
-        chloe_dir=config["chloe"]["path"],
+        chloe_dir=os.path.join(workflow.basedir, config["chloe"]["path"]),
         out_dir=lambda wc: f"{OUTDIR}/chloe/{wc.sample}",
         reference=config["chloe"]["reference"],
         references_dir=config["chloe"].get("references_dir", ""),

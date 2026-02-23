@@ -50,8 +50,8 @@ qc:
 
 # Chloe.jl – chloroplast genome annotator (Julia)
 chloe:
-  # Path to the Chloe.jl directory (absolute path)
-  path: "/Users/user/Downloads/04. Pipeline_NGS/pipeline_annotation/Organelle_annotation/repo/Chloe.jl"
+  # Path to the Chloe.jl directory (relative to pipeline root)
+  path: "repo/Chloe.jl"
   # Reference set: "cp" (chloroplast) or "nr" (nuclear rDNA)
   reference: "cp"
   # Reference DB dir (clone from https://github.com/ian-small/chloe_references)
@@ -71,10 +71,10 @@ chloe:
 
 # PGA – Plastid Genome Annotator (Perl + BLAST)
 pga:
-  # Path to PGA.pl (absolute path)
-  path: "/Users/user/Downloads/04. Pipeline_NGS/pipeline_annotation/Organelle_annotation/repo/PGA"
+  # Path to PGA.pl (relative to pipeline root)
+  path: "repo/PGA"
   # Reference GenBank directory (shipped with PGA)
-  reference_dir: "/Users/user/Downloads/04. Pipeline_NGS/pipeline_annotation/Organelle_annotation/repo/PGA/plastomes"
+  reference_dir: "repo/PGA/plastomes"
   # Genome topology: "circular" or "linear"
   form: "circular"
   # Minimum inverted repeat length (bp)

@@ -14,8 +14,8 @@ rule pga_annotate:
         done=touch(f"{OUTDIR}/pga/{{sample}}/{{sample}}.done"),
         gb=f"{OUTDIR}/pga/{{sample}}/{{sample}}.gb",
     params:
-        pga_dir=config["pga"]["path"],
-        ref_dir=config["pga"]["reference_dir"],
+        pga_dir=os.path.join(workflow.basedir, config["pga"]["path"]),
+        ref_dir=os.path.join(workflow.basedir, config["pga"]["reference_dir"]),
         form=config["pga"]["form"],
         ir_min=config["pga"]["ir_min"],
         pidentity=config["pga"]["pidentity"],
