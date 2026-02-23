@@ -1,5 +1,10 @@
 repo/
 cache/
+.snakemake/
+resources/
+results/
+post_organelle_assembly/
+
 *.log
 .DS_Store
-post_organelle_assembly/
+
