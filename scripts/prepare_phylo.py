@@ -197,8 +197,9 @@ def prepare_phylo(sample_fasta: str, ref_dir: str, output_dir: str,
 
     if len(common) < min_genes:
         log.warning(f"Too few common genes ({len(common)} < {min_genes}); skipping phylogeny.")
-        # Write empty outputs
+        # Write empty outputs so Snakemake doesn't fail on missing files
         open(os.path.join(output_dir, "supermatrix.fasta"), "w").close()
+        open(os.path.join(output_dir, "partitions.nex"), "w").close()
         return
 
     # Build supermatrix

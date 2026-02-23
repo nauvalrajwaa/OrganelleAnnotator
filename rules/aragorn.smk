@@ -14,17 +14,17 @@ rule aragorn_annotate:
     input:
         fasta=lambda wc: get_fasta(wc.sample),
     output:
-        done=touch(f"{OUTDIR}/aragorn/{{sample}}/{{sample}}.done"),
-        txt=f"{OUTDIR}/aragorn/{{sample}}/{{sample}}.aragorn.txt",
-        gff=f"{OUTDIR}/aragorn/{{sample}}/{{sample}}.gff",
+        done=touch(f"{OUTDIR}/{{sample}}/aragorn/{{sample}}.done"),
+        txt=f"{OUTDIR}/{{sample}}/aragorn/{{sample}}.aragorn.txt",
+        gff=f"{OUTDIR}/{{sample}}/aragorn/{{sample}}.gff",
     params:
-        out_dir=lambda wc: f"{OUTDIR}/aragorn/{wc.sample}",
+        out_dir=lambda wc: f"{OUTDIR}/{wc.sample}/aragorn",
         genetic_code=lambda wc: get_genetic_code(wc.sample),
         topology=config["aragorn"]["topology"],
         search_both_strands=config["aragorn"]["search_both_strands"],
         extra=config["aragorn"].get("extra", ""),
     log:
-        f"{OUTDIR}/logs/aragorn/{{sample}}.log",
+        f"{OUTDIR}/{{sample}}/logs/aragorn.log",
     threads:
         config["resources"]["aragorn"]["threads"]
     resources:
@@ -74,17 +74,17 @@ with open('{output.txt}') as fh:
             continue
         # Match tRNA/tmRNA entries like:
         #  1  tRNA-Met           c[1234,1305]   (cat)
-        m = re.match(r'\s*\d+\s+(tRNA-\S+|tmRNA)\s+(\[?c?\[?)(\d+),(\d+)\]?\)?\s*(\(\w+\))?', line)
+        m = re.match(r'\s*\d+\s+(tRNA-\S+|tmRNA)\s+(\[?c?\[?)(\\d+),(\\d+)\\]?\\)?\\s*(\\(\\w+\\))?', line)
         if not m:
             # Also handle complement notation
-            m = re.match(r'\s*\d+\s+(tRNA-\S+|tmRNA)\s+c\[(\d+),(\d+)\]\s*(\(\w+\))?', line)
+            m = re.match(r'\s*\d+\s+(tRNA-\S+|tmRNA)\s+c\[(\\d+),(\\d+)\\]\s*(\\(\\w+\\))?', line)
             if m:
                 name, start, end = m.group(1), m.group(2), m.group(3)
                 anticodon = m.group(4) or ''
                 strand = '-'
                 gff.append(seq_id+'\taragorn\ttRNA\t'+start+'\t'+end+'\t.\t'+strand+'\t.\tID='+name+';Name='+name+';anticodon='+anticodon)
                 continue
-            m = re.match(r'\s*\d+\s+(tRNA-\S+|tmRNA)\s+\[?(\d+),(\d+)\]?\s*(\(\w+\))?', line)
+            m = re.match(r'\s*\d+\s+(tRNA-\S+|tmRNA)\s+\[?(\\d+),(\\d+)\\]?\s*(\\(\\w+\\))?', line)
             if m:
                 name, start, end = m.group(1), m.group(2), m.group(3)
                 anticodon = m.group(4) or ''

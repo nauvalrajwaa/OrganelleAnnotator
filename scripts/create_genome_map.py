@@ -85,16 +85,29 @@ def create_genome_map(gbk_file: str, output_png: str, linear: bool = False):
         "gene": "#EECA3B",   # Yellow
     }
 
-    # Initialize GenomeViz
-    gv = GenomeViz(
-        fig_track_height=0.5,
-        feature_track_ratio=0.25,
-        tick_track_ratio=0.1,
-    )
+    # Initialize GenomeViz (handle API differences across versions)
+    try:
+        gv = GenomeViz(
+            fig_track_height=0.5,
+            feature_track_ratio=0.25,
+            tick_track_ratio=0.1,
+        )
+    except TypeError:
+        # Newer pyGenomeViz versions removed tick_track_ratio
+        try:
+            gv = GenomeViz(
+                fig_track_height=0.5,
+                feature_track_ratio=0.25,
+            )
+        except TypeError:
+            gv = GenomeViz()
 
     # Add genome track
     track = gv.add_feature_track(genome_name, genome_len)
-    track.add_sublabel(f"({genome_len:,} bp, GC: {avg_gc:.1%})")
+    try:
+        track.add_sublabel(f"({genome_len:,} bp, GC: {avg_gc:.1%})")
+    except (AttributeError, TypeError):
+        pass  # sublabel not supported in this version
 
     # Add features
     for feat in record.features:
@@ -115,15 +128,16 @@ def create_genome_map(gbk_file: str, output_png: str, linear: bool = False):
         elif "locus_tag" in feat.qualifiers:
             label = feat.qualifiers["locus_tag"][0]
 
-        track.add_feature(
-            start, end, strand,
-            label=label,
-            facecolor=color,
-            labelsize=7,
-            labelvpos="top" if strand == 1 else "bottom",
-            labelha="center",
-            linewidth=0.5,
-        )
+        try:
+            track.add_feature(
+                start, end, strand,
+                label=label,
+                facecolor=color,
+                linewidth=0.5,
+            )
+        except TypeError:
+            # Minimal fallback for different API versions
+            track.add_feature(start, end, strand, label=label)
 
     # ── GC content & skew as subtracks (if supported) ──
     seq_str = str(record.seq)

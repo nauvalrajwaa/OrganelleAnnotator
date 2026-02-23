@@ -13,13 +13,13 @@ rule busco:
     input:
         fasta=lambda wc: get_fasta(wc.sample),
     output:
-        summary=f"{OUTDIR}/qc/busco/{{sample}}/short_summary.txt",
-        out_dir=directory(f"{OUTDIR}/qc/busco/{{sample}}"),
+        summary=f"{OUTDIR}/{{sample}}/qc/busco/short_summary.txt",
+        out_dir=directory(f"{OUTDIR}/{{sample}}/qc/busco"),
     params:
         lineage=config["qc"]["busco_lineage"],
         mode=config["qc"]["busco_mode"],
     log:
-        f"{OUTDIR}/logs/qc/busco_{{sample}}.log",
+        f"{OUTDIR}/{{sample}}/logs/busco.log",
     threads:
         config["resources"]["busco"]["threads"]
     resources:
@@ -37,14 +37,17 @@ rule busco:
             -l {params.lineage} \
             -m {params.mode} \
             -o {wildcards.sample} \
-            --out_path {OUTDIR}/qc/busco/ \
+            --out_path {OUTDIR}/{wildcards.sample}/qc/busco/ \
             -c {threads} \
             --offline \
             2>&1 | tee {log} || true
 
         # BUSCO writes into a nested dir; copy summary to expected location
-        BUSCO_DIR="{OUTDIR}/qc/busco/{wildcards.sample}"
+        BUSCO_DIR="{OUTDIR}/{wildcards.sample}/qc/busco/{wildcards.sample}"
         SUMMARY=$(find "$BUSCO_DIR" -name "short_summary*.txt" 2>/dev/null | head -1)
+        if [ -z "$SUMMARY" ]; then
+            SUMMARY=$(find "{OUTDIR}/{wildcards.sample}/qc/busco" -name "short_summary*.txt" 2>/dev/null | head -1)
+        fi
         if [ -n "$SUMMARY" ]; then
             cp "$SUMMARY" {output.summary}
         else
@@ -64,16 +67,16 @@ rule gene_completeness_summary:
     """
     input:
         done=lambda wc: [
-            f"{OUTDIR}/{tool}/{wc.sample}/{wc.sample}.done"
+            f"{OUTDIR}/{wc.sample}/{tool}/{wc.sample}.done"
             for tool in tools_for_sample(wc.sample)
         ],
     output:
-        summary=f"{OUTDIR}/qc/summary/{{sample}}.qc_summary.tsv",
+        summary=f"{OUTDIR}/{{sample}}/qc/qc_summary.tsv",
     params:
         tools=lambda wc: tools_for_sample(wc.sample),
         out_base=OUTDIR,
     log:
-        f"{OUTDIR}/logs/qc/gene_summary_{{sample}}.log",
+        f"{OUTDIR}/{{sample}}/logs/gene_summary.log",
     run:
         import re, os, csv
 
@@ -86,7 +89,7 @@ rule gene_completeness_summary:
             rrna_count = 0
             gene_count = 0
 
-            tool_dir = os.path.join(params.out_base, tool, sample)
+            tool_dir = os.path.join(params.out_base, sample, tool)
 
             if tool == "chloe":
                 gff = os.path.join(tool_dir, f"{sample}.gff")
@@ -307,6 +310,7 @@ rule gene_completeness_summary:
                 "gene_names": ";".join(gene_names),
             })
 
+        os.makedirs(os.path.dirname(output.summary), exist_ok=True)
         with open(output.summary, "w", newline="") as out:
             writer = csv.DictWriter(
                 out,

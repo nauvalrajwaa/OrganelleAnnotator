@@ -22,17 +22,22 @@ outdir: "results"
 mode: "all"
 
 # When mode is "select", specify which tools to run:
+# All available tools listed below. Comment out to disable.
 tools_select:
-  - chloe
-  - pga
-  - mfannot
-  - fpma
-  - mitos
-  - mitoz
-  - trnascan
-  - aragorn
-  - liftoff
-  # - ogdraw   # enable for circular genome map visualisation
+  # ── Plastid / Chloroplast annotators ──
+  - chloe        # Chloe.jl — Julia-based chloroplast annotator (XGBoost)
+  - pga          # PGA — Plastid Genome Annotator (Perl + BLAST)
+  # ── Mitochondrial annotators ──
+  - mfannot      # MFannot — mitochondrial/plastid annotator (Docker)
+  - fpma         # fpma — Fast Plant Mitochondria Annotator (Rust + HMMER)
+  - mitos        # MITOS2 — mitochondrial genome annotator (Docker)
+  - mitoz        # MitoZ — animal mitochondrial annotator (Docker)
+  # ── Both / QC tools ──
+  - trnascan     # tRNAscan-SE — tRNA gene detection (conda)
+  - aragorn      # Aragorn — tRNA/tmRNA detection (conda)
+  - liftoff      # Liftoff — reference-based annotation lift-over (requires reference_fasta & reference_gff in samples.tsv)
+  # ── Visualisation ──
+  # - ogdraw     # OGDraw — circular genome map visualisation (Docker)
 
 # -- Quality control -----------------------------------------------------------
 qc:
@@ -87,11 +92,9 @@ pga:
 
 
 # Liftoff – reference-based annotation lift-over (conda + minimap2)
+# NOTE: reference_fasta and reference_gff are now per-sample in samples.tsv.
+#       If empty for a sample, liftoff is automatically skipped.
 liftoff:
-  # Path to reference organelle FASTA (closely related species)
-  reference_fasta: ""  # e.g. "/path/to/ref_plastid.fasta"
-  # Path to reference GFF3 annotation
-  reference_gff: ""    # e.g. "/path/to/ref_plastid.gff3"
   # Minimum coverage for feature mapping (0.0-1.0)
   min_coverage: 0.5
   # Minimum sequence identity (0.0-1.0)

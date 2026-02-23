@@ -10,11 +10,11 @@ rule chloe_annotate:
     input:
         fasta=lambda wc: get_fasta(wc.sample),
     output:
-        done=touch(f"{OUTDIR}/chloe/{{sample}}/{{sample}}.done"),
-        gff=f"{OUTDIR}/chloe/{{sample}}/{{sample}}.gff",
+        done=touch(f"{OUTDIR}/{{sample}}/chloe/{{sample}}.done"),
+        gff=f"{OUTDIR}/{{sample}}/chloe/{{sample}}.gff",
     params:
         chloe_dir=os.path.join(workflow.basedir, config["chloe"]["path"]),
-        out_dir=lambda wc: f"{OUTDIR}/chloe/{wc.sample}",
+        out_dir=lambda wc: f"{OUTDIR}/{wc.sample}/chloe",
         reference=config["chloe"]["reference"],
         references_dir=config["chloe"].get("references_dir", ""),
         sensitivity=config["chloe"]["sensitivity"],
@@ -32,7 +32,7 @@ rule chloe_annotate:
             }.items() if v]
         ),
     log:
-        f"{OUTDIR}/logs/chloe/{{sample}}.log",
+        f"{OUTDIR}/{{sample}}/logs/chloe.log",
     threads:
         config["resources"]["chloe"]["threads"]
     resources:
@@ -53,6 +53,11 @@ rule chloe_annotate:
             REF_FLAG="-r {params.references_dir}"
         fi
 
+        # Ensure all Julia dependencies are installed
+        julia --project={params.chloe_dir} \
+            -e 'import Pkg; Pkg.instantiate()' \
+            2>&1 | tee {log}
+
         julia --project={params.chloe_dir} \
             -t {threads} \
             {params.chloe_dir}/chloe.jl annotate \
@@ -62,7 +67,7 @@ rule chloe_annotate:
             {params.extra_flags} \
             -o {params.out_dir} \
             {params.out_dir}/{wildcards.sample}.fa \
-            2>&1 | tee {log}
+            2>&1 | tee -a {log}
 
         # Rename outputs to standardised names
         for ext in gff sff gbk embl; do

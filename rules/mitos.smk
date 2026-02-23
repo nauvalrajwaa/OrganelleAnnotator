@@ -14,19 +14,19 @@ rule mitos_annotate:
     input:
         fasta=lambda wc: get_fasta(wc.sample),
     output:
-        done=touch(f"{OUTDIR}/mitos/{{sample}}/{{sample}}.done"),
-        gff=f"{OUTDIR}/mitos/{{sample}}/result.gff",
-        bed=f"{OUTDIR}/mitos/{{sample}}/result.bed",
+        done=touch(f"{OUTDIR}/{{sample}}/mitos/{{sample}}.done"),
+        gff=f"{OUTDIR}/{{sample}}/mitos/result.gff",
+        bed=f"{OUTDIR}/{{sample}}/mitos/result.bed",
     params:
         docker_image=config["mitos"]["docker_image"],
         genetic_code=lambda wc: get_genetic_code(wc.sample),
         ref_db=config["mitos"]["ref_db"],
         ref_dir=config["mitos"]["ref_dir"],
         extra=config["mitos"].get("extra", ""),
-        out_dir=lambda wc: f"{OUTDIR}/mitos/{wc.sample}",
+        out_dir=lambda wc: f"{OUTDIR}/{wc.sample}/mitos",
         use_singularity=config["mitos"].get("use_singularity", False),
     log:
-        f"{OUTDIR}/logs/mitos/{{sample}}.log",
+        f"{OUTDIR}/{{sample}}/logs/mitos.log",
     threads:
         config["resources"]["mitos"]["threads"]
     resources:
@@ -96,11 +96,11 @@ rule mitos_extract_proteins:
     Extract protein sequences from MITOS output for downstream QC.
     """
     input:
-        done=f"{OUTDIR}/mitos/{{sample}}/{{sample}}.done",
+        done=f"{OUTDIR}/{{sample}}/mitos/{{sample}}.done",
     output:
-        proteins=f"{OUTDIR}/mitos/{{sample}}/{{sample}}.proteins.fasta",
+        proteins=f"{OUTDIR}/{{sample}}/mitos/{{sample}}.proteins.fasta",
     params:
-        out_dir=lambda wc: f"{OUTDIR}/mitos/{wc.sample}",
+        out_dir=lambda wc: f"{OUTDIR}/{wc.sample}/mitos",
     run:
         import os, glob
 

@@ -6,6 +6,9 @@
 # Especially useful when a well-annotated relative is available.
 # Conda: bioconda::liftoff
 # Reference: Shumate & Salzberg (2021) doi:10.1093/bioinformatics/btaa1016
+#
+# NOTE: reference_fasta and reference_gff are per-sample (from samples.tsv).
+#       Liftoff is automatically skipped for samples without references.
 # =============================================================================
 
 rule liftoff_annotate:
@@ -17,18 +20,18 @@ rule liftoff_annotate:
     input:
         fasta=lambda wc: get_fasta(wc.sample),
     output:
-        done=touch(f"{OUTDIR}/liftoff/{{sample}}/{{sample}}.done"),
-        gff=f"{OUTDIR}/liftoff/{{sample}}/{{sample}}.gff",
-        unmapped=f"{OUTDIR}/liftoff/{{sample}}/{{sample}}.unmapped.txt",
+        done=touch(f"{OUTDIR}/{{sample}}/liftoff/{{sample}}.done"),
+        gff=f"{OUTDIR}/{{sample}}/liftoff/{{sample}}.gff",
+        unmapped=f"{OUTDIR}/{{sample}}/liftoff/{{sample}}.unmapped.txt",
     params:
-        out_dir=lambda wc: f"{OUTDIR}/liftoff/{wc.sample}",
-        ref_fasta=config["liftoff"]["reference_fasta"],
-        ref_gff=config["liftoff"]["reference_gff"],
+        out_dir=lambda wc: f"{OUTDIR}/{wc.sample}/liftoff",
+        ref_fasta=lambda wc: get_reference_fasta(wc.sample),
+        ref_gff=lambda wc: get_reference_gff(wc.sample),
         min_coverage=config["liftoff"]["min_coverage"],
         min_identity=config["liftoff"]["min_identity"],
         extra=config["liftoff"].get("extra", ""),
     log:
-        f"{OUTDIR}/logs/liftoff/{{sample}}.log",
+        f"{OUTDIR}/{{sample}}/logs/liftoff.log",
     threads:
         config["resources"]["liftoff"]["threads"]
     resources:
@@ -42,12 +45,12 @@ rule liftoff_annotate:
         mkdir -p {params.out_dir} $(dirname {log})
 
         if [ -z "{params.ref_fasta}" ] || [ ! -f "{params.ref_fasta}" ]; then
-            echo "ERROR: Liftoff requires a reference FASTA (liftoff.reference_fasta in config)." >&2
+            echo "ERROR: Liftoff requires a reference FASTA (reference_fasta in samples.tsv)." >&2
             touch {output.gff} {output.unmapped}
             exit 0
         fi
         if [ -z "{params.ref_gff}" ] || [ ! -f "{params.ref_gff}" ]; then
-            echo "ERROR: Liftoff requires a reference GFF (liftoff.reference_gff in config)." >&2
+            echo "ERROR: Liftoff requires a reference GFF (reference_gff in samples.tsv)." >&2
             touch {output.gff} {output.unmapped}
             exit 0
         fi
@@ -76,12 +79,12 @@ rule liftoff_to_gb:
     Uses a lightweight Python conversion.
     """
     input:
-        gff=f"{OUTDIR}/liftoff/{{sample}}/{{sample}}.gff",
+        gff=f"{OUTDIR}/{{sample}}/liftoff/{{sample}}.gff",
         fasta=lambda wc: get_fasta(wc.sample),
     output:
-        gb=f"{OUTDIR}/liftoff/{{sample}}/{{sample}}.gb",
+        gb=f"{OUTDIR}/{{sample}}/liftoff/{{sample}}.gb",
     log:
-        f"{OUTDIR}/logs/liftoff/{{sample}}_to_gb.log",
+        f"{OUTDIR}/{{sample}}/logs/liftoff_to_gb.log",
     conda:
         "../envs/liftoff.yaml"
     shell:

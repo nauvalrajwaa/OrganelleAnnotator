@@ -87,7 +87,7 @@ def read_qc_summary(path):
 
 def list_tool_outputs(sample, tool, outdir):
     """List result files produced by a tool for a sample."""
-    tool_dir = os.path.join(outdir, tool, sample)
+    tool_dir = os.path.join(outdir, sample, tool)
     if not os.path.isdir(tool_dir):
         return []
     files = []
@@ -112,10 +112,18 @@ sections = []  # (id, title, html_content)
 overview_rows = ""
 for s in samples:
     tools_run = []
-    for tool in ["chloe", "pga", "mfannot", "fpma", "mitos", "mitoz", "trnascan", "aragorn", "liftoff", "ogdraw"]:
-        done = os.path.join(outdir, tool, s, f"{s}.done")
+    for tool in ["chloe", "pga", "mfannot", "fpma", "mitos", "mitoz", "trnascan", "aragorn", "liftoff"]:
+        done = os.path.join(outdir, s, tool, f"{s}.done")
         if os.path.exists(done):
             tools_run.append(tool)
+    # OGDraw: check subdirectories for done markers
+    ogdraw_base = os.path.join(outdir, s, "ogdraw")
+    if os.path.isdir(ogdraw_base):
+        ogdraw_srcs = [d for d in os.listdir(ogdraw_base)
+                       if os.path.isdir(os.path.join(ogdraw_base, d))
+                       and os.path.exists(os.path.join(ogdraw_base, d, f"{s}.done"))]
+        if ogdraw_srcs:
+            tools_run.append(f"ogdraw({','.join(sorted(ogdraw_srcs))})")
     overview_rows += f"<tr><td>{html_mod.escape(s)}</td><td>{', '.join(tools_run) or 'none'}</td></tr>\n"
 
 sections.append((
@@ -136,21 +144,53 @@ for tool_id, tool_title in TOOL_LABELS.items():
     has_data = False
 
     for s in samples:
-        files = list_tool_outputs(s, tool_id, outdir)
-        if not files:
-            continue
-        has_data = True
-        file_rows = "".join(
-            f"<tr><td><a href='{rel}'>{html_mod.escape(fn)}</a></td><td>{sz}</td></tr>"
-            for fn, sz, rel in files
-        )
-        tool_html += f"""
-        <h4>{html_mod.escape(s)}</h4>
-        <table class="files">
-          <thead><tr><th>File</th><th>Size</th></tr></thead>
-          <tbody>{file_rows}</tbody>
-        </table>
-        """
+        if tool_id == "ogdraw":
+            # OGDraw now has subdirectories per source tool
+            ogdraw_base = os.path.join(outdir, s, "ogdraw")
+            if not os.path.isdir(ogdraw_base):
+                continue
+            for src_tool in sorted(os.listdir(ogdraw_base)):
+                src_dir = os.path.join(ogdraw_base, src_tool)
+                if not os.path.isdir(src_dir):
+                    continue
+                src_files = []
+                for fn in sorted(os.listdir(src_dir)):
+                    if fn.endswith(".done"):
+                        continue
+                    fp = os.path.join(src_dir, fn)
+                    if os.path.isfile(fp):
+                        size_kb = os.path.getsize(fp) / 1024
+                        rel = os.path.relpath(fp, os.path.dirname(output_html))
+                        src_files.append((fn, f"{size_kb:.1f} KB", rel))
+                if src_files:
+                    has_data = True
+                    file_rows = "".join(
+                        f"<tr><td><a href='{rel}'>{html_mod.escape(fn)}</a></td><td>{sz}</td></tr>"
+                        for fn, sz, rel in src_files
+                    )
+                    tool_html += f"""
+                    <h4>{html_mod.escape(s)} — from {html_mod.escape(src_tool)}</h4>
+                    <table class="files">
+                      <thead><tr><th>File</th><th>Size</th></tr></thead>
+                      <tbody>{file_rows}</tbody>
+                    </table>
+                    """
+        else:
+            files = list_tool_outputs(s, tool_id, outdir)
+            if not files:
+                continue
+            has_data = True
+            file_rows = "".join(
+                f"<tr><td><a href='{rel}'>{html_mod.escape(fn)}</a></td><td>{sz}</td></tr>"
+                for fn, sz, rel in files
+            )
+            tool_html += f"""
+            <h4>{html_mod.escape(s)}</h4>
+            <table class="files">
+              <thead><tr><th>File</th><th>Size</th></tr></thead>
+              <tbody>{file_rows}</tbody>
+            </table>
+            """
 
     if not has_data:
         tool_html += "<p><em>No samples were processed with this tool.</em></p>"
@@ -160,7 +200,7 @@ for tool_id, tool_title in TOOL_LABELS.items():
 # -- QC Gene Completeness section -------------------------------------------
 qc_html = ""
 for s in samples:
-    qc_path = os.path.join(outdir, "qc", "summary", f"{s}.qc_summary.tsv")
+    qc_path = os.path.join(outdir, s, "qc", "qc_summary.tsv")
     rows = read_qc_summary(qc_path)
     if not rows:
         continue
@@ -193,7 +233,7 @@ sections.append(("qc-genes", "Gene Completeness Summary", qc_html))
 # -- BUSCO section -----------------------------------------------------------
 busco_html = ""
 for s in samples:
-    bp = os.path.join(outdir, "qc", "busco", s, "short_summary.txt")
+    bp = os.path.join(outdir, s, "qc", "busco", "short_summary.txt")
     metrics = read_busco_summary(bp)
     if not metrics:
         busco_html += f"<h4>{html_mod.escape(s)}</h4><p><em>No BUSCO results.</em></p>"
@@ -218,7 +258,7 @@ downstream_enabled = False
 try:
     # Check for downstream reports
     for s in samples:
-        ds_report = os.path.join(outdir, "downstream", s, "downstream_report.html")
+        ds_report = os.path.join(outdir, s, "downstream", "downstream_report.html")
         if os.path.exists(ds_report):
             downstream_enabled = True
             rel_path = os.path.relpath(ds_report, os.path.dirname(output_html))
@@ -242,7 +282,7 @@ try:
                 ("Synteny Plot", "synteny/synteny_plot.png"),
             ]
             for label, subpath in analysis_items:
-                fp = os.path.join(outdir, "downstream", s, subpath)
+                fp = os.path.join(outdir, s, "downstream", subpath)
                 status = "&#x2705; Complete" if os.path.exists(fp) and os.path.getsize(fp) > 0 else "&#x274C; Not available"
                 downstream_html += f"<tr><td>{label}</td><td>{status}</td></tr>\n"
             downstream_html += "</tbody></table>\n"

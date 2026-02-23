@@ -10,8 +10,8 @@ rule mfannot_annotate:
     input:
         fasta=lambda wc: get_fasta(wc.sample),
     output:
-        done=touch(f"{OUTDIR}/mfannot/{{sample}}/{{sample}}.done"),
-        masterfile=f"{OUTDIR}/mfannot/{{sample}}/{{sample}}.new",
+        done=touch(f"{OUTDIR}/{{sample}}/mfannot/{{sample}}.done"),
+        masterfile=f"{OUTDIR}/{{sample}}/mfannot/{{sample}}.new",
     params:
         docker_image=config["mfannot"]["docker_image"],
         genetic_code=lambda wc: get_genetic_code(wc.sample),
@@ -20,10 +20,10 @@ rule mfannot_annotate:
         max_intron_size=config["mfannot"]["max_intron_size"],
         extra=config["mfannot"]["extra"],
         sqn_flag=lambda wc: "--sqnformat" if config["mfannot"]["sqn_format"] else "",
-        out_dir=lambda wc: f"{OUTDIR}/mfannot/{wc.sample}",
+        out_dir=lambda wc: f"{OUTDIR}/{wc.sample}/mfannot",
         use_singularity=config["mfannot"].get("use_singularity", False),
     log:
-        f"{OUTDIR}/logs/mfannot/{{sample}}.log",
+        f"{OUTDIR}/{{sample}}/logs/mfannot.log",
     threads:
         config["resources"]["mfannot"]["threads"]
     resources:
@@ -85,11 +85,11 @@ rule mfannot_to_gff:
     This parses the MFannot masterfile format and extracts gene annotations.
     """
     input:
-        masterfile=f"{OUTDIR}/mfannot/{{sample}}/{{sample}}.new",
+        masterfile=f"{OUTDIR}/{{sample}}/mfannot/{{sample}}.new",
     output:
-        gff=f"{OUTDIR}/mfannot/{{sample}}/{{sample}}.gff",
+        gff=f"{OUTDIR}/{{sample}}/mfannot/{{sample}}.gff",
     log:
-        f"{OUTDIR}/logs/mfannot/{{sample}}_to_gff.log",
+        f"{OUTDIR}/{{sample}}/logs/mfannot_to_gff.log",
     run:
         import re
 

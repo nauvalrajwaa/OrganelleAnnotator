@@ -15,17 +15,17 @@ rule trnascan_annotate:
     input:
         fasta=lambda wc: get_fasta(wc.sample),
     output:
-        done=touch(f"{OUTDIR}/trnascan/{{sample}}/{{sample}}.done"),
-        tsv=f"{OUTDIR}/trnascan/{{sample}}/{{sample}}.trnascan.tsv",
-        gff=f"{OUTDIR}/trnascan/{{sample}}/{{sample}}.gff",
-        ss=f"{OUTDIR}/trnascan/{{sample}}/{{sample}}.ss",
+        done=touch(f"{OUTDIR}/{{sample}}/trnascan/{{sample}}.done"),
+        tsv=f"{OUTDIR}/{{sample}}/trnascan/{{sample}}.trnascan.tsv",
+        gff=f"{OUTDIR}/{{sample}}/trnascan/{{sample}}.gff",
+        ss=f"{OUTDIR}/{{sample}}/trnascan/{{sample}}.ss",
     params:
-        out_dir=lambda wc: f"{OUTDIR}/trnascan/{wc.sample}",
+        out_dir=lambda wc: f"{OUTDIR}/{wc.sample}/trnascan",
         search_mode=lambda wc: config["trnascan"]["search_mode"],
         score_cutoff=config["trnascan"]["score_cutoff"],
         extra=config["trnascan"].get("extra", ""),
     log:
-        f"{OUTDIR}/logs/trnascan/{{sample}}.log",
+        f"{OUTDIR}/{{sample}}/logs/trnascan.log",
     threads:
         config["resources"]["trnascan"]["threads"]
     resources:

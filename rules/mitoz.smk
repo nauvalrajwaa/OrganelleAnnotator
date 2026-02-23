@@ -14,17 +14,17 @@ rule mitoz_annotate:
     input:
         fasta=lambda wc: get_fasta(wc.sample),
     output:
-        done=touch(f"{OUTDIR}/mitoz/{{sample}}/{{sample}}.done"),
-        gff=f"{OUTDIR}/mitoz/{{sample}}/{{sample}}.gff",
+        done=touch(f"{OUTDIR}/{{sample}}/mitoz/{{sample}}.done"),
+        gff=f"{OUTDIR}/{{sample}}/mitoz/{{sample}}.gff",
     params:
         docker_image=config["mitoz"]["docker_image"],
         genetic_code=lambda wc: get_genetic_code(wc.sample),
         clade=config["mitoz"]["clade"],
         extra=config["mitoz"].get("extra", ""),
-        out_dir=lambda wc: f"{OUTDIR}/mitoz/{wc.sample}",
+        out_dir=lambda wc: f"{OUTDIR}/{wc.sample}/mitoz",
         use_singularity=config["mitoz"].get("use_singularity", False),
     log:
-        f"{OUTDIR}/logs/mitoz/{{sample}}.log",
+        f"{OUTDIR}/{{sample}}/logs/mitoz.log",
     threads:
         config["resources"]["mitoz"]["threads"]
     resources:

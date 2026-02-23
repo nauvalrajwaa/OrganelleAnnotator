@@ -1,0 +1,6 @@
+[1]
+
+change ogdraw to always run use gbk from every results used to be run at ogdraw, makesure its run for every samples
+
+[2]
+now ogdraw visualization is more than one in the section ogdraw

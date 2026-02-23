@@ -9,19 +9,24 @@ rule generate_report:
     """
     input:
         qc_summaries=lambda wc: [
-            f"{OUTDIR}/qc/summary/{s}.qc_summary.tsv"
+            f"{OUTDIR}/{s}/qc/qc_summary.tsv"
             for s in SAMPLES
             if config["qc"]["enabled"]
         ],
         busco_summaries=lambda wc: [
-            f"{OUTDIR}/qc/busco/{s}/short_summary.txt"
+            f"{OUTDIR}/{s}/qc/busco/short_summary.txt"
             for s in SAMPLES
             if config["qc"]["enabled"]
         ],
         done_markers=lambda wc: [
-            f"{OUTDIR}/{tool}/{s}/{s}.done"
+            f"{OUTDIR}/{s}/{tool}/{s}.done"
             for s in SAMPLES
             for tool in tools_for_sample(s)
+        ],
+        ogdraw_markers=lambda wc: [
+            f"{OUTDIR}/{s}/ogdraw/{src}/{s}.done"
+            for s in SAMPLES
+            for src in ogdraw_source_tools(s)
         ],
     output:
         html=f"{OUTDIR}/report/index.html",
@@ -29,6 +34,6 @@ rule generate_report:
         samples=SAMPLES,
         outdir=OUTDIR,
     log:
-        f"{OUTDIR}/logs/report/report.log",
+        f"{OUTDIR}/report/report.log",
     script:
         "../scripts/generate_report.py"

@@ -10,21 +10,21 @@ rule fpma_annotate:
     input:
         fasta=lambda wc: get_fasta(wc.sample),
     output:
-        done=touch(f"{OUTDIR}/fpma/{{sample}}/{{sample}}.done"),
-        gff=f"{OUTDIR}/fpma/{{sample}}/{{sample}}.gff",
-        tsv=f"{OUTDIR}/fpma/{{sample}}/{{sample}}.presence.tsv",
+        done=touch(f"{OUTDIR}/{{sample}}/fpma/{{sample}}.done"),
+        gff=f"{OUTDIR}/{{sample}}/fpma/{{sample}}.gff",
+        tsv=f"{OUTDIR}/{{sample}}/fpma/{{sample}}.presence.tsv",
     params:
         fpma_dir=config["fpma"]["path"],
         nhmmer_path=config["fpma"]["nhmmer_path"],
         hmms_subdir=config["fpma"]["hmms_subdir"],
         e_value=config["fpma"]["e_value"],
         plot_flag=lambda wc: (
-            f"--plot {OUTDIR}/fpma/{wc.sample}/{wc.sample}.html"
+            f"--plot {OUTDIR}/{wc.sample}/fpma/{wc.sample}.html"
             if config["fpma"]["plot"] else ""
         ),
-        out_dir=lambda wc: f"{OUTDIR}/fpma/{wc.sample}",
+        out_dir=lambda wc: f"{OUTDIR}/{wc.sample}/fpma",
     log:
-        f"{OUTDIR}/logs/fpma/{{sample}}.log",
+        f"{OUTDIR}/{{sample}}/logs/fpma.log",
     threads:
         config["resources"]["fpma"]["threads"]
     resources:

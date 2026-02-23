@@ -11,8 +11,8 @@ rule pga_annotate:
     input:
         fasta=lambda wc: get_fasta(wc.sample),
     output:
-        done=touch(f"{OUTDIR}/pga/{{sample}}/{{sample}}.done"),
-        gb=f"{OUTDIR}/pga/{{sample}}/{{sample}}.gb",
+        done=touch(f"{OUTDIR}/{{sample}}/pga/{{sample}}.done"),
+        gb=f"{OUTDIR}/{{sample}}/pga/{{sample}}.gb",
     params:
         pga_dir=os.path.join(workflow.basedir, config["pga"]["path"]),
         ref_dir=os.path.join(workflow.basedir, config["pga"]["reference_dir"]),
@@ -20,11 +20,11 @@ rule pga_annotate:
         ir_min=config["pga"]["ir_min"],
         pidentity=config["pga"]["pidentity"],
         qcoverage=config["pga"]["qcoverage"],
-        out_dir=lambda wc: f"{OUTDIR}/pga/{wc.sample}",
-        target_dir=lambda wc: f"{OUTDIR}/pga/{wc.sample}/target",
-        gb_dir=lambda wc: f"{OUTDIR}/pga/{wc.sample}/gb",
+        out_dir=lambda wc: f"{OUTDIR}/{wc.sample}/pga",
+        target_dir=lambda wc: f"{OUTDIR}/{wc.sample}/pga/target",
+        gb_dir=lambda wc: f"{OUTDIR}/{wc.sample}/pga/gb",
     log:
-        f"{OUTDIR}/logs/pga/{{sample}}.log",
+        f"{OUTDIR}/{{sample}}/logs/pga.log",
     threads:
         config["resources"]["pga"]["threads"]
     resources:
