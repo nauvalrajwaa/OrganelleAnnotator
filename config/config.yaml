@@ -11,9 +11,6 @@
 # -- Sample sheet (TSV) -------------------------------------------------------
 samples: "config/samples.tsv"
 
-# -- Output directory ----------------------------------------------------------
-outdir: "results"
-
 # -- Run mode ------------------------------------------------------------------
 #   "all"           : run all compatible tools per sample (based on organelle type)
 #   "plastid"       : run only plastid tools (chloe, pga)

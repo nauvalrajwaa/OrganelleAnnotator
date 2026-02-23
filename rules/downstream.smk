@@ -1,38 +1,23 @@
 # =============================================================================
 # rules/downstream.smk – Post-annotation downstream analysis
 # =============================================================================
-# Modules:
-#   1. fetch_reference   – Fetch reference genomes from NCBI
-#   2. rscu_analysis     – Relative Synonymous Codon Usage
-#   3. codon_analysis    – Start/stop codon frequencies
-#   4. kaks_analysis     – Pairwise Ka/Ks (MAFFT + KaKs_Calculator)
-#   5. composition       – GC content & amino acid composition
-#   6. prepare_phylo     – Supermatrix construction (MAFFT)
-#   7. phylogeny_tree    – Maximum-likelihood tree (IQ-TREE)
-#   8. plot_tree         – Tree visualisation
-#   9. genome_map        – Circular genome map (pyGenomeViz)
-#  10. synteny_analysis  – Synteny comparison (MUMmer4/nucmer)
-#  11. downstream_report – Aggregated downstream HTML report
-# =============================================================================
 
 
 # ── Helper: get a GenBank file for a sample ────────────────────────────────
-# Picks the first available GenBank from annotation tools (preference order)
 def get_sample_gbk(sample):
     """Find the best GenBank annotation file for genome map / downstream."""
-    organelle = get_organelle(sample)
+    organelle = samples_df.loc[sample, "organelle"]
     if organelle == "plastid":
         priority = ["chloe", "pga", "liftoff"]
     else:
         priority = ["mfannot", "mitos", "mitoz", "liftoff"]
 
     for tool in priority:
-        gbk_path = f"{OUTDIR}/{sample}/{tool}/{sample}.gbk"
+        gbk_path = os.path.join(OUTDIR, sample, tool, sample + ".gbk")
         if os.path.exists(gbk_path):
             return gbk_path
-    # Fallback: any .gbk file
     for tool in ALL_TOOLS:
-        gbk_path = f"{OUTDIR}/{sample}/{tool}/{sample}.gbk"
+        gbk_path = os.path.join(OUTDIR, sample, tool, sample + ".gbk")
         if os.path.exists(gbk_path):
             return gbk_path
     return ""
@@ -40,18 +25,16 @@ def get_sample_gbk(sample):
 
 def get_sample_cds_fasta(sample):
     """Find or derive a CDS FASTA for downstream analysis."""
-    # Check common output paths from annotation tools
     candidates = [
-        f"{OUTDIR}/{sample}/liftoff/{sample}_cds.fasta",
-        f"{OUTDIR}/{sample}/mitos/{sample}_cds.fasta",
-        f"{OUTDIR}/{sample}/chloe/{sample}_cds.fasta",
-        f"{OUTDIR}/{sample}/pga/{sample}_cds.fasta",
+        os.path.join(OUTDIR, sample, "liftoff", sample + "_cds.fasta"),
+        os.path.join(OUTDIR, sample, "mitos", sample + "_cds.fasta"),
+        os.path.join(OUTDIR, sample, "chloe", sample + "_cds.fasta"),
+        os.path.join(OUTDIR, sample, "pga", sample + "_cds.fasta"),
     ]
     for c in candidates:
         if os.path.exists(c):
             return c
-    # Fall back to the original FASTA (some analyses can still use it)
-    return get_fasta(sample)
+    return samples_df.loc[sample, "fasta"]
 
 
 # ── 1. Fetch reference genomes from NCBI ─────────────────────────────────
@@ -59,18 +42,18 @@ def get_sample_cds_fasta(sample):
 rule fetch_reference:
     """Download reference organelle genomes for comparative analysis."""
     output:
-        ref_dir=directory(f"{OUTDIR}/{{sample}}/downstream/references"),
+        ref_dir = directory(OUTDIR + "/{sample}/downstream/references"),
     params:
-        species=lambda wc: config["downstream"].get("species_name", ""),
-        email=lambda wc: config["downstream"].get("email", ""),
-        organelle=lambda wc: get_organelle(wc.sample),
-        max_genomes=lambda wc: config["downstream"].get("max_ref_genomes", 10),
-        min_len=lambda wc: config["downstream"].get("min_genome_length", 10000),
-        max_len=lambda wc: config["downstream"].get("max_genome_length", 300000),
+        species    = lambda wc: config["downstream"].get("species_name", ""),
+        email      = lambda wc: config["downstream"].get("email", ""),
+        organelle  = lambda wc: samples_df.loc[wc.sample, "organelle"],
+        max_genomes = lambda wc: config["downstream"].get("max_ref_genomes", 10),
+        min_len    = lambda wc: config["downstream"].get("min_genome_length", 10000),
+        max_len    = lambda wc: config["downstream"].get("max_genome_length", 300000),
     conda:
         "../envs/downstream.yaml"
     log:
-        f"{OUTDIR}/{{sample}}/logs/downstream_fetch_reference.log",
+        OUTDIR + "/{sample}/logs/downstream_fetch_reference.log",
     shell:
         """
         python {workflow.basedir}/scripts/fetch_organelle_ref.py \
@@ -88,17 +71,17 @@ rule fetch_reference:
 rule rscu_analysis:
     """Compute Relative Synonymous Codon Usage from CDS sequences."""
     input:
-        fasta=lambda wc: get_fasta(wc.sample),
+        fasta = lambda wc: samples_df.loc[wc.sample, "fasta"],
     output:
-        rscu_tsv=f"{OUTDIR}/{{sample}}/downstream/rscu/rscu.tsv",
-        rscu_barplot=f"{OUTDIR}/{{sample}}/downstream/rscu/rscu_barplot.png",
+        rscu_tsv     = OUTDIR + "/{sample}/downstream/rscu/rscu.tsv",
+        rscu_barplot = OUTDIR + "/{sample}/downstream/rscu/rscu_barplot.png",
     params:
-        output_dir=f"{OUTDIR}/{{sample}}/downstream/rscu",
-        genetic_code=lambda wc: get_genetic_code(wc.sample),
+        output_dir   = OUTDIR + "/{sample}/downstream/rscu",
+        genetic_code = lambda wc: samples_df.loc[wc.sample, "genetic_code"],
     conda:
         "../envs/downstream.yaml"
     log:
-        f"{OUTDIR}/{{sample}}/logs/downstream_rscu.log",
+        OUTDIR + "/{sample}/logs/downstream_rscu.log",
     shell:
         """
         python {workflow.basedir}/scripts/calculate_rscu.py \
@@ -113,15 +96,15 @@ rule rscu_analysis:
 rule codon_analysis:
     """Analyse start and stop codon usage across CDS features."""
     input:
-        fasta=lambda wc: get_fasta(wc.sample),
+        fasta = lambda wc: samples_df.loc[wc.sample, "fasta"],
     output:
-        codon_stats=f"{OUTDIR}/{{sample}}/downstream/codons/codon_stats.txt",
+        codon_stats = OUTDIR + "/{sample}/downstream/codons/codon_stats.txt",
     params:
-        genetic_code=lambda wc: get_genetic_code(wc.sample),
+        genetic_code = lambda wc: samples_df.loc[wc.sample, "genetic_code"],
     conda:
         "../envs/downstream.yaml"
     log:
-        f"{OUTDIR}/{{sample}}/logs/downstream_codons.log",
+        OUTDIR + "/{sample}/logs/downstream_codons.log",
     shell:
         """
         python {workflow.basedir}/scripts/analyze_codons.py \
@@ -136,21 +119,20 @@ rule codon_analysis:
 rule kaks_analysis:
     """Pairwise Ka/Ks estimation using MAFFT + KaKs_Calculator."""
     input:
-        sample_fasta=lambda wc: get_fasta(wc.sample),
-        ref_dir=f"{OUTDIR}/{{sample}}/downstream/references",
+        sample_fasta = lambda wc: samples_df.loc[wc.sample, "fasta"],
+        ref_dir      = OUTDIR + "/{sample}/downstream/references",
     output:
-        kaks_tsv=f"{OUTDIR}/{{sample}}/downstream/kaks/kaks_summary.tsv",
+        kaks_tsv = OUTDIR + "/{sample}/downstream/kaks/kaks_summary.tsv",
     params:
-        output_dir=f"{OUTDIR}/{{sample}}/downstream/kaks",
-        genetic_code=lambda wc: get_genetic_code(wc.sample),
-        method=lambda wc: config["downstream"].get("kaks_method", "NG"),
+        output_dir   = OUTDIR + "/{sample}/downstream/kaks",
+        genetic_code = lambda wc: samples_df.loc[wc.sample, "genetic_code"],
+        method       = lambda wc: config["downstream"].get("kaks_method", "NG"),
     conda:
         "../envs/downstream.yaml"
     log:
-        f"{OUTDIR}/{{sample}}/logs/downstream_kaks.log",
+        OUTDIR + "/{sample}/logs/downstream_kaks.log",
     shell:
         """
-        # Use first reference genome for pairwise comparison
         REF_FASTA=$(find {input.ref_dir} -name '*.fasta' -type f | head -1)
         if [ -z "$REF_FASTA" ]; then
             echo "No reference FASTA found" > {log}
@@ -170,17 +152,17 @@ rule kaks_analysis:
 rule composition_analysis:
     """Analyse GC content and amino acid composition per CDS gene."""
     input:
-        fasta=lambda wc: get_fasta(wc.sample),
+        fasta = lambda wc: samples_df.loc[wc.sample, "fasta"],
     output:
-        gc_plot=f"{OUTDIR}/{{sample}}/downstream/composition/gc_content_plot.png",
-        aa_plot=f"{OUTDIR}/{{sample}}/downstream/composition/aa_composition_plot.png",
+        gc_plot = OUTDIR + "/{sample}/downstream/composition/gc_content_plot.png",
+        aa_plot = OUTDIR + "/{sample}/downstream/composition/aa_composition_plot.png",
     params:
-        output_dir=f"{OUTDIR}/{{sample}}/downstream/composition",
-        genetic_code=lambda wc: get_genetic_code(wc.sample),
+        output_dir   = OUTDIR + "/{sample}/downstream/composition",
+        genetic_code = lambda wc: samples_df.loc[wc.sample, "genetic_code"],
     conda:
         "../envs/downstream.yaml"
     log:
-        f"{OUTDIR}/{{sample}}/logs/downstream_composition.log",
+        OUTDIR + "/{sample}/logs/downstream_composition.log",
     shell:
         """
         python {workflow.basedir}/scripts/analyze_composition.py \
@@ -195,18 +177,18 @@ rule composition_analysis:
 rule prepare_phylo:
     """Build supermatrix from shared genes using MAFFT alignment."""
     input:
-        sample_fasta=lambda wc: get_fasta(wc.sample),
-        ref_dir=f"{OUTDIR}/{{sample}}/downstream/references",
+        sample_fasta = lambda wc: samples_df.loc[wc.sample, "fasta"],
+        ref_dir      = OUTDIR + "/{sample}/downstream/references",
     output:
-        supermatrix=f"{OUTDIR}/{{sample}}/downstream/phylogeny/supermatrix.fasta",
-        partitions=f"{OUTDIR}/{{sample}}/downstream/phylogeny/partitions.nex",
+        supermatrix = OUTDIR + "/{sample}/downstream/phylogeny/supermatrix.fasta",
+        partitions  = OUTDIR + "/{sample}/downstream/phylogeny/partitions.nex",
     params:
-        output_dir=f"{OUTDIR}/{{sample}}/downstream/phylogeny",
-        min_genes=lambda wc: config["downstream"].get("phylo_min_genes", 4),
+        output_dir = OUTDIR + "/{sample}/downstream/phylogeny",
+        min_genes  = lambda wc: config["downstream"].get("phylo_min_genes", 4),
     conda:
         "../envs/phylo.yaml"
     log:
-        f"{OUTDIR}/{{sample}}/logs/downstream_prepare_phylo.log",
+        OUTDIR + "/{sample}/logs/downstream_prepare_phylo.log",
     shell:
         """
         python {workflow.basedir}/scripts/prepare_phylo.py \
@@ -221,23 +203,22 @@ rule prepare_phylo:
 rule phylogeny_tree:
     """Run IQ-TREE maximum-likelihood phylogeny on supermatrix."""
     input:
-        supermatrix=f"{OUTDIR}/{{sample}}/downstream/phylogeny/supermatrix.fasta",
-        partitions=f"{OUTDIR}/{{sample}}/downstream/phylogeny/partitions.nex",
+        supermatrix = OUTDIR + "/{sample}/downstream/phylogeny/supermatrix.fasta",
+        partitions  = OUTDIR + "/{sample}/downstream/phylogeny/partitions.nex",
     output:
-        treefile=f"{OUTDIR}/{{sample}}/downstream/phylogeny/phylogeny.treefile",
+        treefile = OUTDIR + "/{sample}/downstream/phylogeny/phylogeny.treefile",
     params:
-        prefix=f"{OUTDIR}/{{sample}}/downstream/phylogeny/phylogeny",
-        model=lambda wc: config["downstream"].get("phylo_model", "GTR+G"),
-        bootstrap=lambda wc: config["downstream"].get("phylo_bootstrap", 1000),
+        prefix    = OUTDIR + "/{sample}/downstream/phylogeny/phylogeny",
+        model     = lambda wc: config["downstream"].get("phylo_model", "GTR+G"),
+        bootstrap = lambda wc: config["downstream"].get("phylo_bootstrap", 1000),
     conda:
         "../envs/phylo.yaml"
     threads:
         lambda wc: config["resources"].get("downstream", {}).get("threads", 4)
     log:
-        f"{OUTDIR}/{{sample}}/logs/downstream_iqtree.log",
+        OUTDIR + "/{sample}/logs/downstream_iqtree.log",
     shell:
         """
-        # Skip if supermatrix is empty
         if [ ! -s {input.supermatrix} ]; then
             echo "Empty supermatrix; skipping IQ-TREE" > {log}
             touch {output.treefile}
@@ -267,13 +248,13 @@ rule phylogeny_tree:
 rule plot_tree:
     """Render phylogenetic tree as a PNG image."""
     input:
-        treefile=f"{OUTDIR}/{{sample}}/downstream/phylogeny/phylogeny.treefile",
+        treefile = OUTDIR + "/{sample}/downstream/phylogeny/phylogeny.treefile",
     output:
-        tree_png=f"{OUTDIR}/{{sample}}/downstream/phylogeny/tree_plot.png",
+        tree_png = OUTDIR + "/{sample}/downstream/phylogeny/tree_plot.png",
     conda:
         "../envs/downstream.yaml"
     log:
-        f"{OUTDIR}/{{sample}}/logs/downstream_plot_tree.log",
+        OUTDIR + "/{sample}/logs/downstream_plot_tree.log",
     shell:
         """
         python {workflow.basedir}/scripts/plot_tree.py \
@@ -282,27 +263,25 @@ rule plot_tree:
         """
 
 
-# ── 9. Genome map (pyGenomeViz, replaces Circos) ─────────────────────────
+# ── 9. Genome map (pyGenomeViz) ──────────────────────────────────────────
 
 rule genome_map:
-    """Generate circular genome map using pyGenomeViz (no Perl/Circos needed)."""
+    """Generate circular genome map using pyGenomeViz."""
     input:
-        # Use the checkpoint .done marker to ensure annotation has finished
-        done=lambda wc: [
-            f"{OUTDIR}/{wc.sample}/{tool}/{wc.sample}.done"
+        done = lambda wc: [
+            OUTDIR + "/" + wc.sample + "/" + tool + "/" + wc.sample + ".done"
             for tool in tools_for_sample(wc.sample)
         ],
     output:
-        genome_map_png=f"{OUTDIR}/{{sample}}/downstream/genome_map/genome_map.png",
+        genome_map_png = OUTDIR + "/{sample}/downstream/genome_map/genome_map.png",
     params:
-        sample=lambda wc: wc.sample,
-        outdir=OUTDIR,
+        sample = lambda wc: wc.sample,
+        outdir = OUTDIR,
     conda:
         "../envs/downstream.yaml"
     log:
-        f"{OUTDIR}/{{sample}}/logs/downstream_genome_map.log",
+        OUTDIR + "/{sample}/logs/downstream_genome_map.log",
     run:
-        # Find GenBank file dynamically
         gbk = get_sample_gbk(params.sample)
         if gbk and os.path.exists(gbk):
             shell(
@@ -311,7 +290,6 @@ rule genome_map:
                 "2>&1 | tee {log}"
             )
         else:
-            # Create placeholder
             import matplotlib
             matplotlib.use("Agg")
             import matplotlib.pyplot as plt
@@ -329,18 +307,17 @@ rule genome_map:
 rule synteny_analysis:
     """Compare genome structure against a reference using nucmer."""
     input:
-        sample_fasta=lambda wc: get_fasta(wc.sample),
-        ref_dir=f"{OUTDIR}/{{sample}}/downstream/references",
+        sample_fasta = lambda wc: samples_df.loc[wc.sample, "fasta"],
+        ref_dir      = OUTDIR + "/{sample}/downstream/references",
     output:
-        synteny_plot=f"{OUTDIR}/{{sample}}/downstream/synteny/synteny_plot.png",
-        synteny_stats=f"{OUTDIR}/{{sample}}/downstream/synteny/synteny_stats.tsv",
+        synteny_plot  = OUTDIR + "/{sample}/downstream/synteny/synteny_plot.png",
+        synteny_stats = OUTDIR + "/{sample}/downstream/synteny/synteny_stats.tsv",
     conda:
         "../envs/synteny.yaml"
     log:
-        f"{OUTDIR}/{{sample}}/logs/downstream_synteny.log",
+        OUTDIR + "/{sample}/logs/downstream_synteny.log",
     shell:
         """
-        # Use first reference for synteny
         REF_FASTA=$(find {input.ref_dir} -name '*.fasta' -type f | head -1)
         if [ -z "$REF_FASTA" ]; then
             echo "No reference FASTA found" > {log}
@@ -361,24 +338,24 @@ rule synteny_analysis:
 rule downstream_report:
     """Generate a comprehensive downstream analysis HTML report per sample."""
     input:
-        rscu_tsv=f"{OUTDIR}/{{sample}}/downstream/rscu/rscu.tsv",
-        rscu_barplot=f"{OUTDIR}/{{sample}}/downstream/rscu/rscu_barplot.png",
-        codon_stats=f"{OUTDIR}/{{sample}}/downstream/codons/codon_stats.txt",
-        kaks_tsv=f"{OUTDIR}/{{sample}}/downstream/kaks/kaks_summary.tsv",
-        gc_plot=f"{OUTDIR}/{{sample}}/downstream/composition/gc_content_plot.png",
-        aa_plot=f"{OUTDIR}/{{sample}}/downstream/composition/aa_composition_plot.png",
-        tree_png=f"{OUTDIR}/{{sample}}/downstream/phylogeny/tree_plot.png",
-        genome_map_png=f"{OUTDIR}/{{sample}}/downstream/genome_map/genome_map.png",
-        synteny_plot=f"{OUTDIR}/{{sample}}/downstream/synteny/synteny_plot.png",
-        synteny_stats=f"{OUTDIR}/{{sample}}/downstream/synteny/synteny_stats.tsv",
+        rscu_tsv       = OUTDIR + "/{sample}/downstream/rscu/rscu.tsv",
+        rscu_barplot   = OUTDIR + "/{sample}/downstream/rscu/rscu_barplot.png",
+        codon_stats    = OUTDIR + "/{sample}/downstream/codons/codon_stats.txt",
+        kaks_tsv       = OUTDIR + "/{sample}/downstream/kaks/kaks_summary.tsv",
+        gc_plot        = OUTDIR + "/{sample}/downstream/composition/gc_content_plot.png",
+        aa_plot        = OUTDIR + "/{sample}/downstream/composition/aa_composition_plot.png",
+        tree_png       = OUTDIR + "/{sample}/downstream/phylogeny/tree_plot.png",
+        genome_map_png = OUTDIR + "/{sample}/downstream/genome_map/genome_map.png",
+        synteny_plot   = OUTDIR + "/{sample}/downstream/synteny/synteny_plot.png",
+        synteny_stats  = OUTDIR + "/{sample}/downstream/synteny/synteny_stats.tsv",
     output:
-        html=f"{OUTDIR}/{{sample}}/downstream/downstream_report.html",
+        html = OUTDIR + "/{sample}/downstream/downstream_report.html",
     params:
-        sample=lambda wc: wc.sample,
-        species=lambda wc: config["downstream"].get("species_name", wc.sample),
+        sample  = lambda wc: wc.sample,
+        species = lambda wc: config["downstream"].get("species_name", wc.sample),
     conda:
         "../envs/downstream.yaml"
     log:
-        f"{OUTDIR}/{{sample}}/logs/downstream_report.log",
+        OUTDIR + "/{sample}/logs/downstream_report.log",
     script:
         "../scripts/generate_downstream_report.py"

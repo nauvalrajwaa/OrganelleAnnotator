@@ -1,17 +1,6 @@
 # =============================================================================
 # Organelle Annotation Pipeline – Snakemake Workflow
 # =============================================================================
-# Tools:  Chloe.jl | PGA
-#         MFannot (Docker) | fpma | MITOS2 (Docker) | MitoZ (Docker)
-#         tRNAscan-SE | Aragorn | Liftoff
-# Viz:    OGDraw (Docker) | pyGenomeViz (genome map)
-# QC:     BUSCO + custom gene-completeness summary
-# Report: Aggregated indexed HTML
-# Downstream: RSCU | Codon Usage | Ka/Ks (MAFFT + KaKs_Calculator) |
-#             Phylogeny (IQ-TREE) | GC/AA Composition | Genome Map |
-#             Synteny (MUMmer4) | NCBI Reference Fetch
-# =============================================================================
-#
 # Directory layout (per-sample):
 #   results/{sample}/{tool}/          – annotation outputs
 #   results/{sample}/logs/{tool}.log  – per-tool logs
@@ -28,24 +17,51 @@ configfile: "config/config.yaml"
 # ---------------------------------------------------------------------------
 # Load samples
 # ---------------------------------------------------------------------------
-samples_df = pd.read_csv(config["samples"], sep="\t", comment="#", dtype=str)
+samples_df = pd.read_csv(
+    config["samples"], sep="\t", comment="#", dtype=str,
+    skipinitialspace=True,
+)
+samples_df.columns = samples_df.columns.str.strip()
+samples_df = samples_df.apply(lambda col: col.str.strip() if col.dtype == "object" else col)
 samples_df = samples_df.fillna("")
 samples_df = samples_df.set_index("sample", drop=False)
 
 SAMPLES = samples_df["sample"].tolist()
-OUTDIR = config["outdir"]
+OUTDIR  = "results"
+
+# -- Debug: print parsed samples for troubleshooting -------------------------
+print(f"\n  📋 Loaded {len(SAMPLES)} sample(s) from {config['samples']}")
+print(f"     Columns: {list(samples_df.columns)}")
+for _s in SAMPLES:
+    print(f"     ✔ {_s}  →  fasta={samples_df.loc[_s, 'fasta']}  "
+          f"organelle={samples_df.loc[_s, 'organelle']}  "
+          f"genetic_code={samples_df.loc[_s, 'genetic_code']}")
+print()
+
+# -- Validation --------------------------------------------------------------
+if len(samples_df.columns) < 3:
+    raise ValueError(
+        "\n\nERROR: samples.tsv has fewer than 3 columns.\n"
+        "Make sure the file is TAB-separated (not spaces).\n"
+    )
+for _s in SAMPLES:
+    if "/" in _s or "\\" in _s:
+        raise ValueError(
+            f"\n\nERROR: Invalid sample name '{_s}'.\n"
+            "Sample names must be short IDs (e.g. 'sample1'), not file paths.\n"
+            "Ensure samples.tsv is TAB-separated: sample<TAB>fasta<TAB>organelle<TAB>...\n"
+        )
 
 # ---------------------------------------------------------------------------
-# Helper: which tools to run per sample
+# Tool sets
 # ---------------------------------------------------------------------------
 PLASTID_TOOLS = ["chloe", "pga"]
-MITO_TOOLS = ["mfannot", "fpma", "mitos", "mitoz"]
-BOTH_TOOLS = ["trnascan", "aragorn", "liftoff"]
-ALL_TOOLS = PLASTID_TOOLS + MITO_TOOLS + BOTH_TOOLS
+MITO_TOOLS    = ["mfannot", "fpma", "mitos", "mitoz"]
+BOTH_TOOLS    = ["trnascan", "aragorn", "liftoff"]
+ALL_TOOLS     = PLASTID_TOOLS + MITO_TOOLS + BOTH_TOOLS
 
 def tools_for_sample(sample):
-    """Return list of tools applicable to a sample based on config mode.
-    Liftoff is automatically excluded if the sample has no reference."""
+    """Return list of tools applicable to a sample."""
     organelle = samples_df.loc[sample, "organelle"]
     mode = config["mode"]
 
@@ -72,29 +88,27 @@ def tools_for_sample(sample):
         tools = ALL_TOOLS
 
     # Skip liftoff when reference columns are empty
-    ref_fasta = get_reference_fasta(sample)
-    ref_gff = get_reference_gff(sample)
-    if not ref_fasta or not ref_gff:
+    ref_fa  = samples_df.loc[sample, "reference_fasta"].strip()
+    ref_gff = samples_df.loc[sample, "reference_gff"].strip()
+    if not ref_fa or not ref_gff:
         tools = [t for t in tools if t != "liftoff"]
 
     return tools
 
-def get_fasta(sample):
-    return samples_df.loc[sample, "fasta"]
+# ---------------------------------------------------------------------------
+# OGDraw helpers
+# ---------------------------------------------------------------------------
+GB_PRODUCING_TOOLS = {
+    "plastid": ["pga", "liftoff"],
+    "mito":    ["liftoff"],
+}
 
-def get_genetic_code(sample):
-    return samples_df.loc[sample, "genetic_code"]
-
-def get_organelle(sample):
-    return samples_df.loc[sample, "organelle"]
-
-def get_reference_fasta(sample):
-    """Get per-sample reference FASTA path (empty string if not set)."""
-    return samples_df.loc[sample, "reference_fasta"].strip()
-
-def get_reference_gff(sample):
-    """Get per-sample reference GFF path (empty string if not set)."""
-    return samples_df.loc[sample, "reference_gff"].strip()
+def ogdraw_source_tools(sample):
+    """Return list of tools that produce GenBank files for this sample."""
+    organelle = samples_df.loc[sample, "organelle"]
+    possible  = GB_PRODUCING_TOOLS.get(organelle, GB_PRODUCING_TOOLS.get("plastid", []))
+    active    = tools_for_sample(sample)
+    return [t for t in possible if t in active]
 
 # ---------------------------------------------------------------------------
 # Collect all expected outputs
@@ -104,18 +118,14 @@ def all_outputs():
     for s in SAMPLES:
         for tool in tools_for_sample(s):
             outputs.append(f"{OUTDIR}/{s}/{tool}/{s}.done")
-        # OGDraw maps — one per source tool that produces a GenBank file
         for src in ogdraw_source_tools(s):
             outputs.append(f"{OUTDIR}/{s}/ogdraw/{src}/{s}.done")
-        # QC outputs
         if config["qc"]["enabled"]:
             outputs.append(f"{OUTDIR}/{s}/qc/qc_summary.tsv")
-            if get_organelle(s) in ("plastid", "mito"):
+            if samples_df.loc[s, "organelle"] in ("plastid", "mito"):
                 outputs.append(f"{OUTDIR}/{s}/qc/busco/short_summary.txt")
-        # Downstream analysis outputs
         if config.get("downstream", {}).get("enabled", False):
             outputs.append(f"{OUTDIR}/{s}/downstream/downstream_report.html")
-    # Final report
     outputs.append(f"{OUTDIR}/report/index.html")
     return outputs
 

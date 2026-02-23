@@ -1,6 +1,4 @@
-# =============================================================================
 # rules/pga.smk – PGA (Plastid Genome Annotator)
-# =============================================================================
 
 rule pga_annotate:
     """
@@ -9,27 +7,27 @@ rule pga_annotate:
     Output: GenBank (.gb) file produced by PGA.
     """
     input:
-        fasta=lambda wc: get_fasta(wc.sample),
+        fasta = lambda wc: samples_df.loc[wc.sample, "fasta"],
     output:
-        done=touch(f"{OUTDIR}/{{sample}}/pga/{{sample}}.done"),
-        gb=f"{OUTDIR}/{{sample}}/pga/{{sample}}.gb",
+        done = touch(OUTDIR + "/{sample}/pga/{sample}.done"),
+        gb   = OUTDIR + "/{sample}/pga/{sample}.gb",
     params:
-        pga_dir=os.path.join(workflow.basedir, config["pga"]["path"]),
-        ref_dir=os.path.join(workflow.basedir, config["pga"]["reference_dir"]),
-        form=config["pga"]["form"],
-        ir_min=config["pga"]["ir_min"],
-        pidentity=config["pga"]["pidentity"],
-        qcoverage=config["pga"]["qcoverage"],
-        out_dir=lambda wc: f"{OUTDIR}/{wc.sample}/pga",
-        target_dir=lambda wc: f"{OUTDIR}/{wc.sample}/pga/target",
-        gb_dir=lambda wc: f"{OUTDIR}/{wc.sample}/pga/gb",
+        pga_dir    = os.path.join(workflow.basedir, config["pga"]["path"]),
+        ref_dir    = os.path.join(workflow.basedir, config["pga"]["reference_dir"]),
+        form       = config["pga"]["form"],
+        ir_min     = config["pga"]["ir_min"],
+        pidentity  = config["pga"]["pidentity"],
+        qcoverage  = config["pga"]["qcoverage"],
+        out_dir    = OUTDIR + "/{sample}/pga",
+        target_dir = OUTDIR + "/{sample}/pga/target",
+        gb_dir     = OUTDIR + "/{sample}/pga/gb",
     log:
-        f"{OUTDIR}/{{sample}}/logs/pga.log",
+        OUTDIR + "/{sample}/logs/pga.log",
     threads:
         config["resources"]["pga"]["threads"]
     resources:
-        mem_mb=config["resources"]["pga"]["mem_mb"],
-        runtime=config["resources"]["pga"]["runtime"],
+        mem_mb  = config["resources"]["pga"]["mem_mb"],
+        runtime = config["resources"]["pga"]["runtime"],
     conda:
         "../envs/pga.yaml"
     shell:

@@ -1,43 +1,25 @@
-# =============================================================================
-# rules/chloe.smk – Chloe.jl chloroplast annotation
-# =============================================================================
+# rules/chloe.smk – Chloe.jl chloroplast genome annotator
 
 rule chloe_annotate:
     """
-    Annotate a chloroplast genome using Chloe.jl (Julia).
-    Produces GFF (default), optionally GenBank, EMBL, SFF.
+    Annotate a chloroplast genome using Chloe.jl.
     """
     input:
-        fasta=lambda wc: get_fasta(wc.sample),
+        fasta = lambda wc: samples_df.loc[wc.sample, "fasta"],
     output:
-        done=touch(f"{OUTDIR}/{{sample}}/chloe/{{sample}}.done"),
-        gff=f"{OUTDIR}/{{sample}}/chloe/{{sample}}.gff",
+        done = touch(OUTDIR + "/{sample}/chloe/{sample}.done"),
+        gff  = OUTDIR + "/{sample}/chloe/{sample}.gff",
     params:
-        chloe_dir=os.path.join(workflow.basedir, config["chloe"]["path"]),
-        out_dir=lambda wc: f"{OUTDIR}/{wc.sample}/chloe",
-        reference=config["chloe"]["reference"],
-        references_dir=config["chloe"].get("references_dir", ""),
-        sensitivity=config["chloe"]["sensitivity"],
-        fmt_flags=lambda wc: " ".join(
-            [f for f, v in {
-                "--sff": config["chloe"]["sff"],
-                "--gbk": config["chloe"]["gbk"],
-                "--embl": config["chloe"]["embl"],
-            }.items() if v]
-        ),
-        extra_flags=lambda wc: " ".join(
-            [f for f, v in {
-                "--no-filter": config["chloe"]["no_filter"],
-                "--no-transform": config["chloe"]["no_transform"],
-            }.items() if v]
-        ),
+        out_dir    = OUTDIR + "/{sample}/chloe",
+        chloe_dir  = config["chloe"]["path"],
+        extra      = config["chloe"].get("extra", ""),
     log:
-        f"{OUTDIR}/{{sample}}/logs/chloe.log",
+        OUTDIR + "/{sample}/logs/chloe.log",
     threads:
         config["resources"]["chloe"]["threads"]
     resources:
-        mem_mb=config["resources"]["chloe"]["mem_mb"],
-        runtime=config["resources"]["chloe"]["runtime"],
+        mem_mb  = config["resources"]["chloe"]["mem_mb"],
+        runtime = config["resources"]["chloe"]["runtime"],
     conda:
         "../envs/chloe.yaml"
     shell:
@@ -45,38 +27,11 @@ rule chloe_annotate:
         set -euo pipefail
         mkdir -p {params.out_dir} $(dirname {log})
 
-        # Copy input fasta to output dir with sample name for Chloe
-        cp {input.fasta} {params.out_dir}/{wildcards.sample}.fa
-
-        REF_FLAG=""
-        if [ -n "{params.references_dir}" ]; then
-            REF_FLAG="-r {params.references_dir}"
-        fi
-
-        # Ensure all Julia dependencies are installed
         julia --project={params.chloe_dir} \
-            -e 'import Pkg; Pkg.instantiate()' \
+            {params.chloe_dir}/bin/chloe.jl \
+            annotate \
+            {input.fasta} \
+            -o {params.out_dir}/{wildcards.sample}.gff \
+            {params.extra} \
             2>&1 | tee {log}
-
-        julia --project={params.chloe_dir} \
-            -t {threads} \
-            {params.chloe_dir}/chloe.jl annotate \
-            $REF_FLAG \
-            --sensitivity {params.sensitivity} \
-            {params.fmt_flags} \
-            {params.extra_flags} \
-            -o {params.out_dir} \
-            {params.out_dir}/{wildcards.sample}.fa \
-            2>&1 | tee -a {log}
-
-        # Rename outputs to standardised names
-        for ext in gff sff gbk embl; do
-            found=$(find {params.out_dir} -maxdepth 1 -name "*.${{ext}}" -o -name "*.chloe.${{ext}}" 2>/dev/null | head -1)
-            if [ -n "$found" ] && [ "$found" != "{params.out_dir}/{wildcards.sample}.${{ext}}" ]; then
-                cp "$found" "{params.out_dir}/{wildcards.sample}.${{ext}}" 2>/dev/null || true
-            fi
-        done
-
-        # Ensure GFF exists even if empty
-        touch {output.gff}
         """

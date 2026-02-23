@@ -1,5 +1,2 @@
 sample	fasta	organelle	genetic_code	reference_fasta	reference_gff
-sample1	/path/to/chloroplast_genome.fasta	plastid	11		
-sample2	/path/to/mitochondrial_genome.fasta	mito	4		
-sample3	/path/to/another_plastid.fa	plastid	11		
-sample4	/path/to/another_mito.fa	mito	1		
+sample1	/Users/user/Downloads/04. Pipeline_NGS/pipeline_annotation/Organelle_annotation/resources/final_circular.fasta	plastid	11		

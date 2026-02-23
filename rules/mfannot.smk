@@ -1,6 +1,4 @@
-# =============================================================================
 # rules/mfannot.smk – MFannot via Docker (nbeck/mfannot)
-# =============================================================================
 
 rule mfannot_annotate:
     """
@@ -8,38 +6,36 @@ rule mfannot_annotate:
     Docker image: nbeck/mfannot (https://hub.docker.com/r/nbeck/mfannot/)
     """
     input:
-        fasta=lambda wc: get_fasta(wc.sample),
+        fasta = lambda wc: samples_df.loc[wc.sample, "fasta"],
     output:
-        done=touch(f"{OUTDIR}/{{sample}}/mfannot/{{sample}}.done"),
-        masterfile=f"{OUTDIR}/{{sample}}/mfannot/{{sample}}.new",
+        done       = touch(OUTDIR + "/{sample}/mfannot/{sample}.done"),
+        masterfile = OUTDIR + "/{sample}/mfannot/{sample}.new",
     params:
-        docker_image=config["mfannot"]["docker_image"],
-        genetic_code=lambda wc: get_genetic_code(wc.sample),
-        blast_evalue=config["mfannot"]["blast_evalue"],
-        min_orf_len=config["mfannot"]["min_orf_len"],
-        max_intron_size=config["mfannot"]["max_intron_size"],
-        extra=config["mfannot"]["extra"],
-        sqn_flag=lambda wc: "--sqnformat" if config["mfannot"]["sqn_format"] else "",
-        out_dir=lambda wc: f"{OUTDIR}/{wc.sample}/mfannot",
-        use_singularity=config["mfannot"].get("use_singularity", False),
+        docker_image    = config["mfannot"]["docker_image"],
+        genetic_code    = lambda wc: samples_df.loc[wc.sample, "genetic_code"],
+        blast_evalue    = config["mfannot"]["blast_evalue"],
+        min_orf_len     = config["mfannot"]["min_orf_len"],
+        max_intron_size = config["mfannot"]["max_intron_size"],
+        extra           = config["mfannot"]["extra"],
+        sqn_flag        = lambda wc: "--sqnformat" if config["mfannot"]["sqn_format"] else "",
+        out_dir         = OUTDIR + "/{sample}/mfannot",
+        use_singularity = config["mfannot"].get("use_singularity", False),
     log:
-        f"{OUTDIR}/{{sample}}/logs/mfannot.log",
+        OUTDIR + "/{sample}/logs/mfannot.log",
     threads:
         config["resources"]["mfannot"]["threads"]
     resources:
-        mem_mb=config["resources"]["mfannot"]["mem_mb"],
-        runtime=config["resources"]["mfannot"]["runtime"],
+        mem_mb  = config["resources"]["mfannot"]["mem_mb"],
+        runtime = config["resources"]["mfannot"]["runtime"],
     shell:
         r"""
         set -euo pipefail
         mkdir -p {params.out_dir} $(dirname {log})
 
-        # Resolve absolute paths for Docker volume mounts
         INPUT_DIR=$(cd "$(dirname {input.fasta})" && pwd)
         INPUT_BASENAME=$(basename {input.fasta})
         OUTPUT_DIR=$(cd {params.out_dir} 2>/dev/null || mkdir -p {params.out_dir} && cd {params.out_dir} && pwd)
 
-        # Copy input to output dir for container
         cp {input.fasta} {params.out_dir}/{wildcards.sample}.fasta
 
         if [ "{params.use_singularity}" = "True" ]; then
@@ -74,7 +70,6 @@ rule mfannot_annotate:
                 2>&1 | tee {log}
         fi
 
-        # Ensure output exists
         touch {output.masterfile}
         """
 
@@ -82,14 +77,13 @@ rule mfannot_annotate:
 rule mfannot_to_gff:
     """
     Convert MFannot masterfile output to a simplified GFF3 for downstream QC.
-    This parses the MFannot masterfile format and extracts gene annotations.
     """
     input:
-        masterfile=f"{OUTDIR}/{{sample}}/mfannot/{{sample}}.new",
+        masterfile = OUTDIR + "/{sample}/mfannot/{sample}.new",
     output:
-        gff=f"{OUTDIR}/{{sample}}/mfannot/{{sample}}.gff",
+        gff = OUTDIR + "/{sample}/mfannot/{sample}.gff",
     log:
-        f"{OUTDIR}/{{sample}}/logs/mfannot_to_gff.log",
+        OUTDIR + "/{sample}/logs/mfannot_to_gff.log",
     run:
         import re
 
@@ -99,15 +93,11 @@ rule mfannot_to_gff:
         with open(input.masterfile) as fh:
             for line in fh:
                 line = line.strip()
-                # Parse MFannot masterfile gene entries
                 if line.startswith(">"):
-                    # Sequence header
                     parts = line.split()
                     current_seq = parts[0].lstrip(">").rstrip(";")
                 elif line.startswith(";;") and "gene" in line.lower():
-                    # Attempt to extract gene annotation lines
                     pass
-                # Look for gene annotation blocks
                 m = re.match(
                     r";\s+(\w+)\s+(\d+)-(\d+)\s+(\w+)",
                     line

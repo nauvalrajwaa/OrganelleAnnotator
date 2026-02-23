@@ -1,6 +1,4 @@
-# =============================================================================
 # rules/qc.smk – Quality control: BUSCO + custom gene completeness
-# =============================================================================
 
 # ---------------------------------------------------------------------------
 # BUSCO genome completeness assessment
@@ -8,23 +6,22 @@
 rule busco:
     """
     Run BUSCO on the input FASTA to assess genome completeness.
-    Works as a general QC step for organelle genomes.
     """
     input:
-        fasta=lambda wc: get_fasta(wc.sample),
+        fasta = lambda wc: samples_df.loc[wc.sample, "fasta"],
     output:
-        summary=f"{OUTDIR}/{{sample}}/qc/busco/short_summary.txt",
-        out_dir=directory(f"{OUTDIR}/{{sample}}/qc/busco"),
+        summary = OUTDIR + "/{sample}/qc/busco/short_summary.txt",
+        out_dir = directory(OUTDIR + "/{sample}/qc/busco"),
     params:
-        lineage=config["qc"]["busco_lineage"],
-        mode=config["qc"]["busco_mode"],
+        lineage = config["qc"]["busco_lineage"],
+        mode    = config["qc"]["busco_mode"],
     log:
-        f"{OUTDIR}/{{sample}}/logs/busco.log",
+        OUTDIR + "/{sample}/logs/busco.log",
     threads:
         config["resources"]["busco"]["threads"]
     resources:
-        mem_mb=config["resources"]["busco"]["mem_mb"],
-        runtime=config["resources"]["busco"]["runtime"],
+        mem_mb  = config["resources"]["busco"]["mem_mb"],
+        runtime = config["resources"]["busco"]["runtime"],
     conda:
         "../envs/busco.yaml"
     shell:
@@ -37,21 +34,20 @@ rule busco:
             -l {params.lineage} \
             -m {params.mode} \
             -o {wildcards.sample} \
-            --out_path {OUTDIR}/{wildcards.sample}/qc/busco/ \
+            --out_path {output.out_dir}/ \
             -c {threads} \
             --offline \
             2>&1 | tee {log} || true
 
-        # BUSCO writes into a nested dir; copy summary to expected location
-        BUSCO_DIR="{OUTDIR}/{wildcards.sample}/qc/busco/{wildcards.sample}"
+        BUSCO_DIR="{output.out_dir}/{wildcards.sample}"
         SUMMARY=$(find "$BUSCO_DIR" -name "short_summary*.txt" 2>/dev/null | head -1)
         if [ -z "$SUMMARY" ]; then
-            SUMMARY=$(find "{OUTDIR}/{wildcards.sample}/qc/busco" -name "short_summary*.txt" 2>/dev/null | head -1)
+            SUMMARY=$(find "{output.out_dir}" -name "short_summary*.txt" 2>/dev/null | head -1)
         fi
         if [ -n "$SUMMARY" ]; then
             cp "$SUMMARY" {output.summary}
         else
-            echo "BUSCO did not produce a summary (may be expected for small organelle genomes)" > {output.summary}
+            echo "BUSCO did not produce a summary" > {output.summary}
         fi
         """
 
@@ -63,20 +59,19 @@ rule gene_completeness_summary:
     """
     Parse annotation outputs from all tools run for a sample and produce
     a unified gene-completeness QC summary TSV.
-    Reports: tool, gene_count, gene_names, tRNA_count, rRNA_count.
     """
     input:
-        done=lambda wc: [
-            f"{OUTDIR}/{wc.sample}/{tool}/{wc.sample}.done"
+        done = lambda wc: [
+            OUTDIR + "/" + wc.sample + "/" + tool + "/" + wc.sample + ".done"
             for tool in tools_for_sample(wc.sample)
         ],
     output:
-        summary=f"{OUTDIR}/{{sample}}/qc/qc_summary.tsv",
+        summary = OUTDIR + "/{sample}/qc/qc_summary.tsv",
     params:
-        tools=lambda wc: tools_for_sample(wc.sample),
-        out_base=OUTDIR,
+        tools    = lambda wc: tools_for_sample(wc.sample),
+        out_base = OUTDIR,
     log:
-        f"{OUTDIR}/{{sample}}/logs/gene_summary.log",
+        OUTDIR + "/{sample}/logs/gene_summary.log",
     run:
         import re, os, csv
 
@@ -133,7 +128,6 @@ rule gene_completeness_summary:
                 if os.path.exists(masterfile):
                     with open(masterfile) as f:
                         for line in f:
-                            # Parse gene annotations from masterfile
                             m = re.search(r"gene\s*=\s*(\S+)", line, re.IGNORECASE)
                             if not m:
                                 m = re.match(r";\s+(\w+)\s+\d+-\d+", line)
@@ -147,132 +141,10 @@ rule gene_completeness_summary:
                                     if "rrn" in name.lower():
                                         rrna_count += 1
 
-            elif tool == "fpma":
-                tsv = os.path.join(tool_dir, f"{sample}.presence.tsv")
-                if os.path.exists(tsv):
-                    with open(tsv) as f:
-                        for line in f:
-                            cols = line.strip().split("\t")
-                            if len(cols) >= 2:
-                                name = cols[0]
-                                present = cols[1] if len(cols) > 1 else ""
-                                if present.strip().lower() in ("true", "1", "yes", "+"):
-                                    gene_count += 1
-                                    gene_names.append(name)
-                                    if "trn" in name.lower():
-                                        trna_count += 1
-                                    if "rrn" in name.lower():
-                                        rrna_count += 1
-
-            elif tool == "mitos":
-                # Parse MITOS BED or GFF output
-                bed = os.path.join(tool_dir, "result.bed")
-                gff = os.path.join(tool_dir, "result.gff")
-                if os.path.exists(gff) and os.path.getsize(gff) > 0:
-                    with open(gff) as f:
-                        for line in f:
-                            if line.startswith("#"):
-                                continue
-                            cols = line.strip().split("\t")
-                            if len(cols) >= 9:
-                                ftype = cols[2]
-                                attrs = cols[8]
-                                name_m = re.search(r"Name=([^;]+)", attrs)
-                                if not name_m:
-                                    name_m = re.search(r"gene_id=([^;]+)", attrs)
-                                name = name_m.group(1) if name_m else "unknown"
-                                if ftype in ("gene", "CDS", "tRNA", "rRNA"):
-                                    if name not in gene_names:
-                                        gene_count += 1
-                                        gene_names.append(name)
-                                    if ftype == "tRNA" or "trn" in name.lower():
-                                        trna_count += 1
-                                    if ftype == "rRNA" or "rrn" in name.lower():
-                                        rrna_count += 1
-                elif os.path.exists(bed) and os.path.getsize(bed) > 0:
-                    with open(bed) as f:
-                        for line in f:
-                            cols = line.strip().split("\t")
-                            if len(cols) >= 4:
-                                name = cols[3]
-                                if name not in gene_names:
-                                    gene_count += 1
-                                    gene_names.append(name)
-                                if "trn" in name.lower():
-                                    trna_count += 1
-                                if "rrn" in name.lower():
-                                    rrna_count += 1
-
-            elif tool == "mitoz":
-                # Parse MitoZ GFF output
+            elif tool in ("mitos", "mitoz", "trnascan", "aragorn", "liftoff"):
                 gff = os.path.join(tool_dir, f"{sample}.gff")
-                if os.path.exists(gff) and os.path.getsize(gff) > 0:
-                    with open(gff) as f:
-                        for line in f:
-                            if line.startswith("#"):
-                                continue
-                            cols = line.strip().split("\t")
-                            if len(cols) >= 9:
-                                ftype = cols[2]
-                                attrs = cols[8]
-                                name_m = re.search(r"Name=([^;]+)", attrs)
-                                if not name_m:
-                                    name_m = re.search(r"gene=([^;]+)", attrs)
-                                name = name_m.group(1) if name_m else "unknown"
-                                if ftype in ("gene", "CDS", "tRNA", "rRNA"):
-                                    if name not in gene_names:
-                                        gene_count += 1
-                                        gene_names.append(name)
-                                    if ftype == "tRNA" or "trn" in name.lower():
-                                        trna_count += 1
-                                    if ftype == "rRNA" or "rrn" in name.lower():
-                                        rrna_count += 1
-
-            elif tool == "trnascan":
-                # Parse tRNAscan-SE GFF output
-                gff = os.path.join(tool_dir, f"{sample}.gff")
-                if os.path.exists(gff) and os.path.getsize(gff) > 0:
-                    with open(gff) as f:
-                        for line in f:
-                            if line.startswith("#"):
-                                continue
-                            cols = line.strip().split("\t")
-                            if len(cols) >= 9:
-                                ftype = cols[2]
-                                attrs = cols[8]
-                                name_m = re.search(r"Name=([^;]+)", attrs)
-                                name = name_m.group(1) if name_m else "unknown"
-                                if ftype in ("tRNA", "gene"):
-                                    if name not in gene_names:
-                                        gene_count += 1
-                                        gene_names.append(name)
-                                    trna_count += 1
-
-            elif tool == "aragorn":
-                # Parse Aragorn GFF output
-                gff = os.path.join(tool_dir, f"{sample}.gff")
-                if os.path.exists(gff) and os.path.getsize(gff) > 0:
-                    with open(gff) as f:
-                        for line in f:
-                            if line.startswith("#"):
-                                continue
-                            cols = line.strip().split("\t")
-                            if len(cols) >= 9:
-                                ftype = cols[2]
-                                attrs = cols[8]
-                                name_m = re.search(r"Name=([^;]+)", attrs)
-                                name = name_m.group(1) if name_m else "unknown"
-                                if name not in gene_names:
-                                    gene_count += 1
-                                    gene_names.append(name)
-                                if "trn" in name.lower() or ftype == "tRNA":
-                                    trna_count += 1
-                                if "tmrna" in name.lower() or ftype == "tmRNA":
-                                    pass  # tmRNA counted as gene, not tRNA/rRNA
-
-            elif tool == "liftoff":
-                # Parse GFF output (all three produce standard GFF3)
-                gff = os.path.join(tool_dir, f"{sample}.gff")
+                if tool == "mitos":
+                    gff = os.path.join(tool_dir, "result.gff")
                 if os.path.exists(gff) and os.path.getsize(gff) > 0:
                     with open(gff) as f:
                         for line in f:
@@ -297,9 +169,25 @@ rule gene_completeness_summary:
                                     if ftype == "rRNA" or "rrn" in name.lower():
                                         rrna_count += 1
 
+            elif tool == "fpma":
+                tsv = os.path.join(tool_dir, f"{sample}.presence.tsv")
+                if os.path.exists(tsv):
+                    with open(tsv) as f:
+                        for line in f:
+                            cols = line.strip().split("\t")
+                            if len(cols) >= 2:
+                                name = cols[0]
+                                present = cols[1] if len(cols) > 1 else ""
+                                if present.strip().lower() in ("true", "1", "yes", "+"):
+                                    gene_count += 1
+                                    gene_names.append(name)
+                                    if "trn" in name.lower():
+                                        trna_count += 1
+                                    if "rrn" in name.lower():
+                                        rrna_count += 1
+
             elif tool == "ogdraw":
-                # OGDraw is visualisation-only; no gene parsing needed
-                pass
+                pass  # Visualisation only
 
             rows.append({
                 "sample": sample,

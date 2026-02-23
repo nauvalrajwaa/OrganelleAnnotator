@@ -1,10 +1,4 @@
-# =============================================================================
 # rules/aragorn.smk – Aragorn: tRNA and tmRNA detection
-# =============================================================================
-# Aragorn detects tRNA, tmRNA, and mtRNA genes in nucleotide sequences.
-# Lightweight and fast; commonly used for organelle genomes.
-# Conda: bioconda::aragorn
-# =============================================================================
 
 rule aragorn_annotate:
     """
@@ -12,24 +6,24 @@ rule aragorn_annotate:
     Produces tabular/text output and a GFF3 conversion.
     """
     input:
-        fasta=lambda wc: get_fasta(wc.sample),
+        fasta = lambda wc: samples_df.loc[wc.sample, "fasta"],
     output:
-        done=touch(f"{OUTDIR}/{{sample}}/aragorn/{{sample}}.done"),
-        txt=f"{OUTDIR}/{{sample}}/aragorn/{{sample}}.aragorn.txt",
-        gff=f"{OUTDIR}/{{sample}}/aragorn/{{sample}}.gff",
+        done = touch(OUTDIR + "/{sample}/aragorn/{sample}.done"),
+        txt  = OUTDIR + "/{sample}/aragorn/{sample}.aragorn.txt",
+        gff  = OUTDIR + "/{sample}/aragorn/{sample}.gff",
     params:
-        out_dir=lambda wc: f"{OUTDIR}/{wc.sample}/aragorn",
-        genetic_code=lambda wc: get_genetic_code(wc.sample),
-        topology=config["aragorn"]["topology"],
-        search_both_strands=config["aragorn"]["search_both_strands"],
-        extra=config["aragorn"].get("extra", ""),
+        out_dir              = OUTDIR + "/{sample}/aragorn",
+        genetic_code         = lambda wc: samples_df.loc[wc.sample, "genetic_code"],
+        topology             = config["aragorn"]["topology"],
+        search_both_strands  = config["aragorn"]["search_both_strands"],
+        extra                = config["aragorn"].get("extra", ""),
     log:
-        f"{OUTDIR}/{{sample}}/logs/aragorn.log",
+        OUTDIR + "/{sample}/logs/aragorn.log",
     threads:
         config["resources"]["aragorn"]["threads"]
     resources:
-        mem_mb=config["resources"]["aragorn"]["mem_mb"],
-        runtime=config["resources"]["aragorn"]["runtime"],
+        mem_mb  = config["resources"]["aragorn"]["mem_mb"],
+        runtime = config["resources"]["aragorn"]["runtime"],
     conda:
         "../envs/aragorn.yaml"
     shell:
@@ -37,7 +31,6 @@ rule aragorn_annotate:
         set -euo pipefail
         mkdir -p {params.out_dir} $(dirname {log})
 
-        # Build flags
         TOPO_FLAG=""
         case "{params.topology}" in
             circular) TOPO_FLAG="-c" ;;
@@ -49,7 +42,6 @@ rule aragorn_annotate:
             STRAND_FLAG="-d"
         fi
 
-        # Run Aragorn (text output)
         aragorn \
             $TOPO_FLAG \
             $STRAND_FLAG \
@@ -72,19 +64,16 @@ with open('{output.txt}') as fh:
         if line.startswith('>'):
             seq_id = line.split()[0].lstrip('>')
             continue
-        # Match tRNA/tmRNA entries like:
-        #  1  tRNA-Met           c[1234,1305]   (cat)
-        m = re.match(r'\s*\d+\s+(tRNA-\S+|tmRNA)\s+(\[?c?\[?)(\\d+),(\\d+)\\]?\\)?\\s*(\\(\\w+\\))?', line)
+        m = re.match(r'\s*\d+\s+(tRNA-\S+|tmRNA)\s+(\\[?c?\\[?)(\\d+),(\\d+)\\]?\\)?\\s*(\\(\\w+\\))?', line)
         if not m:
-            # Also handle complement notation
-            m = re.match(r'\s*\d+\s+(tRNA-\S+|tmRNA)\s+c\[(\\d+),(\\d+)\\]\s*(\\(\\w+\\))?', line)
+            m = re.match(r'\s*\d+\s+(tRNA-\S+|tmRNA)\s+c\\[(\\d+),(\\d+)\\]\s*(\\(\\w+\\))?', line)
             if m:
                 name, start, end = m.group(1), m.group(2), m.group(3)
                 anticodon = m.group(4) or ''
                 strand = '-'
                 gff.append(seq_id+'\taragorn\ttRNA\t'+start+'\t'+end+'\t.\t'+strand+'\t.\tID='+name+';Name='+name+';anticodon='+anticodon)
                 continue
-            m = re.match(r'\s*\d+\s+(tRNA-\S+|tmRNA)\s+\[?(\\d+),(\\d+)\\]?\s*(\\(\\w+\\))?', line)
+            m = re.match(r'\s*\d+\s+(tRNA-\S+|tmRNA)\s+\\[?(\\d+),(\\d+)\\]?\s*(\\(\\w+\\))?', line)
             if m:
                 name, start, end = m.group(1), m.group(2), m.group(3)
                 anticodon = m.group(4) or ''
@@ -96,6 +85,5 @@ with open('{output.gff}', 'w') as out:
     out.write('\n'.join(gff) + '\n')
 " 2>>{log}
 
-        # Ensure outputs exist
         touch {output.txt} {output.gff}
         """
