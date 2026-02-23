@@ -71,13 +71,13 @@ rule ogdraw_map:
 def _ogdraw_input_gb(sample):
     """
     Determine which GenBank file to use as OGDraw input.
-    Prefers: chloe > pga > cpgavas2 > liftoff (for plastid)
+    Prefers: chloe > pga > liftoff (for plastid)
              mfannot > mitos > mitoz > liftoff            (for mito)
     Falls back to whichever .gb exists.
     """
     organelle = samples_df.loc[sample, "organelle"]
     if organelle == "plastid":
-        priority = ["chloe", "pga", "cpgavas2", "liftoff"]
+        priority = ["chloe", "pga", "liftoff"]
     else:
         priority = ["mfannot", "mitos", "mitoz", "liftoff"]
 

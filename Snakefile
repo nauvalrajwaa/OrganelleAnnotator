@@ -1,7 +1,7 @@
 # =============================================================================
 # Organelle Annotation Pipeline – Snakemake Workflow
 # =============================================================================
-# Tools:  Chloe.jl | PGA | CPGAVAS2 (Docker)
+# Tools:  Chloe.jl | PGA
 #         MFannot (Docker) | fpma | MITOS2 (Docker) | MitoZ (Docker)
 #         tRNAscan-SE | Aragorn | Liftoff
 # Viz:    OGDraw (Docker) | pyGenomeViz (genome map)
@@ -30,7 +30,7 @@ OUTDIR = config["outdir"]
 # ---------------------------------------------------------------------------
 # Helper: which tools to run per sample
 # ---------------------------------------------------------------------------
-PLASTID_TOOLS = ["chloe", "pga", "cpgavas2"]
+PLASTID_TOOLS = ["chloe", "pga"]
 MITO_TOOLS = ["mfannot", "fpma", "mitos", "mitoz"]
 BOTH_TOOLS = ["trnascan", "aragorn", "liftoff"]
 ALL_TOOLS = PLASTID_TOOLS + MITO_TOOLS + BOTH_TOOLS
@@ -105,7 +105,7 @@ include: "rules/mitos.smk"
 include: "rules/mitoz.smk"
 include: "rules/trnascan.smk"
 include: "rules/aragorn.smk"
-include: "rules/cpgavas2.smk"
+
 include: "rules/liftoff.smk"
 include: "rules/ogdraw.smk"
 include: "rules/qc.smk"

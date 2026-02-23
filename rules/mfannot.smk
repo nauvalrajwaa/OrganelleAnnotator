@@ -21,6 +21,7 @@ rule mfannot_annotate:
         extra=config["mfannot"]["extra"],
         sqn_flag=lambda wc: "--sqnformat" if config["mfannot"]["sqn_format"] else "",
         out_dir=lambda wc: f"{OUTDIR}/mfannot/{wc.sample}",
+        use_singularity=config["mfannot"].get("use_singularity", False),
     log:
         f"{OUTDIR}/logs/mfannot/{{sample}}.log",
     threads:
@@ -38,23 +39,40 @@ rule mfannot_annotate:
         INPUT_BASENAME=$(basename {input.fasta})
         OUTPUT_DIR=$(cd {params.out_dir} 2>/dev/null || mkdir -p {params.out_dir} && cd {params.out_dir} && pwd)
 
-        # Copy input to output dir for Docker
+        # Copy input to output dir for container
         cp {input.fasta} {params.out_dir}/{wildcards.sample}.fasta
 
-        docker run --rm \
-            -v "${{OUTPUT_DIR}}":/data \
-            {params.docker_image} \
-            mfannot \
-            -g {params.genetic_code} \
-            --blast {params.blast_evalue} \
-            --minorflen {params.min_orf_len} \
-            --maxintronsize {params.max_intron_size} \
-            {params.sqn_flag} \
-            {params.extra} \
-            -o /data/{wildcards.sample}.new \
-            -l /data/{wildcards.sample}.log \
-            /data/{wildcards.sample}.fasta \
-            2>&1 | tee {log}
+        if [ "{params.use_singularity}" = "True" ]; then
+            singularity exec \
+                --bind "${{OUTPUT_DIR}}":/data \
+                docker://{params.docker_image} \
+                mfannot \
+                -g {params.genetic_code} \
+                --blast {params.blast_evalue} \
+                --minorflen {params.min_orf_len} \
+                --maxintronsize {params.max_intron_size} \
+                {params.sqn_flag} \
+                {params.extra} \
+                -o /data/{wildcards.sample}.new \
+                -l /data/{wildcards.sample}.log \
+                /data/{wildcards.sample}.fasta \
+                2>&1 | tee {log}
+        else
+            docker run --rm \
+                -v "${{OUTPUT_DIR}}":/data \
+                {params.docker_image} \
+                mfannot \
+                -g {params.genetic_code} \
+                --blast {params.blast_evalue} \
+                --minorflen {params.min_orf_len} \
+                --maxintronsize {params.max_intron_size} \
+                {params.sqn_flag} \
+                {params.extra} \
+                -o /data/{wildcards.sample}.new \
+                -l /data/{wildcards.sample}.log \
+                /data/{wildcards.sample}.fasta \
+                2>&1 | tee {log}
+        fi
 
         # Ensure output exists
         touch {output.masterfile}

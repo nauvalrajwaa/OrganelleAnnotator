@@ -2,7 +2,7 @@
 # Organelle Annotation Pipeline - Configuration
 # =============================================================================
 # Supported tools:
-#   Plastid/Chloroplast: chloe, pga, cpgavas2
+#   Plastid/Chloroplast: chloe, pga
 #   Mitochondrial:       mfannot, fpma, mitos, mitoz
 #   Both/QC:             trnascan, aragorn, liftoff
 #   Visualisation:       ogdraw
@@ -16,7 +16,7 @@ outdir: "results"
 
 # -- Run mode ------------------------------------------------------------------
 #   "all"           : run all compatible tools per sample (based on organelle type)
-#   "plastid"       : run only plastid tools (chloe, pga, cpgavas2)
+#   "plastid"       : run only plastid tools (chloe, pga)
 #   "mito"          : run only mitochondrial tools (mfannot, fpma, mitos, mitoz)
 #   "select"        : run only tools listed in 'tools_select'
 mode: "all"
@@ -25,7 +25,6 @@ mode: "all"
 tools_select:
   - chloe
   - pga
-  - cpgavas2
   - mfannot
   - fpma
   - mitos
@@ -51,8 +50,8 @@ qc:
 
 # Chloe.jl – chloroplast genome annotator (Julia)
 chloe:
-  # Path to the Chloe.jl directory
-  path: "Chloe.jl"
+  # Path to the Chloe.jl directory (absolute path)
+  path: "/Users/user/Downloads/04. Pipeline_NGS/pipeline_annotation/Organelle_annotation/repo/Chloe.jl"
   # Reference set: "cp" (chloroplast) or "nr" (nuclear rDNA)
   reference: "cp"
   # Reference DB dir (clone from https://github.com/ian-small/chloe_references)
@@ -72,10 +71,10 @@ chloe:
 
 # PGA – Plastid Genome Annotator (Perl + BLAST)
 pga:
-  # Path to PGA.pl
-  path: "PGA"
+  # Path to PGA.pl (absolute path)
+  path: "/Users/user/Downloads/04. Pipeline_NGS/pipeline_annotation/Organelle_annotation/repo/PGA"
   # Reference GenBank directory (shipped with PGA)
-  reference_dir: "PGA/plastomes"
+  reference_dir: "/Users/user/Downloads/04. Pipeline_NGS/pipeline_annotation/Organelle_annotation/repo/PGA/plastomes"
   # Genome topology: "circular" or "linear"
   form: "circular"
   # Minimum inverted repeat length (bp)
@@ -85,14 +84,7 @@ pga:
   # Query coverage range (min,max)
   qcoverage: "0.5,2"
 
-# CPGAVAS2 – Chloroplast Genome Annotation, Visualization, Analysis (Docker)
-cpgavas2:
-  # Docker image
-  docker_image: "lipme/cpgavas2:latest"
-  # Use Singularity/Apptainer instead of Docker
-  use_singularity: false
-  # Extra flags
-  extra: ""
+
 
 # Liftoff – reference-based annotation lift-over (conda + minimap2)
 liftoff:
@@ -112,7 +104,7 @@ ogdraw:
   # Docker image
   docker_image: "chlorobox/ogdraw:1.3.1"
   # Use Singularity/Apptainer instead of Docker
-  use_singularity: false
+  use_singularity: true
   # Extra flags for drawgenemap (e.g. --gc_content, --ir)
   extra: ""
 
@@ -138,6 +130,8 @@ mfannot:
   extra: ""
   # Output Sequin format additionally
   sqn_format: false
+  # Use Singularity/Apptainer instead of Docker
+  use_singularity: true
 
 # MITOS2 – Mitochondrial genome annotator (Docker)
 mitos:
@@ -153,7 +147,7 @@ mitos:
   # Path to local reference DB directory (leave empty to use container built-in)
   ref_dir: ""
   # Use Singularity/Apptainer instead of Docker
-  use_singularity: false
+  use_singularity: true
   # Extra flags (appended as-is to runmitos.py)
   extra: ""
 
@@ -166,7 +160,7 @@ mitoz:
   #   Bryozoa, Mollusca, Nematoda, Nemertea-ribbon-worms, Porifera-sponges
   clade: "Chordata"
   # Use Singularity/Apptainer instead of Docker
-  use_singularity: false
+  use_singularity: true
   # Extra flags (appended as-is)
   extra: ""
 
@@ -191,7 +185,7 @@ aragorn:
 # fpma – Fast Plant Mitochondria Annotator (Rust + HMMER)
 fpma:
   # Path to the fpma directory (contains compiled binary and hmms/)
-  path: "fpma"
+  path: "repo/fpma"
   # Path to nhmmer executable (from HMMER3)
   nhmmer_path: "nhmmer"
   # HMM profile directory
@@ -272,10 +266,7 @@ resources:
     threads: 1
     mem_mb: 2000
     runtime: 15
-  cpgavas2:
-    threads: 4
-    mem_mb: 8000
-    runtime: 120
+
   liftoff:
     threads: 4
     mem_mb: 4000
