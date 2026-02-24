@@ -4,6 +4,7 @@ resources/
 results/
 post_organelle_assembly/
 busco_downloads/
+__pycache__/
 .snakemake/
 
 

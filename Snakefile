@@ -139,7 +139,8 @@ def all_outputs():
 
 rule all:
     input:
-        all_outputs()
+        all_outputs(),
+        expand(OUTDIR + "/{sample}/chloe/{sample}.gb", sample=samples_df.index)
 
 # ---------------------------------------------------------------------------
 # Include per-tool rule files

@@ -1,0 +1,9 @@
+name: biopython
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python >=3.10
+  - biopython >=1.81
+  - bcbio-gff >=0.7.0   # provides BCBio.GFF parser (GFF3-aware)

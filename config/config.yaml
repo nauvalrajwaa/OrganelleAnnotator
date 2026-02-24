@@ -43,18 +43,13 @@ mode: "all"
 tools_select:
   # ── Plastid / Chloroplast annotators ──
   - chloe        # Chloe.jl — Julia-based chloroplast annotator (XGBoost)
-  - pga          # PGA — Plastid Genome Annotator (Perl + BLAST)
   # ── Mitochondrial annotators ──
   - mfannot      # MFannot — mitochondrial/plastid annotator (Docker)
-  - fpma         # fpma — Fast Plant Mitochondria Annotator (Rust + HMMER)
-  - mitos        # MITOS2 — mitochondrial genome annotator (Docker)
-  - mitoz        # MitoZ — animal mitochondrial annotator (Docker)
   # ── Both / QC tools ──
   - trnascan     # tRNAscan-SE — tRNA gene detection (conda)
   - aragorn      # Aragorn — tRNA/tmRNA detection (conda)
-  - liftoff      # Liftoff — reference-based annotation lift-over
   # ── Visualisation (auto-runs for tools that produce GenBank output) ──
-  # - gbdraw     # gbdraw — circular genome map visualisation (conda)
+  - gbdraw       # gbdraw — circular genome map visualisation (conda)
 
 # -- Quality control -----------------------------------------------------------
 qc:

@@ -9,7 +9,7 @@ rule chloe_annotate:
     input:
         fasta = lambda wc: samples_df.loc[wc.sample, "fasta"],
     output:
-        done = touch(OUTDIR + "/{sample}/chloe/{sample}.done"),
+        # HANYA output GFF. File .done dihapus dari sini!
         gff  = OUTDIR + "/{sample}/chloe/{sample}.gff",
     params:
         out_dir    = OUTDIR + "/{sample}/chloe",
@@ -29,6 +29,7 @@ rule chloe_annotate:
         set -euo pipefail
         mkdir -p {params.out_dir} $(dirname {log})
 
+        # 1. Jalankan Chloe
         julia --project={params.chloe_dir} \
             {params.chloe_dir}/chloe.jl \
             annotate \
@@ -37,11 +38,35 @@ rule chloe_annotate:
             {params.extra} \
             2>&1 | tee {log}
 
-        # Chloe writes <input_basename>.gff inside the output dir.
-        # Find and rename to the expected output name.
-        CHLOE_GFF=$(find {params.out_dir} -maxdepth 1 -name "*.gff" -type f 2>/dev/null | head -1)
-        if [ -n "$CHLOE_GFF" ] && [ "$CHLOE_GFF" != "{output.gff}" ]; then
+        # 2. Cari GFF yang dihasilkan dan rename sesuai standar kita
+        CHLOE_GFF=$(find {params.out_dir} -maxdepth 1 -name "*.gff" -type f ! -name "$(basename {output.gff})" 2>/dev/null | head -1)
+        
+        if [ -n "$CHLOE_GFF" ]; then
             mv "$CHLOE_GFF" {output.gff}
         fi
-        touch {output.gff}
+        
+        # 3. Validasi ketat: Gagalkan jika file GFF tidak ada atau 0 byte (mencegah error diam-diam)
+        if [ ! -s "{output.gff}" ]; then
+            echo "Error: Chloe gagal menghasilkan file GFF yang valid (kosong/tidak ada)!" >&2
+            exit 1
+        fi
         """
+
+rule chloe_gff_to_genbank:
+    """
+    Convert Chloe's GFF3 annotation + original FASTA → GenBank (.gb) file.
+    Menghasilkan file .done HANYA setelah file .gb berhasil dibuat.
+    """
+    input:
+        gff   = OUTDIR + "/{sample}/chloe/{sample}.gff",
+        fasta = lambda wc: samples_df.loc[wc.sample, "fasta"],
+    output:
+        gb    = OUTDIR + "/{sample}/chloe/{sample}.gb",
+        # PENTING: File .done dipindah ke sini agar gbdraw menunggu konversi ini selesai!
+        done  = touch(OUTDIR + "/{sample}/chloe/{sample}.done"),
+    log:
+        OUTDIR + "/{sample}/logs/chloe_to_genbank.log",
+    conda:
+        "../envs/biopython.yaml"
+    script:
+        "../scripts/gff_to_genbank.py"
