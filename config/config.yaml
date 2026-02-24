@@ -120,18 +120,21 @@ liftoff:
   extra: ""
 
 # gbdraw – Genome diagram generator for organelles (conda: bioconda::gbdraw)
-# Produces comprehensive circular genome diagrams from annotated GenBank files.
+# Uses the Python API for comprehensive circular genome diagrams.
+# See usage_gbdraw.md for full API reference.
 gbdraw:
-  # Output formats (comma-separated): svg, png, pdf, eps, ps
-  # Multiple formats can be produced in a single run.
+  # Output formats: svg, png, pdf, eps, ps
+  # Multiple formats are produced per GenBank file.
   formats:
     - svg
     - png
-  # Extra flags for gbdraw circular
-  #   --separate_strands : genes on + and - strands on different tracks
-  #   --title "My Genome": add a title to the plot
-  #   --show_gc          : show GC content ring
-  extra: "--separate_strands"
+  # Python API config overrides (passed to assemble_circular_diagram_from_record)
+  #   strandedness : true  → separate forward/reverse strand tracks
+  #   show_labels  : true  → display gene name labels on features
+  # See usage_gbdraw.md §4 for all available options.
+  config_overrides:
+    strandedness: true
+    show_labels: true
 
 # MFannot – mitochondrial / plastid genome annotator (Docker)
 mfannot:

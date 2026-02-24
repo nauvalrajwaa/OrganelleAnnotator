@@ -103,17 +103,11 @@ def tools_for_sample(sample):
 # ---------------------------------------------------------------------------
 # gbdraw helpers
 # ---------------------------------------------------------------------------
-# Tools that produce annotated GenBank files (not raw FASTA)
+# Annotation tools that MAY produce GenBank (.gb/.gbk) files.
+# gbdraw will search each tool's output folder at runtime for *.gb / *.gbk.
 GB_PRODUCING_TOOLS = {
-    "plastid": ["pga", "liftoff"],
+    "plastid": ["chloe", "pga", "liftoff"],
     "mito":    ["mitoz", "liftoff"],
-}
-
-# GenBank file extension per tool (some use .gb, others .gbk)
-GB_FILE_EXTENSION = {
-    "pga":     ".gb",
-    "liftoff": ".gb",
-    "mitoz":   ".gbk",
 }
 
 def gbdraw_source_tools(sample):
