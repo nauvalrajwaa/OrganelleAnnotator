@@ -28,7 +28,7 @@ rule chloe_annotate:
         mkdir -p {params.out_dir} $(dirname {log})
 
         julia --project={params.chloe_dir} \
-            {params.chloe_dir}/bin/chloe.jl \
+            {params.chloe_dir}/chloe.jl \
             annotate \
             {input.fasta} \
             -o {params.out_dir}/{wildcards.sample}.gff \

@@ -1,6 +1,8 @@
 channels:
-  - bioconda
   - conda-forge
+  - bioconda
   - defaults
 dependencies:
+  - python=3.11
+  - biopython>=1.80
   - gbdraw

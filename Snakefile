@@ -36,6 +36,7 @@ for _s in SAMPLES:
     print(f"     ✔ {_s}  →  fasta={samples_df.loc[_s, 'fasta']}  "
           f"organelle={samples_df.loc[_s, 'organelle']}  "
           f"genetic_code={samples_df.loc[_s, 'genetic_code']}")
+print(f"  🔧 Mode: {config['mode']}  |  tools_select: {config.get('tools_select', 'ALL')}")
 print()
 
 # -- Validation --------------------------------------------------------------
@@ -60,34 +61,38 @@ MITO_TOOLS    = ["mfannot", "fpma", "mitos", "mitoz"]
 BOTH_TOOLS    = ["trnascan", "aragorn", "liftoff"]
 ALL_TOOLS     = PLASTID_TOOLS + MITO_TOOLS + BOTH_TOOLS
 
+# tools_select is the AUTHORITATIVE list — only tools listed here will run.
+# In any mode, the final tool list is intersected with tools_select.
+SELECTED_TOOLS = config.get("tools_select", ALL_TOOLS)
+
 def tools_for_sample(sample):
-    """Return list of tools applicable to a sample."""
+    """Return list of tools applicable to a sample.
+
+    Steps:
+      1. Determine candidate tools based on mode + organelle type.
+      2. Intersect with tools_select so only listed tools are processed.
+      3. Drop liftoff if the sample has no reference columns.
+    """
     organelle = samples_df.loc[sample, "organelle"]
     mode = config["mode"]
 
-    if mode == "all":
-        if organelle == "plastid":
-            tools = PLASTID_TOOLS + BOTH_TOOLS
-        elif organelle == "mito":
-            tools = MITO_TOOLS + BOTH_TOOLS
-        else:
-            tools = ALL_TOOLS
-    elif mode == "plastid":
-        tools = PLASTID_TOOLS + BOTH_TOOLS
+    # Step 1 — candidate tools by mode
+    if mode == "plastid":
+        candidates = PLASTID_TOOLS + BOTH_TOOLS
     elif mode == "mito":
-        tools = MITO_TOOLS + BOTH_TOOLS
-    elif mode == "select":
-        selected = config.get("tools_select", ALL_TOOLS)
+        candidates = MITO_TOOLS + BOTH_TOOLS
+    else:  # "all", "select", or anything else
         if organelle == "plastid":
-            tools = [t for t in selected if t in PLASTID_TOOLS + BOTH_TOOLS]
+            candidates = PLASTID_TOOLS + BOTH_TOOLS
         elif organelle == "mito":
-            tools = [t for t in selected if t in MITO_TOOLS + BOTH_TOOLS]
+            candidates = MITO_TOOLS + BOTH_TOOLS
         else:
-            tools = list(selected)
-    else:
-        tools = ALL_TOOLS
+            candidates = ALL_TOOLS
 
-    # Skip liftoff when reference columns are empty
+    # Step 2 — intersect with tools_select (only run what's listed)
+    tools = [t for t in candidates if t in SELECTED_TOOLS]
+
+    # Step 3 — skip liftoff when reference columns are empty
     ref_fa  = samples_df.loc[sample, "reference_fasta"].strip()
     ref_gff = samples_df.loc[sample, "reference_gff"].strip()
     if not ref_fa or not ref_gff:
@@ -98,9 +103,17 @@ def tools_for_sample(sample):
 # ---------------------------------------------------------------------------
 # gbdraw helpers
 # ---------------------------------------------------------------------------
+# Tools that produce annotated GenBank files (not raw FASTA)
 GB_PRODUCING_TOOLS = {
     "plastid": ["pga", "liftoff"],
-    "mito":    ["liftoff"],
+    "mito":    ["mitoz", "liftoff"],
+}
+
+# GenBank file extension per tool (some use .gb, others .gbk)
+GB_FILE_EXTENSION = {
+    "pga":     ".gb",
+    "liftoff": ".gb",
+    "mitoz":   ".gbk",
 }
 
 def gbdraw_source_tools(sample):
@@ -126,7 +139,8 @@ def all_outputs():
                 outputs.append(f"{OUTDIR}/{s}/qc/busco/short_summary.txt")
         if config.get("downstream", {}).get("enabled", False):
             outputs.append(f"{OUTDIR}/{s}/downstream/downstream_report.html")
-    outputs.append(f"{OUTDIR}/report/index.html")
+        # Per-sample report
+        outputs.append(f"{OUTDIR}/{s}/report/index.html")
     return outputs
 
 rule all:

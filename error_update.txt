@@ -1,0 +1,19 @@
+[1]
+
+report results folder still outside of the results/[samples]/ folder
+
+[2]
+
+gbdraw results is very simple, make it comprehensive with png or others
+
+[3]
+
+make description above tools select [config.yaml] and give description
+
+[4]
+
+make the processed tools is only the listed tools at tools select option, if there is not listed dont processed
+- as example >  if listed tools is only mfannot and chloe the annotators tools used is mfannot and chloe
+- and also gbdraw will only sketch the listed tools annotator results
+
+[5]

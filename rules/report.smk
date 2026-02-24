@@ -1,37 +1,36 @@
-# rules/report.smk – Aggregated HTML report
+# rules/report.smk – Aggregated HTML report (per sample)
 
 rule generate_report:
     """
     Produce an indexed HTML report with per-tool sections, QC summaries,
     gene-completeness tables, and links to all output files.
+    One report is generated per sample inside results/{sample}/report/.
     """
     input:
-        qc_summaries = lambda wc: [
-            OUTDIR + "/" + s + "/qc/qc_summary.tsv"
-            for s in SAMPLES
+        qc_summary = lambda wc: (
+            OUTDIR + "/" + wc.sample + "/qc/qc_summary.tsv"
+            if config["qc"]["enabled"] else []
+        ),
+        busco_summary = lambda wc: (
+            OUTDIR + "/" + wc.sample + "/qc/busco/short_summary.txt"
             if config["qc"]["enabled"]
-        ],
-        busco_summaries = lambda wc: [
-            OUTDIR + "/" + s + "/qc/busco/short_summary.txt"
-            for s in SAMPLES
-            if config["qc"]["enabled"]
-        ],
+               and samples_df.loc[wc.sample, "organelle"] in ("plastid", "mito")
+            else []
+        ),
         done_markers = lambda wc: [
-            OUTDIR + "/" + s + "/" + tool + "/" + s + ".done"
-            for s in SAMPLES
-            for tool in tools_for_sample(s)
+            OUTDIR + "/" + wc.sample + "/" + tool + "/" + wc.sample + ".done"
+            for tool in tools_for_sample(wc.sample)
         ],
         gbdraw_markers = lambda wc: [
-            OUTDIR + "/" + s + "/gbdraw/" + src + "/" + s + ".done"
-            for s in SAMPLES
-            for src in gbdraw_source_tools(s)
+            OUTDIR + "/" + wc.sample + "/gbdraw/" + src + "/" + wc.sample + ".done"
+            for src in gbdraw_source_tools(wc.sample)
         ],
     output:
-        html = OUTDIR + "/report/index.html",
+        html = OUTDIR + "/{sample}/report/index.html",
     params:
-        samples = SAMPLES,
+        samples = lambda wc: [wc.sample],
         outdir  = OUTDIR,
     log:
-        OUTDIR + "/report/report.log",
+        OUTDIR + "/{sample}/logs/report.log",
     script:
         "../scripts/generate_report.py"

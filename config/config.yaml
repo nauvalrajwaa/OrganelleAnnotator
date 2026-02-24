@@ -18,8 +18,28 @@ samples: "config/samples.tsv"
 #   "select"        : run only tools listed in 'tools_select'
 mode: "all"
 
-# When mode is "select", specify which tools to run:
-# All available tools listed below. Comment out to disable.
+# -- Tool selection ------------------------------------------------------------
+# tools_select controls which annotation tools are active.
+# ONLY tools listed here will be processed — comment out or remove a tool
+# to disable it.  The "mode" setting above filters by organelle type, but
+# the final tool list is always intersected with tools_select.
+#
+# ┌────────────┬────────────┬──────────────────────────────────────────────────────────────────┐
+# │ Tool       │ Organelle  │ Description                                                      │
+# ├────────────┼────────────┼──────────────────────────────────────────────────────────────────┤
+# │ chloe      │ Plastid    │ Chloe.jl — Julia/XGBoost chloroplast annotator. Fast, accurate.  │
+# │ pga        │ Plastid    │ PGA — Perl + BLAST batch plastid annotator. Detects IRs.         │
+# │ mfannot    │ Mito       │ MFannot — Docker-based mito/plastid annotator (BLAST+HMMER).     │
+# │ fpma       │ Mito       │ fpma — Rust + HMMER HMM scanner for plant mito gene presence.    │
+# │ mitos      │ Mito       │ MITOS2 — Docker reference-based mito annotator (metazoa/fungi).  │
+# │ mitoz      │ Mito       │ MitoZ — Docker animal mito annotator with circular visualisation.│
+# │ trnascan   │ Both       │ tRNAscan-SE — gold-standard tRNA detection (covariance models).  │
+# │ aragorn    │ Both       │ Aragorn — lightweight tRNA/tmRNA detection (fast, second-opinion)│
+# │ liftoff    │ Both       │ Liftoff — minimap2-based annotation lift-over from a reference.  │
+# └────────────┴────────────┴──────────────────────────────────────────────────────────────────┘
+#
+# To disable a tool, comment it out with "#" or remove the line entirely.
+# Example: to run only mfannot and chloe, keep only those two uncommented.
 tools_select:
   # ── Plastid / Chloroplast annotators ──
   - chloe        # Chloe.jl — Julia-based chloroplast annotator (XGBoost)
@@ -32,8 +52,8 @@ tools_select:
   # ── Both / QC tools ──
   - trnascan     # tRNAscan-SE — tRNA gene detection (conda)
   - aragorn      # Aragorn — tRNA/tmRNA detection (conda)
-  - liftoff      # Liftoff — reference-based annotation lift-over (requires reference_fasta & reference_gff in samples.tsv)
-  # ── Visualisation ──
+  - liftoff      # Liftoff — reference-based annotation lift-over
+  # ── Visualisation (auto-runs for tools that produce GenBank output) ──
   # - gbdraw     # gbdraw — circular genome map visualisation (conda)
 
 # -- Quality control -----------------------------------------------------------
@@ -100,11 +120,18 @@ liftoff:
   extra: ""
 
 # gbdraw – Genome diagram generator for organelles (conda: bioconda::gbdraw)
+# Produces comprehensive circular genome diagrams from annotated GenBank files.
 gbdraw:
-  # Output format: svg, png, pdf, eps, ps
-  format: "svg"
-  # Extra flags for gbdraw circular (e.g. --separate_strands, --title "My Genome")
-  extra: ""
+  # Output formats (comma-separated): svg, png, pdf, eps, ps
+  # Multiple formats can be produced in a single run.
+  formats:
+    - svg
+    - png
+  # Extra flags for gbdraw circular
+  #   --separate_strands : genes on + and - strands on different tracks
+  #   --title "My Genome": add a title to the plot
+  #   --show_gc          : show GC content ring
+  extra: "--separate_strands"
 
 # MFannot – mitochondrial / plastid genome annotator (Docker)
 mfannot:
