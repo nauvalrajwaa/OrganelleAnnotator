@@ -33,7 +33,7 @@ A **Snakemake** workflow for comprehensive organelle genome annotation using **1
 - **Integrated downstream analysis** — RSCU, codon usage, Ka/Ks, phylogeny, composition, genome maps, synteny
 - **Self-contained HTML reports** with per-tool sections, gene tables, BUSCO metrics, and downstream results
 - **Cluster-ready** — SLURM, SGE, PBS via Snakemake's `--cluster` interface
-- **Circular genome maps** via OGDraw (Docker) or pyGenomeViz (Python-native)
+- **Circular genome maps** via gbdraw (Conda) or pyGenomeViz (Python-native)
 
 ---
 
@@ -68,7 +68,7 @@ A **Snakemake** workflow for comprehensive organelle genome annotation using **1
 
 | Tool | Type | Description | Reference |
 |------|------|-------------|-----------|
-| **OGDraw** | Docker | Generates publication-quality circular and linear genome maps from GenBank annotation files. | Greiner et al. (2019) |
+| **gbdraw** | Conda | Generates publication-quality circular and linear genome diagrams from GenBank annotation files. | [gbdraw GitHub](https://github.com/satoshikawato/gbdraw) |
 
 ### Quality Control
 
@@ -130,7 +130,7 @@ snakemake --cores 8 --use-conda --config mode=mito
 # 7. Run a hand-picked subset of tools
 snakemake --cores 8 --use-conda --config mode=select
 
-# Docker must be available for: MFannot, MITOS2, MitoZ, CPGAVAS2, OGDraw
+# Docker must be available for: MFannot, MITOS2, MitoZ, CPGAVAS2
 ```
 
 ---
@@ -154,7 +154,7 @@ Organelle_annotation/
 │   ├── trnascan.smk                   # tRNAscan-SE
 │   ├── aragorn.smk                    # Aragorn
 │   ├── liftoff.smk                    # Liftoff (minimap2 lift-over)
-│   ├── ogdraw.smk                     # OGDraw (Docker, visualisation)
+│   ├── gbdraw.smk                     # gbdraw (Conda, visualisation)
 │   ├── qc.smk                         # BUSCO + gene completeness
 │   ├── report.smk                     # HTML report generation
 │   └── downstream.smk                 # Post-annotation downstream analyses
@@ -254,9 +254,9 @@ All tool parameters are in `config/config.yaml` under their respective keys. Key
 | **MITOS2** | `mitos.ref_db` | Choose reference DB version (e.g. `refseq63m`) |
 | **MitoZ** | `mitoz.clade` | Choose clade model (e.g. `Chordata`) |
 | **fpma** | `fpma.hmms_subdir` | Choose HMM set (e.g. `angiosperm_hmms`, `fern_hmms`) |
-| **OGDraw** | — | Docker image: `chlorobox/ogdraw:1.3.1` |
+| **gbdraw** | — | Conda: `bioconda::gbdraw` |
 
-Docker images (`mfannot`, `mitos`, `mitoz`, `cpgavas2`, `ogdraw`) also support **Singularity/Apptainer** — set `use_singularity: true` in the respective config section.
+Docker images (`mfannot`, `mitos`, `mitoz`, `cpgavas2`) also support **Singularity/Apptainer** — set `use_singularity: true` in the respective config section.
 
 ### Downstream Settings
 
@@ -297,7 +297,8 @@ downstream:
 |------|-------------|---------|
 | **Snakemake** | ≥ 7.0 | `conda install -c bioconda snakemake` |
 | **Conda** | Miniconda or Mamba | [docs.conda.io](https://docs.conda.io) |
-| **Docker** | For MFannot, MITOS2, MitoZ, CPGAVAS2, OGDraw | [docker.com](https://docker.com) |
+| **Docker** | For MFannot, MITOS2, MitoZ, CPGAVAS2 | [docker.com](https://docker.com) |
+| **gbdraw** | Genome diagram generator | `conda install bioconda::gbdraw` |
 | **Chloë** | Julia ≥ 1.9 | Via conda or [`juliaup`](https://julialang.org/downloads/) |
 | **PGA** | Perl ≥ 5.26, BLAST+ ≥ 2.8.1 | Via conda env |
 | **fpma** | Rust toolchain, HMMER3 | `cargo build --release` |
@@ -314,7 +315,8 @@ docker pull nbeck/mfannot
 docker pull quay.io/biocontainers/mitos:2.1.10--pyhdfd78af_0
 docker pull guanliangmeng/mitoz:3.6
 docker pull lipme/cpgavas2:latest
-docker pull chlorobox/ogdraw:1.3.1
+# Install gbdraw (conda)
+conda install bioconda::gbdraw
 
 # Build fpma binary
 cd repo/fpma && cargo build --release && cd ../..
@@ -344,7 +346,7 @@ cd repo/Chloe.jl && julia --project=. -e 'using Pkg; Pkg.instantiate()' && cd ..
 | **tRNAscan-SE** | `{sample}.trnascan.tsv`, `{sample}.gff`, `{sample}.ss` (secondary structure) |
 | **Aragorn** | `{sample}.aragorn.txt`, `{sample}.gff` |
 | **Liftoff** | `{sample}.gff`, `{sample}.unmapped.txt`, `{sample}.gb` |
-| **OGDraw** | `{sample}_map.svg` (circular genome map) |
+| **gbdraw** | `{sample}_map.svg` (circular genome map) |
 
 ### QC Outputs
 

@@ -96,14 +96,14 @@ def tools_for_sample(sample):
     return tools
 
 # ---------------------------------------------------------------------------
-# OGDraw helpers
+# gbdraw helpers
 # ---------------------------------------------------------------------------
 GB_PRODUCING_TOOLS = {
     "plastid": ["pga", "liftoff"],
     "mito":    ["liftoff"],
 }
 
-def ogdraw_source_tools(sample):
+def gbdraw_source_tools(sample):
     """Return list of tools that produce GenBank files for this sample."""
     organelle = samples_df.loc[sample, "organelle"]
     possible  = GB_PRODUCING_TOOLS.get(organelle, GB_PRODUCING_TOOLS.get("plastid", []))
@@ -118,8 +118,8 @@ def all_outputs():
     for s in SAMPLES:
         for tool in tools_for_sample(s):
             outputs.append(f"{OUTDIR}/{s}/{tool}/{s}.done")
-        for src in ogdraw_source_tools(s):
-            outputs.append(f"{OUTDIR}/{s}/ogdraw/{src}/{s}.done")
+        for src in gbdraw_source_tools(s):
+            outputs.append(f"{OUTDIR}/{s}/gbdraw/{src}/{s}.done")
         if config["qc"]["enabled"]:
             outputs.append(f"{OUTDIR}/{s}/qc/qc_summary.tsv")
             if samples_df.loc[s, "organelle"] in ("plastid", "mito"):
@@ -145,7 +145,7 @@ include: "rules/mitoz.smk"
 include: "rules/trnascan.smk"
 include: "rules/aragorn.smk"
 include: "rules/liftoff.smk"
-include: "rules/ogdraw.smk"
+include: "rules/gbdraw.smk"
 include: "rules/qc.smk"
 include: "rules/report.smk"
 include: "rules/downstream.smk"

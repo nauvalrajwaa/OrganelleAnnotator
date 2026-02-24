@@ -1,9 +1,11 @@
 repo/
 cache/
-.snakemake/
 resources/
 results/
 post_organelle_assembly/
+busco_downloads/
+.snakemake/
+
 
 *.log
 .DS_Store

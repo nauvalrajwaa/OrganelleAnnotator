@@ -62,7 +62,7 @@ rule liftoff_annotate:
 
 rule liftoff_to_gb:
     """
-    Convert Liftoff GFF3 output to GenBank format for downstream tools (OGDraw).
+    Convert Liftoff GFF3 output to GenBank format for downstream tools (gbdraw).
     """
     input:
         gff   = OUTDIR + "/{sample}/liftoff/{sample}.gff",

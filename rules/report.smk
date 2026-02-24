@@ -21,10 +21,10 @@ rule generate_report:
             for s in SAMPLES
             for tool in tools_for_sample(s)
         ],
-        ogdraw_markers = lambda wc: [
-            OUTDIR + "/" + s + "/ogdraw/" + src + "/" + s + ".done"
+        gbdraw_markers = lambda wc: [
+            OUTDIR + "/" + s + "/gbdraw/" + src + "/" + s + ".done"
             for s in SAMPLES
-            for src in ogdraw_source_tools(s)
+            for src in gbdraw_source_tools(s)
         ],
     output:
         html = OUTDIR + "/report/index.html",

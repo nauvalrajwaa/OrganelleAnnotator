@@ -5,7 +5,7 @@
 #   Plastid/Chloroplast: chloe, pga
 #   Mitochondrial:       mfannot, fpma, mitos, mitoz
 #   Both/QC:             trnascan, aragorn, liftoff
-#   Visualisation:       ogdraw
+#   Visualisation:       gbdraw
 # =============================================================================
 
 # -- Sample sheet (TSV) -------------------------------------------------------
@@ -34,7 +34,7 @@ tools_select:
   - aragorn      # Aragorn — tRNA/tmRNA detection (conda)
   - liftoff      # Liftoff — reference-based annotation lift-over (requires reference_fasta & reference_gff in samples.tsv)
   # ── Visualisation ──
-  # - ogdraw     # OGDraw — circular genome map visualisation (Docker)
+  # - gbdraw     # gbdraw — circular genome map visualisation (conda)
 
 # -- Quality control -----------------------------------------------------------
 qc:
@@ -45,8 +45,8 @@ qc:
   # For organelle QC, we mainly check gene counts & completeness via custom summary.
   busco_lineage: "eukaryota_odb10"
   busco_mode: "genome"   # genome | proteins | transcriptome
-  # OGDraw-style circular map (requires OGDRAW or similar; disabled by default)
-  ogdraw: false
+  # Circular genome map (requires gbdraw; disabled by default)
+  gbdraw: false
 
 # -- Tool-specific settings ----------------------------------------------------
 
@@ -99,13 +99,11 @@ liftoff:
   # Extra flags
   extra: ""
 
-# OGDraw – OrganellarGenomeDRAW circular map visualisation (Docker)
-ogdraw:
-  # Docker image
-  docker_image: "chlorobox/ogdraw:1.3.1"
-  # Use Singularity/Apptainer instead of Docker
-  use_singularity: true
-  # Extra flags for drawgenemap (e.g. --gc_content, --ir)
+# gbdraw – Genome diagram generator for organelles (conda: bioconda::gbdraw)
+gbdraw:
+  # Output format: svg, png, pdf, eps, ps
+  format: "svg"
+  # Extra flags for gbdraw circular (e.g. --separate_strands, --title "My Genome")
   extra: ""
 
 # MFannot – mitochondrial / plastid genome annotator (Docker)
@@ -271,7 +269,7 @@ resources:
     threads: 4
     mem_mb: 4000
     runtime: 30
-  ogdraw:
+  gbdraw:
     threads: 1
     mem_mb: 2000
     runtime: 15

@@ -186,7 +186,7 @@ rule gene_completeness_summary:
                                     if "rrn" in name.lower():
                                         rrna_count += 1
 
-            elif tool == "ogdraw":
+            elif tool == "gbdraw":
                 pass  # Visualisation only
 
             rows.append({

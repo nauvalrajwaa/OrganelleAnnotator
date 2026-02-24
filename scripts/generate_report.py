@@ -29,7 +29,7 @@ TOOL_LABELS = {
     "trnascan": "tRNAscan-SE — tRNA Gene Detection",
     "aragorn": "Aragorn — tRNA/tmRNA Detection",
     "liftoff": "Liftoff — Reference-based Annotation Lift-over",
-    "ogdraw": "OGDraw — Circular Genome Map Visualisation",
+    "gbdraw": "gbdraw — Circular Genome Map Visualisation",
 }
 
 TOOL_DESCRIPTIONS = {
@@ -43,7 +43,7 @@ TOOL_DESCRIPTIONS = {
     "trnascan": "Gold-standard tRNA detection tool using covariance models. Supports organellar/mitochondrial mode (-O).",
     "aragorn": "Lightweight tRNA and tmRNA detection using homology search. Fast and suitable for organelle genomes.",
     "liftoff": "Minimap2-based annotation lift-over from a reference organelle genome. Works for both cp and mt genomes.",
-    "ogdraw": "OrganellarGenomeDRAW — generates publication-quality circular and linear genome maps from GenBank files.",
+    "gbdraw": "gbdraw — generates publication-quality circular and linear genome diagrams from GenBank files. Conda: bioconda::gbdraw.",
 }
 
 # ---------------------------------------------------------------------------
@@ -116,14 +116,14 @@ for s in samples:
         done = os.path.join(outdir, s, tool, f"{s}.done")
         if os.path.exists(done):
             tools_run.append(tool)
-    # OGDraw: check subdirectories for done markers
-    ogdraw_base = os.path.join(outdir, s, "ogdraw")
-    if os.path.isdir(ogdraw_base):
-        ogdraw_srcs = [d for d in os.listdir(ogdraw_base)
-                       if os.path.isdir(os.path.join(ogdraw_base, d))
-                       and os.path.exists(os.path.join(ogdraw_base, d, f"{s}.done"))]
-        if ogdraw_srcs:
-            tools_run.append(f"ogdraw({','.join(sorted(ogdraw_srcs))})")
+    # gbdraw: check subdirectories for done markers
+    gbdraw_base = os.path.join(outdir, s, "gbdraw")
+    if os.path.isdir(gbdraw_base):
+        gbdraw_srcs = [d for d in os.listdir(gbdraw_base)
+                       if os.path.isdir(os.path.join(gbdraw_base, d))
+                       and os.path.exists(os.path.join(gbdraw_base, d, f"{s}.done"))]
+        if gbdraw_srcs:
+            tools_run.append(f"gbdraw({','.join(sorted(gbdraw_srcs))})")
     overview_rows += f"<tr><td>{html_mod.escape(s)}</td><td>{', '.join(tools_run) or 'none'}</td></tr>\n"
 
 sections.append((
@@ -144,13 +144,13 @@ for tool_id, tool_title in TOOL_LABELS.items():
     has_data = False
 
     for s in samples:
-        if tool_id == "ogdraw":
-            # OGDraw now has subdirectories per source tool
-            ogdraw_base = os.path.join(outdir, s, "ogdraw")
-            if not os.path.isdir(ogdraw_base):
+        if tool_id == "gbdraw":
+            # gbdraw has subdirectories per source tool
+            gbdraw_base = os.path.join(outdir, s, "gbdraw")
+            if not os.path.isdir(gbdraw_base):
                 continue
-            for src_tool in sorted(os.listdir(ogdraw_base)):
-                src_dir = os.path.join(ogdraw_base, src_tool)
+            for src_tool in sorted(os.listdir(gbdraw_base)):
+                src_dir = os.path.join(gbdraw_base, src_tool)
                 if not os.path.isdir(src_dir):
                     continue
                 src_files = []
