@@ -2,7 +2,6 @@
 # rules/downstream.smk – Post-annotation downstream analysis
 # =============================================================================
 
-
 # ── Helper: get a GenBank file for a sample ────────────────────────────────
 def get_sample_gbk(sample):
     """Find the best GenBank annotation file for genome map / downstream."""
@@ -12,29 +11,72 @@ def get_sample_gbk(sample):
     else:
         priority = ["mfannot", "mitos", "mitoz", "liftoff"]
 
+    # Coba cari dengan ekstensi .gbk maupun .gb
+    extensions = [".gbk", ".gb"]
+
     for tool in priority:
-        gbk_path = os.path.join(OUTDIR, sample, tool, sample + ".gbk")
-        if os.path.exists(gbk_path):
-            return gbk_path
+        for ext in extensions:
+            gbk_path = os.path.join(OUTDIR, sample, tool, sample + ext)
+            if os.path.exists(gbk_path):
+                return gbk_path
+                
     for tool in ALL_TOOLS:
-        gbk_path = os.path.join(OUTDIR, sample, tool, sample + ".gbk")
-        if os.path.exists(gbk_path):
-            return gbk_path
+        for ext in extensions:
+            gbk_path = os.path.join(OUTDIR, sample, tool, sample + ext)
+            if os.path.exists(gbk_path):
+                return gbk_path
+                
     return ""
 
 
-def get_sample_cds_fasta(sample):
-    """Find or derive a CDS FASTA for downstream analysis."""
-    candidates = [
-        os.path.join(OUTDIR, sample, "liftoff", sample + "_cds.fasta"),
-        os.path.join(OUTDIR, sample, "mitos", sample + "_cds.fasta"),
-        os.path.join(OUTDIR, sample, "chloe", sample + "_cds.fasta"),
-        os.path.join(OUTDIR, sample, "pga", sample + "_cds.fasta"),
-    ]
-    for c in candidates:
-        if os.path.exists(c):
-            return c
-    return samples_df.loc[sample, "fasta"]
+# ── RULE BARU: Ekstrak CDS langsung dari file GBK hasil anotasi ──────
+rule extract_best_cds:
+    """Extract CDS sequences from the best annotation GenBank file."""
+    input:
+        done = lambda wc: [
+            OUTDIR + "/" + wc.sample + "/" + tool + "/" + wc.sample + ".done"
+            for tool in tools_for_sample(wc.sample)
+        ],
+    output:
+        best_cds = OUTDIR + "/{sample}/downstream/sample_best_cds.fasta"
+    params:
+        sample = lambda wc: wc.sample,
+        fallback_fasta = lambda wc: samples_df.loc[wc.sample, "fasta"]
+    run:
+        from Bio import SeqIO
+        from Bio.SeqRecord import SeqRecord
+        import shutil
+        import os
+
+        # Ambil path file GBK terbaik menggunakan fungsi helper kita
+        gbk_path = get_sample_gbk(params.sample)
+        cds_records = []
+
+        if gbk_path and os.path.exists(gbk_path):
+            try:
+                # SeqIO bisa membaca file .gb sama seperti .gbk dengan format "genbank"
+                record = SeqIO.read(gbk_path, "genbank")
+                for feature in record.features:
+                    if feature.type == "CDS":
+                        # Ambil nama gen
+                        gene_name = feature.qualifiers.get("gene", feature.qualifiers.get("locus_tag", ["unknown_gene"]))[0]
+                        try:
+                            # Ekstrak sekuens dari GBK
+                            seq = feature.extract(record.seq)
+                            cds_rec = SeqRecord(seq, id=gene_name, description="")
+                            cds_records.append(cds_rec)
+                        except Exception as e:
+                            pass
+            except Exception as e:
+                print(f"Error parsing {gbk_path}: {e}")
+
+        # Simpan file CDS
+        if cds_records:
+            SeqIO.write(cds_records, output.best_cds, "fasta")
+            print(f"Berhasil mengekstrak {len(cds_records)} gen CDS dari {gbk_path}")
+        else:
+            print(f"WARNING: Tidak ada gen CDS di {gbk_path}. Memakai genom utuh.")
+            shutil.copy(params.fallback_fasta, output.best_cds)
 
 
 # ── 1. Fetch reference genomes from NCBI ─────────────────────────────────
@@ -71,7 +113,7 @@ rule fetch_reference:
 rule rscu_analysis:
     """Compute Relative Synonymous Codon Usage from CDS sequences."""
     input:
-        fasta = lambda wc: samples_df.loc[wc.sample, "fasta"],
+        fasta = OUTDIR + "/{sample}/downstream/sample_best_cds.fasta",
     output:
         rscu_tsv     = OUTDIR + "/{sample}/downstream/rscu/rscu.tsv",
         rscu_barplot = OUTDIR + "/{sample}/downstream/rscu/rscu_barplot.png",
@@ -96,7 +138,7 @@ rule rscu_analysis:
 rule codon_analysis:
     """Analyse start and stop codon usage across CDS features."""
     input:
-        fasta = lambda wc: samples_df.loc[wc.sample, "fasta"],
+        fasta = OUTDIR + "/{sample}/downstream/sample_best_cds.fasta",
     output:
         codon_stats = OUTDIR + "/{sample}/downstream/codons/codon_stats.txt",
     params:
@@ -119,7 +161,7 @@ rule codon_analysis:
 rule kaks_analysis:
     """Pairwise Ka/Ks estimation using MAFFT + KaKs_Calculator."""
     input:
-        sample_fasta = lambda wc: samples_df.loc[wc.sample, "fasta"],
+        sample_fasta = OUTDIR + "/{sample}/downstream/sample_best_cds.fasta",
         ref_dir      = OUTDIR + "/{sample}/downstream/references",
     output:
         kaks_tsv = OUTDIR + "/{sample}/downstream/kaks/kaks_summary.tsv",
@@ -133,9 +175,9 @@ rule kaks_analysis:
         OUTDIR + "/{sample}/logs/downstream_kaks.log",
     shell:
         """
-        REF_FASTA=$(find {input.ref_dir} -name '*.fasta' -type f | head -1)
+        REF_FASTA=$(find {input.ref_dir} -name '*_cds.fasta' -type f | head -1)
         if [ -z "$REF_FASTA" ]; then
-            echo "No reference FASTA found" > {log}
+            echo "No reference CDS FASTA found" > {log}
             echo -e "Gene\\tKa\\tKs\\tKa/Ks\\tMethod" > {output.kaks_tsv}
         else
             python {workflow.basedir}/scripts/run_kaks_analysis.py \
@@ -152,7 +194,7 @@ rule kaks_analysis:
 rule composition_analysis:
     """Analyse GC content and amino acid composition per CDS gene."""
     input:
-        fasta = lambda wc: samples_df.loc[wc.sample, "fasta"],
+        fasta = OUTDIR + "/{sample}/downstream/sample_best_cds.fasta",
     output:
         gc_plot = OUTDIR + "/{sample}/downstream/composition/gc_content_plot.png",
         aa_plot = OUTDIR + "/{sample}/downstream/composition/aa_composition_plot.png",
@@ -177,7 +219,7 @@ rule composition_analysis:
 rule prepare_phylo:
     """Build supermatrix from shared genes using MAFFT alignment."""
     input:
-        sample_fasta = lambda wc: samples_df.loc[wc.sample, "fasta"],
+        sample_fasta = OUTDIR + "/{sample}/downstream/sample_best_cds.fasta",
         ref_dir      = OUTDIR + "/{sample}/downstream/references",
     output:
         supermatrix = OUTDIR + "/{sample}/downstream/phylogeny/supermatrix.fasta",
@@ -307,7 +349,7 @@ rule genome_map:
 rule synteny_analysis:
     """Compare genome structure against a reference using nucmer."""
     input:
-        sample_fasta = lambda wc: samples_df.loc[wc.sample, "fasta"],
+        sample_fasta = lambda wc: samples_df.loc[wc.sample, "fasta"], # Tetap pakai genom utuh
         ref_dir      = OUTDIR + "/{sample}/downstream/references",
     output:
         synteny_plot  = OUTDIR + "/{sample}/downstream/synteny/synteny_plot.png",
@@ -318,7 +360,8 @@ rule synteny_analysis:
         OUTDIR + "/{sample}/logs/downstream_synteny.log",
     shell:
         """
-        REF_FASTA=$(find {input.ref_dir} -name '*.fasta' -type f | head -1)
+        # Ambil file genom referensi utuh, BUKAN file CDS
+        REF_FASTA=$(find {input.ref_dir} -name '*.fasta' ! -name '*_cds.fasta' -type f | head -1)
         if [ -z "$REF_FASTA" ]; then
             echo "No reference FASTA found" > {log}
             python {workflow.basedir}/scripts/run_synteny_analysis.py \

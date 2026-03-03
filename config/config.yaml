@@ -226,9 +226,9 @@ fpma:
 downstream:
   enabled: true
   # Species name for NCBI reference fetching (genus or binomial)
-  species_name: ""          # e.g. "Arabidopsis thaliana"
+  species_name: "Fragaria x ananassa"          # e.g. "Arabidopsis thaliana"
   # Email for NCBI Entrez (required by NCBI policy)
-  email: ""                 # e.g. "user@example.com"
+  email: "nauvalrajwaa@gmail.com"                 # e.g. "user@example.com"
   # Reference genome settings
   max_ref_genomes: 10
   min_genome_length: 10000

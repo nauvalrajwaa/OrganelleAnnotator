@@ -10,10 +10,8 @@ Changes vs. original:
   - Replaced MUSCLE with MAFFT (faster, handles divergent sequences better)
   - Uses shared gene_utils.py for gene name resolution
   - Cleaner partition file generation
-
-Usage:
-    python prepare_phylo.py <sample_fasta> <ref_dir> <output_dir> \\
-        [--min_genes 4] [--run_iqtree]
+  - STRICTLY read only CDS fasta for references to avoid whole-genome duplicates
+  - Strip taxon prefix from gene ID to correctly match sample and reference genes
 """
 
 import sys
@@ -36,14 +34,22 @@ log = logging.getLogger(__name__)
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
 
-def load_genes_from_fasta(fasta_path: str) -> dict[str, str]:
+def load_genes_from_fasta(fasta_path: str, taxon_name: str = "") -> dict[str, str]:
     """Load gene sequences from a CDS FASTA. Returns {normalised_name: seq}."""
     genes = {}
     for rec in SeqIO.parse(fasta_path, "fasta"):
-        name = normalise_gene_name(rec.id)
+        raw_id = rec.id
+        
+        # PERBAIKAN: Hapus awalan nama takson (misal JX977846_1_atpB menjadi atpB)
+        if taxon_name and raw_id.startswith(taxon_name + "_"):
+            raw_id = raw_id[len(taxon_name) + 1:]
+            
+        name = normalise_gene_name(raw_id)
         seq = str(rec.seq).upper().replace("-", "")
-        if name not in genes or len(seq) > len(genes[name]):
+        
+        if name not in genes or len(seq) > len(genes.get(name, "")):
             genes[name] = seq
+            
     return genes
 
 
@@ -54,18 +60,19 @@ def load_all_taxa(sample_fasta: str, ref_dir: str) -> dict[str, dict[str, str]]:
     """
     taxa = {}
 
-    # Sample
-    sample_name = os.path.splitext(os.path.basename(sample_fasta))[0]
-    taxa[sample_name] = load_genes_from_fasta(sample_fasta)
+    # Sample (Bersihkan nama dari _best_cds atau akhiran lainnya)
+    sample_name = os.path.basename(sample_fasta).replace("sample_best_cds.fasta", "Sample").replace(".fasta", "")
+    taxa[sample_name] = load_genes_from_fasta(sample_fasta, sample_name)
     log.info(f"Sample '{sample_name}': {len(taxa[sample_name])} genes")
 
-    # References from ref_dir (any .fasta/.fa/.fna files)
+    # References from ref_dir (HANYA baca file yang berakhiran _cds.fasta)
     if ref_dir and os.path.isdir(ref_dir):
         for fn in sorted(os.listdir(ref_dir)):
-            if fn.endswith((".fasta", ".fa", ".fna")):
+            if fn.endswith("_cds.fasta"):
                 path = os.path.join(ref_dir, fn)
-                taxon = os.path.splitext(fn)[0]
-                taxa[taxon] = load_genes_from_fasta(path)
+                # Rapikan nama takson dengan menghapus '_cds.fasta'
+                taxon = fn.replace("_cds.fasta", "")
+                taxa[taxon] = load_genes_from_fasta(path, taxon)
                 log.info(f"Reference '{taxon}': {len(taxa[taxon])} genes")
 
     return taxa
