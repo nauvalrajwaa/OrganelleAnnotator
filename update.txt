@@ -1,0 +1,35 @@
+current results is at Organelle_annotation/results/stb1cp
+
+please update rules and scripts following this point:
+
+[1]
+Organelle_annotation/results/stb1cp/downstream/downstream_report.html
+Organelle_annotation/results/stb1cp/report/index.html
+should be merged and separate by section (indexed html for main)
+
+[2]
+/Organelle_annotation/scripts/run_gbdraw.py
+need update to generate linear and circular visualize in one time
+
+[3]
+Organelle_annotation/results/stb1cp/report/index.html
+should be only show generated results tools by tools_select: parameters at config.yaml
+
+if
+  # ── Plastid / Chloroplast annotators ──
+  - chloe        # Chloe.jl — Julia-based chloroplast annotator (XGBoost)
+  # ── Mitochondrial annotators ──
+  - mfannot      # MFannot — mitochondrial/plastid annotator (Docker)
+  # ── Both / QC tools ──
+  - trnascan     # tRNAscan-SE — tRNA gene detection (conda)
+  - aragorn      # Aragorn — tRNA/tmRNA detection (conda)
+  # ── Visualisation (auto-runs for tools that produce GenBank output) ──
+  - gbdraw       # gbdraw — circular genome map visualisation (conda)
+
+  report should be fill by chloe, mfannot, trnascan, aragorn, and gbdraw results
+
+  [4]
+  gbdraw section at html should be visualize png results from the Organelle_annotation/results/stb1cp/gbdraw/*/*.png
+
+  [5]
+  make report html more comprehensive and interactive
