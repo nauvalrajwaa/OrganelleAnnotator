@@ -29,7 +29,7 @@ mode: "all"
 # ├────────────┼────────────┼──────────────────────────────────────────────────────────────────┤
 # │ chloe      │ Plastid    │ Chloe.jl — Julia/XGBoost chloroplast annotator. Fast, accurate.  │
 # │ pga        │ Plastid    │ PGA — Perl + BLAST batch plastid annotator. Detects IRs.         │
-# │ mfannot    │ Mito       │ MFannot — Docker-based mito/plastid annotator (BLAST+HMMER).     │
+# │ mfannot    │ Both       │ MFannot — Docker-based mito/plastid annotator (BLAST+HMMER).     │
 # │ fpma       │ Mito       │ fpma — Rust + HMMER HMM scanner for plant mito gene presence.    │
 # │ mitos      │ Mito       │ MITOS2 — Docker reference-based mito annotator (metazoa/fungi).  │
 # │ mitoz      │ Mito       │ MitoZ — Docker animal mito annotator with circular visualisation.│
@@ -54,12 +54,19 @@ tools_select:
 # -- Quality control -----------------------------------------------------------
 qc:
   enabled: true
-  # BUSCO lineage dataset for chloroplast / mitochondrial gene completeness
-  # Use "chloroplyta_odb10" for green-algae plastids, "embryophyta_odb10" for
-  # land-plant nuclear, "eukaryota_odb10" as a general fallback, etc.
-  # For organelle QC, we mainly check gene counts & completeness via custom summary.
-  busco_lineage: "eukaryota_odb10"
+  # BUSCO lineage for organelle genome completeness assessment.
+  # Recommended lineages per organelle type:
+  #   plastid:  "viridiplantae_odb10"  (green plants)
+  #   mito:     "eukaryota_odb10"      (broad eukaryotic)
+  # Set to "auto" to let BUSCO auto-detect the best lineage.
+  # You can also set per-organelle lineages below.
+  busco_lineage: "auto"
+  busco_lineage_plastid: "viridiplantae_odb10"   # used when busco_lineage is "auto" and organelle=plastid
+  busco_lineage_mito: "eukaryota_odb10"          # used when busco_lineage is "auto" and organelle=mito
   busco_mode: "genome"   # genome | proteins | transcriptome
+  # Optional: path to cache downloaded BUSCO datasets (speeds up reruns).
+  # If empty, BUSCO uses its default download location.
+  busco_download_path: ""
   # Circular genome map (requires gbdraw; disabled by default)
   gbdraw: false
 

@@ -1,11 +1,26 @@
 # rules/qc.smk – Quality control: BUSCO + custom gene completeness
 
+
+def _busco_lineage(sample):
+    """Resolve BUSCO lineage for a sample based on its organelle type."""
+    lineage = config["qc"]["busco_lineage"]
+    if lineage != "auto":
+        return lineage
+    organelle = samples_df.loc[sample, "organelle"]
+    if organelle == "plastid":
+        return config["qc"].get("busco_lineage_plastid", "viridiplantae_odb10")
+    elif organelle == "mito":
+        return config["qc"].get("busco_lineage_mito", "eukaryota_odb10")
+    return "eukaryota_odb10"
+
+
 # ---------------------------------------------------------------------------
 # BUSCO genome completeness assessment
 # ---------------------------------------------------------------------------
 rule busco:
     """
-    Run BUSCO on the input FASTA to assess genome completeness.
+    Run BUSCO on the input FASTA to assess organelle genome completeness.
+    Downloads the lineage dataset automatically if not already cached.
     """
     input:
         fasta = lambda wc: samples_df.loc[wc.sample, "fasta"],
@@ -13,8 +28,9 @@ rule busco:
         summary = OUTDIR + "/{sample}/qc/busco/short_summary.txt",
         out_dir = directory(OUTDIR + "/{sample}/qc/busco"),
     params:
-        lineage = config["qc"]["busco_lineage"],
-        mode    = config["qc"]["busco_mode"],
+        lineage       = lambda wc: _busco_lineage(wc.sample),
+        mode          = config["qc"]["busco_mode"],
+        download_path = config["qc"].get("busco_download_path", ""),
     log:
         OUTDIR + "/{sample}/logs/busco.log",
     threads:
@@ -29,6 +45,12 @@ rule busco:
         set -euo pipefail
         mkdir -p $(dirname {log})
 
+        DL_FLAG=""
+        if [ -n "{params.download_path}" ]; then
+            mkdir -p "{params.download_path}"
+            DL_FLAG="--download_path {params.download_path}"
+        fi
+
         busco \
             -i {input.fasta} \
             -l {params.lineage} \
@@ -36,7 +58,7 @@ rule busco:
             -o {wildcards.sample} \
             --out_path {output.out_dir}/ \
             -c {threads} \
-            --offline \
+            $DL_FLAG \
             2>&1 | tee {log} || true
 
         BUSCO_DIR="{output.out_dir}/{wildcards.sample}"

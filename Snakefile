@@ -57,8 +57,8 @@ for _s in SAMPLES:
 # Tool sets
 # ---------------------------------------------------------------------------
 PLASTID_TOOLS = ["chloe", "pga"]
-MITO_TOOLS    = ["mfannot", "fpma", "mitos", "mitoz"]
-BOTH_TOOLS    = ["trnascan", "aragorn", "liftoff"]
+MITO_TOOLS    = ["fpma", "mitos", "mitoz"]
+BOTH_TOOLS    = ["mfannot", "trnascan", "aragorn", "liftoff"]  # mfannot supports both mito & plastid
 ALL_TOOLS     = PLASTID_TOOLS + MITO_TOOLS + BOTH_TOOLS
 
 # tools_select is the AUTHORITATIVE list — only tools listed here will run.
@@ -106,8 +106,8 @@ def tools_for_sample(sample):
 # Annotation tools that MAY produce GenBank (.gb/.gbk) files.
 # gbdraw will search each tool's output folder at runtime for *.gb / *.gbk.
 GB_PRODUCING_TOOLS = {
-    "plastid": ["chloe", "pga", "liftoff"],
-    "mito":    ["mitoz", "liftoff"],
+    "plastid": ["chloe", "pga", "mfannot", "liftoff"],
+    "mito":    ["mfannot", "mitoz", "liftoff"],
 }
 
 def gbdraw_source_tools(sample):

@@ -15,6 +15,7 @@ Called by Snakemake via ``script:`` directive; uses ``snakemake`` object for I/O
 
 import csv
 import os
+import shutil
 import base64
 import html as html_mod
 from datetime import datetime
@@ -113,8 +114,24 @@ def read_qc_summary(path):
     return rows
 
 
+# Report output directory (standalone — all assets are copied here)
+report_dir = os.path.dirname(output_html)
+
+
+def copy_to_report(src_path, dest_subdir):
+    """Copy a file into the report folder under dest_subdir. Returns local relative path."""
+    if not os.path.exists(src_path) or not os.path.isfile(src_path):
+        return None
+    dest_dir = os.path.join(report_dir, dest_subdir)
+    os.makedirs(dest_dir, exist_ok=True)
+    fn = os.path.basename(src_path)
+    dest = os.path.join(dest_dir, fn)
+    shutil.copy2(src_path, dest)
+    return os.path.join(dest_subdir, fn)
+
+
 def list_tool_outputs(sample, tool, outdir_path):
-    """List result files produced by a tool for a sample."""
+    """List result files produced by a tool for a sample and copy them into the report folder."""
     tool_dir = os.path.join(outdir_path, sample, tool)
     if not os.path.isdir(tool_dir):
         return []
@@ -125,8 +142,9 @@ def list_tool_outputs(sample, tool, outdir_path):
         fp = os.path.join(tool_dir, fn)
         if os.path.isfile(fp):
             size_kb = os.path.getsize(fp) / 1024
-            files.append((fn, f"{size_kb:.1f} KB",
-                          os.path.relpath(fp, os.path.dirname(output_html))))
+            local_rel = copy_to_report(fp, os.path.join("data", sample, tool))
+            if local_rel:
+                files.append((fn, f"{size_kb:.1f} KB", local_rel))
     return files
 
 
@@ -304,14 +322,15 @@ if "gbdraw" in tools_select:
                         """
                 gbdraw_html += "</div></div>"
 
-            # List all files for download
+            # List all files for download (copy into report folder)
             all_files = []
             for fn in sorted(os.listdir(src_dir)):
                 fp = os.path.join(src_dir, fn)
                 if not fn.endswith(".done") and os.path.isfile(fp):
                     sz = f"{os.path.getsize(fp)/1024:.1f} KB"
-                    rel = os.path.relpath(fp, os.path.dirname(output_html))
-                    all_files.append((fn, sz, rel))
+                    local_rel = copy_to_report(fp, os.path.join("data", s, "gbdraw", src_tool))
+                    if local_rel:
+                        all_files.append((fn, sz, local_rel))
             if all_files:
                 file_rows = "".join(
                     f"<tr><td><code><a href='{html_mod.escape(rel)}'>{html_mod.escape(fn)}</a></code></td>"
@@ -338,6 +357,7 @@ if "gbdraw" in tools_select:
 qc_html = ""
 for s in samples:
     qc_path = os.path.join(outdir, s, "qc", "qc_summary.tsv")
+    copy_to_report(qc_path, os.path.join("data", s, "qc"))
     rows = read_qc_summary(qc_path)
     if not rows:
         continue
@@ -397,6 +417,7 @@ sections.append(("qc-genes", "&#x2705;", "Gene Completeness Summary", qc_html))
 busco_html = ""
 for s in samples:
     bp = os.path.join(outdir, s, "qc", "busco", "short_summary.txt")
+    copy_to_report(bp, os.path.join("data", s, "qc", "busco"))
     metrics = read_busco_summary(bp)
     if not metrics:
         busco_html += f"""
@@ -453,10 +474,16 @@ if downstream_enabled:
         gc_b64 = img_b64(gc_plot_path)
         aa_b64 = img_b64(aa_plot_path)
 
+        # Copy composition PNGs into report folder
+        gc_local = copy_to_report(gc_plot_path, os.path.join("data", s, "downstream", "composition"))
+        aa_local = copy_to_report(aa_plot_path, os.path.join("data", s, "downstream", "composition"))
+
         comp_html = ""
         if gc_b64 or aa_b64:
-            gc_img = f'<div class="plot-half"><h5>GC Content</h5><img src="{gc_b64}" class="plot-img zoomable" onclick="openLightbox(this)"></div>' if gc_b64 else ""
-            aa_img = f'<div class="plot-half"><h5>Amino Acid Composition</h5><img src="{aa_b64}" class="plot-img zoomable" onclick="openLightbox(this)"></div>' if aa_b64 else ""
+            gc_dl = f' <a href="{gc_local}" class="btn-download" download>&#x2B07; PNG</a>' if gc_local else ""
+            aa_dl = f' <a href="{aa_local}" class="btn-download" download>&#x2B07; PNG</a>' if aa_local else ""
+            gc_img = f'<div class="plot-half"><h5>GC Content{gc_dl}</h5><img src="{gc_b64}" class="plot-img zoomable" onclick="openLightbox(this)"></div>' if gc_b64 else ""
+            aa_img = f'<div class="plot-half"><h5>Amino Acid Composition{aa_dl}</h5><img src="{aa_b64}" class="plot-img zoomable" onclick="openLightbox(this)"></div>' if aa_b64 else ""
             comp_html = f'<div class="card"><div class="plot-row">{gc_img}{aa_img}</div></div>'
         else:
             comp_html = "<div class='card'><p class='text-muted'><em>No composition data available.</em></p></div>"
@@ -472,17 +499,25 @@ if downstream_enabled:
         rscu_heat_b64 = img_b64(rscu_heatmap)
         rscu_table = read_tsv_to_html_table(rscu_tsv_path, 30, "rscu-table")
 
+        # Copy RSCU files into report folder
+        rscu_bar_local = copy_to_report(rscu_barplot, os.path.join("data", s, "downstream", "rscu"))
+        rscu_heat_local = copy_to_report(rscu_heatmap, os.path.join("data", s, "downstream", "rscu"))
+        rscu_tsv_local = copy_to_report(rscu_tsv_path, os.path.join("data", s, "downstream", "rscu"))
+
         rscu_imgs = ""
         if rscu_bar_b64:
-            rscu_imgs += f'<div class="mb-3"><h5>RSCU Bar Plot</h5><img src="{rscu_bar_b64}" class="plot-img zoomable" onclick="openLightbox(this)"></div>'
+            dl = f' <a href="{rscu_bar_local}" class="btn-download" download>&#x2B07; PNG</a>' if rscu_bar_local else ""
+            rscu_imgs += f'<div class="mb-3"><h5>RSCU Bar Plot{dl}</h5><img src="{rscu_bar_b64}" class="plot-img zoomable" onclick="openLightbox(this)"></div>'
         if rscu_heat_b64:
-            rscu_imgs += f'<div class="mb-3"><h5>RSCU Heatmap</h5><img src="{rscu_heat_b64}" class="plot-img zoomable" onclick="openLightbox(this)"></div>'
+            dl = f' <a href="{rscu_heat_local}" class="btn-download" download>&#x2B07; PNG</a>' if rscu_heat_local else ""
+            rscu_imgs += f'<div class="mb-3"><h5>RSCU Heatmap{dl}</h5><img src="{rscu_heat_b64}" class="plot-img zoomable" onclick="openLightbox(this)"></div>'
 
+        rscu_tsv_dl = f'<a href="{rscu_tsv_local}" class="btn-download" download>&#x2B07; Download TSV</a>' if rscu_tsv_local else ""
         rscu_html_section = f"""
         <div class="card">
           {rscu_imgs}
           <details open>
-            <summary>&#x1F4CB; RSCU Data Table</summary>
+            <summary>&#x1F4CB; RSCU Data Table {rscu_tsv_dl}</summary>
             {rscu_table}
           </details>
         </div>
@@ -492,8 +527,11 @@ if downstream_enabled:
         # -- Codon Analysis ----------------------------------------------------
         codon_stats_path = os.path.join(ds_base, "codons", "codon_stats.txt")
         codon_text = read_text_file(codon_stats_path)
+        codon_local = copy_to_report(codon_stats_path, os.path.join("data", s, "downstream", "codons"))
+        codon_dl = f' <a href="{codon_local}" class="btn-download" download>&#x2B07; TXT</a>' if codon_local else ""
         codon_html = f"""
         <div class="card">
+          <h5>Codon Statistics{codon_dl}</h5>
           <pre class="code-block">{html_mod.escape(codon_text) if codon_text else '<em>No codon data available.</em>'}</pre>
         </div>
         """
@@ -502,9 +540,11 @@ if downstream_enabled:
         # -- Ka/Ks -------------------------------------------------------------
         kaks_tsv_path = os.path.join(ds_base, "kaks", "kaks_summary.tsv")
         kaks_table = read_tsv_to_html_table(kaks_tsv_path, 50, "kaks-table")
+        kaks_local = copy_to_report(kaks_tsv_path, os.path.join("data", s, "downstream", "kaks"))
+        kaks_dl = f' <a href="{kaks_local}" class="btn-download" download>&#x2B07; TSV</a>' if kaks_local else ""
         kaks_html = f"""
         <div class="card">
-          <p class="tool-desc">Ka/Ks estimation using MAFFT alignment + KaKs_Calculator.</p>
+          <p class="tool-desc">Ka/Ks estimation using MAFFT alignment + KaKs_Calculator. {kaks_dl}</p>
           {kaks_table}
         </div>
         """
@@ -513,10 +553,12 @@ if downstream_enabled:
         # -- Phylogeny ---------------------------------------------------------
         tree_png_path = os.path.join(ds_base, "phylogeny", "tree_plot.png")
         tree_b64 = img_b64(tree_png_path)
+        tree_local = copy_to_report(tree_png_path, os.path.join("data", s, "downstream", "phylogeny"))
         if tree_b64:
+            tree_dl = f' <a href="{tree_local}" class="btn-download" download>&#x2B07; PNG</a>' if tree_local else ""
             tree_html = f"""
             <div class="card">
-              <p class="tool-desc">Maximum Likelihood tree (IQ-TREE, GTR+G model, 1000 ultrafast bootstrap).</p>
+              <p class="tool-desc">Maximum Likelihood tree (IQ-TREE, GTR+G model, 1000 ultrafast bootstrap). {tree_dl}</p>
               <div class="text-center">
                 <img src="{tree_b64}" class="plot-img zoomable" onclick="openLightbox(this)" style="max-width:90%">
               </div>
@@ -529,10 +571,12 @@ if downstream_enabled:
         # -- Genome Map --------------------------------------------------------
         gmap_png_path = os.path.join(ds_base, "genome_map", "genome_map.png")
         gmap_b64 = img_b64(gmap_png_path)
+        gmap_local = copy_to_report(gmap_png_path, os.path.join("data", s, "downstream", "genome_map"))
         if gmap_b64:
+            gmap_dl = f' <a href="{gmap_local}" class="btn-download" download>&#x2B07; PNG</a>' if gmap_local else ""
             gmap_html = f"""
             <div class="card">
-              <p class="tool-desc">Circular genome visualisation generated with pyGenomeViz.</p>
+              <p class="tool-desc">Circular genome visualisation generated with pyGenomeViz. {gmap_dl}</p>
               <div class="text-center">
                 <img src="{gmap_b64}" class="plot-img zoomable" onclick="openLightbox(this)" style="max-width:85%">
               </div>
@@ -547,15 +591,19 @@ if downstream_enabled:
         syn_stats_path = os.path.join(ds_base, "synteny", "synteny_stats.tsv")
         syn_b64 = img_b64(syn_plot_path)
         syn_table = read_tsv_to_html_table(syn_stats_path, 50, "synteny-table")
+        syn_plot_local = copy_to_report(syn_plot_path, os.path.join("data", s, "downstream", "synteny"))
+        syn_stats_local = copy_to_report(syn_stats_path, os.path.join("data", s, "downstream", "synteny"))
         if syn_b64:
+            syn_img_dl = f' <a href="{syn_plot_local}" class="btn-download" download>&#x2B07; PNG</a>' if syn_plot_local else ""
+            syn_tsv_dl = f' <a href="{syn_stats_local}" class="btn-download" download>&#x2B07; TSV</a>' if syn_stats_local else ""
             syn_html = f"""
             <div class="card">
-              <p class="tool-desc">Genome structure comparison via MUMmer4/nucmer.</p>
+              <p class="tool-desc">Genome structure comparison via MUMmer4/nucmer. {syn_img_dl}</p>
               <div class="text-center mb-3">
                 <img src="{syn_b64}" class="plot-img zoomable" onclick="openLightbox(this)" style="max-width:100%">
               </div>
               <details>
-                <summary>&#x1F4CB; Synteny Statistics</summary>
+                <summary>&#x1F4CB; Synteny Statistics {syn_tsv_dl}</summary>
                 {syn_table}
               </details>
             </div>
@@ -791,6 +839,15 @@ html_content = """\
     font-size: 0.72rem; font-family: monospace;
     background: var(--code-bg); color: var(--fg); margin: 1px; border: 1px solid var(--border);
   }
+
+  /* Download buttons */
+  .btn-download {
+    display: inline-block; padding: 0.15rem 0.55rem; border-radius: 6px;
+    font-size: 0.72rem; font-weight: 600; text-decoration: none;
+    background: var(--accent); color: #fff; margin-left: 0.4rem;
+    vertical-align: middle; transition: background var(--transition);
+  }
+  .btn-download:hover { background: var(--accent-hover); text-decoration: none; }
 
   /* Typography */
   .tool-desc { color: var(--muted); font-style: italic; margin-bottom: 1rem; font-size: 0.88rem; }
