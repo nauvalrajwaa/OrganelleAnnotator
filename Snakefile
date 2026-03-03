@@ -52,6 +52,19 @@ for _s in SAMPLES:
             "Sample names must be short IDs (e.g. 'sample1'), not file paths.\n"
             "Ensure samples.tsv is TAB-separated: sample<TAB>fasta<TAB>organelle<TAB>...\n"
         )
+    _org = samples_df.loc[_s, "organelle"]
+    if _org not in ("plastid", "mito"):
+        raise ValueError(
+            f"\n\nERROR: Sample '{_s}' has invalid organelle='{_org}'.\n"
+            "Expected 'plastid' or 'mito'. Check that samples.tsv is TAB-separated\n"
+            "(not spaces) between all columns: sample<TAB>fasta<TAB>organelle<TAB>genetic_code<TAB>...\n"
+        )
+    _fasta = samples_df.loc[_s, "fasta"]
+    if not _fasta or _fasta.isdigit():
+        raise ValueError(
+            f"\n\nERROR: Sample '{_s}' has invalid fasta='{_fasta}'.\n"
+            "Expected a file path. Check that samples.tsv is TAB-separated.\n"
+        )
 
 # ---------------------------------------------------------------------------
 # Tool sets

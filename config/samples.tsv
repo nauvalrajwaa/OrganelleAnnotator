@@ -1,2 +1,5 @@
 sample	fasta	organelle	genetic_code	reference_fasta	reference_gff
 stb1cp	/data/6.PANEL_EXPERTS/wikoaw/Nauval/Update/OrganelleCycler_3/results/stb1cptest/mq30_ml500_eg0p25_es0p1/05_report/assemblies/flye/final_circular.fasta	plastid	11		
+c2cp	/data/6.PANEL_EXPERTS/wikoaw/Nauval/Update/OrganelleCycler_3/results/c2cptest/mq40_ml600_eg0p12_es0p08/01_assembly/unicycler/final_circular.fasta	plastid	11		
+D1cp	/data/6.PANEL_EXPERTS/wikoaw/Nauval/Update/OrganelleCycler_3/results/D1cptest/mq60_ml800_eg0p02_es0p0005/01_assembly/unicycler/final_circular.fasta	plastid	11		
+melod1cp	/data/6.PANEL_EXPERTS/wikoaw/Nauval/Update/OrganelleCycler_3/results/melod1cptest/mq60_ml800_eg0p02_es0p0005/01_assembly/unicycler/final_circular.fasta	plastid	11		
