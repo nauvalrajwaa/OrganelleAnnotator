@@ -34,10 +34,15 @@ rule mfannot_annotate:
 
         INPUT_DIR=$(cd "$(dirname {input.fasta})" && pwd)
         INPUT_BASENAME=$(basename {input.fasta})
-        OUTPUT_DIR=$(cd {params.out_dir} 2>/dev/null || mkdir -p {params.out_dir} && cd {params.out_dir} && pwd)
+        mkdir -p {params.out_dir}
+        OUTPUT_DIR=$(cd {params.out_dir} && pwd)
 
         cp {input.fasta} {params.out_dir}/{wildcards.sample}.fasta
 
+        # Run MFannot — allow non-zero exit (known BioPerl bug with some
+        # plastid genomes that crash during intron alignment).  Partial
+        # output is still useful for gene annotation.
+        MFANNOT_RC=0
         if [ "{params.use_singularity}" = "True" ]; then
             singularity exec \
                 --bind "${{OUTPUT_DIR}}":/data \
@@ -52,7 +57,7 @@ rule mfannot_annotate:
                 -o /data/{wildcards.sample}.new \
                 -l /data/{wildcards.sample}.log \
                 /data/{wildcards.sample}.fasta \
-                2>&1 | tee {log}
+                2>&1 | tee {log} || MFANNOT_RC=$?
         else
             docker run --rm \
                 -v "${{OUTPUT_DIR}}":/data \
@@ -67,7 +72,17 @@ rule mfannot_annotate:
                 -o /data/{wildcards.sample}.new \
                 -l /data/{wildcards.sample}.log \
                 /data/{wildcards.sample}.fasta \
-                2>&1 | tee {log}
+                2>&1 | tee {log} || MFANNOT_RC=$?
+        fi
+
+        # If MFannot crashed but produced partial output, keep it
+        if [ $MFANNOT_RC -ne 0 ]; then
+            echo "WARNING: MFannot exited with code $MFANNOT_RC" >> {log}
+            if [ -s {output.masterfile} ]; then
+                echo "WARNING: Partial masterfile exists — using partial results." >> {log}
+            else
+                echo "WARNING: No masterfile produced — creating empty placeholder." >> {log}
+            fi
         fi
 
         touch {output.masterfile}

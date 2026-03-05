@@ -42,14 +42,16 @@ mode: "all"
 # Example: to run only mfannot and chloe, keep only those two uncommented.
 tools_select:
   # ── Plastid / Chloroplast annotators ──
-  - chloe        # Chloe.jl — Julia-based chloroplast annotator (XGBoost)
+  - chloe
+  - pga
   # ── Mitochondrial annotators ──
-  - mfannot      # MFannot — mitochondrial/plastid annotator (Docker)
+  
   # ── Both / QC tools ──
-  - trnascan     # tRNAscan-SE — tRNA gene detection (conda)
-  - aragorn      # Aragorn — tRNA/tmRNA detection (conda)
+  - mfannot 
+  - trnascan 
+  - aragorn 
   # ── Visualisation (auto-runs for tools that produce GenBank output) ──
-  - gbdraw       # gbdraw — circular genome map visualisation (conda)
+  - gbdraw 
 
 # -- Quality control -----------------------------------------------------------
 qc:

@@ -35,19 +35,40 @@ rule pga_annotate:
         set -euo pipefail
         mkdir -p {params.target_dir} {params.gb_dir} $(dirname {log})
 
-        # PGA expects a directory of FASTA files
-        cp {input.fasta} {params.target_dir}/{wildcards.sample}.fasta
+        # PGA writes temp files (_temp1, _temp2, _reference1-4, BLAST DBs)
+        # directly into the reference directory.  If multiple samples run in
+        # parallel they clobber each other.  Solution: give each sample its
+        # OWN copy of the reference directory inside its output tree.
+        SAMPLE_REF="{params.out_dir}/ref"
+        rm -rf "$SAMPLE_REF"
+        cp -r {params.ref_dir} "$SAMPLE_REF"
+
+        # PGA expects a directory of FASTA files.
+        # Clean the FASTA header to a simple name (PGA uses it for filenames
+        # and BLAST databases; special characters break path handling).
+        awk 'NR==1 && /^>/ {{print ">{wildcards.sample}"; next}} {{print}}' \
+            {input.fasta} > {params.target_dir}/{wildcards.sample}.fasta
+
+        # PGA needs ABSOLUTE paths — its internal path manipulation creates
+        # broken paths (double slashes, garbled DB names) with relative paths.
+        ABS_REF=$(cd "$SAMPLE_REF" && pwd)
+        ABS_TARGET=$(cd {params.target_dir} && pwd)
+        ABS_GB=$(cd {params.gb_dir} && pwd)
+        ABS_LOG=$(cd {params.out_dir} && pwd)
 
         perl {params.pga_dir}/PGA.pl \
-            -r {params.ref_dir} \
-            -t {params.target_dir} \
-            -o {params.gb_dir} \
+            -r "$ABS_REF" \
+            -t "$ABS_TARGET" \
+            -o "$ABS_GB" \
             -f {params.form} \
             -i {params.ir_min} \
             -p {params.pidentity} \
             -q {params.qcoverage} \
-            -l {params.out_dir}/warning \
+            -l "$ABS_LOG/warning" \
             2>&1 | tee {log}
+
+        # Clean up per-sample reference copy (temp files inside)
+        rm -rf "$SAMPLE_REF"
 
         # Move generated GenBank file to standard name
         found=$(find {params.gb_dir} -maxdepth 1 -name "*.gb" 2>/dev/null | head -1)
